@@ -1,4 +1,30 @@
 title: Tajkart Student Hub
-description: Original learning guides, practical study plans, career preparation, and student resources by Tajkart.
+description: Original programming lessons, study plans, computer science guides, and career preparation for learners.
+url: "https://shahanishashmi.github.io"
+baseurl: "/tajkart-student-hub"
 markdown: kramdown
 show_downloads: false
+permalink: pretty
+collections:
+  lessons:
+    output: true
+    permalink: /learning/lessons/:name/
+defaults:
+  - scope:
+      path: ""
+      type: lessons
+    values:
+      layout: lesson
+      sitemap: true
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+exclude:
+  - scripts
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+  - README.md
+kramdown:
+  input: GFM
+  hard_wrap: false

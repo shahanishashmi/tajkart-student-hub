@@ -1,16 +1,26 @@
 ---
+layout: home
+title: Learn. Build. Grow.
+description: A practical learning hub for programming, computer science, and career skills.
+permalink: /
 ---
 
-# Tajkart Student Hub
+Tajkart Student Hub helps independent learners move from **understanding a concept** to **using it in a project**. Start with a lesson, follow a study plan, and practise with original exercises.
 
-**Learn. Build. Grow.**
+## Start learning
 
-Explore original learning guides, practical study plans, programming subject maps, career preparation, and verified student offers.
+- [Programming foundations]({{ '/learning/subjects/' | relative_url }}) — variables, problem solving, algorithms, and the building blocks behind software.
+- [Browse lessons]({{ '/learning/' | relative_url }}) — focused guides with examples, practice, and solutions.
+- [Study plans]({{ '/learning/courses/' | relative_url }}) — turn a broad goal into a manageable weekly routine.
 
-- [Learning Library](learning/README.md)
-- [Career Hub](careers/README.md)
-- [Student Offers](offers/README.md)
-- [Content Standards](docs/CONTENT_STANDARDS.md)
-- [Project Roadmap](docs/ROADMAP.md)
+## Learn by doing
 
-This is an evolving project. A topic appearing in the map does not mean a complete course or verified offer has already been published.
+The library is organised around skills you can practise. Every published lesson includes goals, prerequisites, examples, common mistakes, and exercises. The collection will grow through reviewed, original material rather than imported reading lists.
+
+## Prepare for what comes next
+
+The [Career Hub]({{ '/careers/' | relative_url }}) covers portfolios, project explanations, and interview practice. [Student offers]({{ '/offers/' | relative_url }}) describes how opportunities are reviewed; there are no currently listed or verified offers.
+
+## About this project
+
+Tajkart Student Hub is an educational project founded by **Shah Anis Hashmi, Founder & Educator**. Its tagline is **Learn. Build. Grow.** This site does not make claims about credentials, placement outcomes, partnerships, or learner counts.

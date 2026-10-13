@@ -1,21 +1,25 @@
-# Contributing to Tajkart Student Hub
+---
+layout: page
+title: Contributing
+permalink: /contributing/
+---
 
-Thank you for helping make learning more accessible. Contributions should add original, useful, accurate material for learners.
+Contributions should add original, useful, accurate material for learners. Read [content standards]({{ '/docs/CONTENT_STANDARDS/' | relative_url }}) before drafting a guide.
 
-## Before opening a pull request
+## Before proposing a change
 
-- Search the repository to avoid duplicating an existing guide.
-- Write in your own words; do not copy another site's prose or paste book/course content.
-- Add sources for claims that are time-sensitive, technical, legal, or otherwise need verification.
-- Clearly identify external links, sponsorships, and commercial relationships.
-- Do not add pirated books, leaked course material, credentials, private data, or unlicensed assets.
-- Use descriptive headings, accessible language, and examples that readers can test.
-- Include a short summary of what changed and how it was checked.
+- Search the repository to avoid duplicating a guide.
+- Write in your own words. Do not paste book chapters, course content, or another site's prose.
+- Cite claims that are time-sensitive, technical, or need verification.
+- Use descriptive headings, accessible language, and examples readers can try.
+- Include a short summary of the change and how you checked it.
 
-## Content proposals
+## Lesson proposals
 
-For a new guide, include: intended audience, prerequisites, learning objectives, step-by-step explanation, practice activity, and a short knowledge check.
+Include learning objectives, prerequisites, a clear explanation, a worked example with expected output, common mistakes, practice exercises, hints or solutions, and links to related Tajkart material.
 
 ## Offers and opportunities
 
-Include the provider, eligibility, region, expiry or verification date when known, terms, and official application page. Never promise guaranteed hiring, admission, scholarships, or discounts.
+Include the provider, eligibility, region, expiry or verification date when known, terms, and official application page. Never promise guaranteed hiring, admission, scholarships, or discounts. Clearly identify external links, sponsorships, and commercial relationships.
+
+Do not submit pirated material, copied course descriptions, private data, secrets, or unlicensed assets.

@@ -4,22 +4,22 @@
 
 Tajkart Student Hub is an original Tajkart learning and opportunity project for students, self-learners, and early-career professionals. It is being built around practical learning guides, subject maps, study plans, career preparation, and student offers.
 
-> **Content policy:** This repository is a fresh Tajkart-authored project. The downloaded reference archive was used only to identify broad topic areas. Third-party book lists, course descriptions, copied text, and external-resource directories have not been carried over. New content is written for Tajkart. External resources may be added later only with appropriate review, attribution, and clear separation from Tajkart-authored material.
+> **Content policy:** The Free Programming Books archive was inspected to shape Tajkart's broad subject and learning-format taxonomy. Its resource entries, prose, branding, templates, code, and workflows have not been copied. See the [reference coverage audit](docs/REFERENCE_COVERAGE.md) for the snapshot, license, and category mapping.
 
 ## Explore Tajkart Student Hub
 
-- **[Learning Library](learning/README.md)** — learning paths, subject maps, study methods, and original educational guides.
-- **[Books & Reading Guides](learning/books/README.md)** — how to choose learning material, read technical books, and practise responsibly.
-- **[Courses & Study Plans](learning/courses/README.md)** — original self-study curricula and weekly plans.
-- **[Podcasts & Screencasts](learning/podcasts-screencasts/README.md)** — guidance for learning from audio and video formats.
-- **[Interactive Learning](learning/interactive-tutorials/README.md)** — practice-first tutorial design and exercises.
-- **[Playgrounds](learning/playgrounds/README.md)** — safe experimentation plans for code and concepts.
-- **[Cheatsheets](learning/cheatsheets/README.md)** — original quick-reference notes.
-- **[Problem Sets](learning/problem-sets/README.md)** — original practice problems and project challenges.
-- **[Subjects](learning/subjects/README.md)** — computer-science and software-development topic map.
-- **[Languages](learning/languages/README.md)** — multilingual learning-content plan.
-- **[Career Hub](careers/README.md)** — resumes, interviews, portfolios, job-search skills, and career roadmaps.
-- **[Student Offers](offers/README.md)** — principles for documenting legitimate student discounts and offers.
+- **[Learning Library](learning/index.md)** — learning paths, subject maps, study methods, and original educational guides.
+- **[Books & Reading Guides](learning/books/)** — how to choose learning material, read technical books, and practise responsibly.
+- **[Courses & Study Plans](learning/courses/)** — original self-study curricula and weekly plans.
+- **[Podcasts & Screencasts](learning/podcasts-screencasts/)** — guidance for learning from audio and video formats.
+- **[Interactive Learning](learning/interactive-tutorials/)** — practice-first tutorial design and exercises.
+- **[Playgrounds](learning/playgrounds/)** — safe experimentation plans for code and concepts.
+- **[Cheatsheets](learning/cheatsheets/)** — original quick-reference notes.
+- **[Problem Sets](learning/problem-sets/)** — original practice problems and project challenges.
+- **[Subjects](learning/subjects/)** — computer-science and software-development topic map.
+- **[Languages](learning/languages/)** — original programming language guidance.
+- **[Career Hub](careers/)** — resumes, interviews, portfolios, job-search skills, and career roadmaps.
+- **[Student Offers](offers/)** — principles for reviewing student discounts and opportunities.
 
 ## What this project is—and is not
 
@@ -33,4 +33,10 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md) and [docs/CONTENT_STANDARDS.md](docs/CON
 
 Copyright © 2026 Tajkart applies to original Tajkart-authored text, code, documentation, and visual assets in this repository, except where a file states otherwise. Do not assume every third-party name, logo, fact, or linked resource is owned by Tajkart.
 
-The original ZIP's CC BY 4.0 resource lists and their copied contents are not included in this fresh project. If third-party material is introduced in the future, its source, license, and attribution must be recorded. See [COPYRIGHT.md](COPYRIGHT.md).
+The inspected reference repository identifies its contents as CC BY 4.0; that license does not apply to Tajkart material. Linked books and other external works retain their own rights and terms. Any third-party material introduced into Tajkart must have its source, license, and attribution recorded. See [COPYRIGHT.md](COPYRIGHT.md) and [the audit](docs/REFERENCE_COVERAGE.md).
+
+## Run locally
+
+Install Ruby and Bundler, then run `bundle install` followed by `bundle exec jekyll serve`. Open the local URL printed by Jekyll. GitHub Pages serves the site at `https://shahanishashmi.github.io/tajkart-student-hub/` with the current configuration.
+
+See [deployment instructions](docs/DEPLOYMENT.md) for GitHub Pages setup.

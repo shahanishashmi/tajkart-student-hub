@@ -1,3 +1,9 @@
+---
+layout: page
+title: Offer listing template
+permalink: /templates/OFFER_TEMPLATE/
+---
+
 # [Offer title]
 
 - **Provider:** [Provider]

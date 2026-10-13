@@ -1,4 +1,8 @@
-# Tajkart content standards
+---
+layout: page
+title: Content standards
+permalink: /docs/CONTENT_STANDARDS/
+---
 
 ## Originality
 

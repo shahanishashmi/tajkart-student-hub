@@ -1,4 +1,8 @@
-# Project roadmap
+---
+layout: page
+title: Project roadmap
+permalink: /docs/ROADMAP/
+---
 
 ## Foundation
 - [x] Establish Tajkart identity and original-content policy
@@ -7,25 +11,26 @@
 - [ ] Review the complete topic map with learners and educators
 
 ## Learning library
-- [ ] Publish original beginner programming guide
-- [ ] Publish computer-science foundations path
-- [ ] Add original practice exercises with solutions
+- [x] Publish original beginner programming guide
+- [x] Publish computer-science foundations path
+- [x] Add original practice exercises with hints and answers
 - [ ] Add language-specific starter paths
 - [ ] Add accessibility and translation workflow
 
 ## Career hub
-- [ ] Publish resume and portfolio guides
-- [ ] Publish interview preparation path
-- [ ] Add job and internship verification checklist
+- [x] Publish resume and portfolio guidance
+- [x] Publish structured interview preparation path
+- [x] Add job and internship verification guidance
 - [ ] Add project ideas mapped to skill levels
 
 ## Student offers
 - [ ] Define offer verification and expiry workflow
-- [ ] Publish transparent eligibility and disclosure standards
+- [x] Publish transparent eligibility and disclosure standards
 - [ ] Add correction and expired-offer reporting process
 
 ## Quality and release
-- [ ] Add automated Markdown checks
-- [ ] Review license notices for every added asset
-- [ ] Conduct accessibility and link checks
+- [x] Add automated metadata, code syntax, and internal-link checks
+- [x] Review rights notices for original assets; no external visual assets are included
+- [x] Validate routes and internal Markdown links
+- [ ] Conduct manual accessibility review across screen readers and viewport sizes
 - [ ] Publish versioned releases after review

@@ -1,3 +1,9 @@
+---
+layout: page
+title: Learning guide template
+permalink: /templates/LEARNING_GUIDE_TEMPLATE/
+---
+
 # [Original guide title]
 
 **Audience:** [Who this is for]  

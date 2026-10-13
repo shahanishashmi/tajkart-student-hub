@@ -1,21 +1,17 @@
-# Copyright, ownership, and third-party material
+---
+layout: page
+title: Copyright and licensing
+permalink: /copyright/
+---
 
-Copyright © 2026 Tajkart. All rights reserved for original Tajkart-authored content in this repository, except where a file explicitly states a different license or ownership.
-
-This repository was created as a new work. A previously downloaded public repository was consulted only to identify broad areas of coverage such as books, courses, audio/video learning, interactive tutorials, coding playgrounds, cheatsheets, problem sets, subjects, and languages. Its resource entries, descriptions, translations, workflows, and implementation have not been copied into this repository.
+Copyright © 2026 Tajkart. All rights reserved for original Tajkart-authored content, code, documentation, and visual assets, except where otherwise stated.
 
 ## Scope of Tajkart ownership
 
-Tajkart's claim applies to original content and assets created for this project. It does not grant Tajkart ownership over programming languages, general facts, third-party names, trademarks, independently authored works, or materials later linked or quoted under a separate license.
+The repository's `LICENSE` applies only as stated in that notice and does not silently grant permission to reuse Tajkart-owned educational text or visual work. Individual files may have separate notices. Tajkart does not claim ownership of programming concepts, general facts, third-party names, trademarks, or independently authored works.
 
-## Adding third-party material
+## Third-party material
 
-Before adding third-party text, images, code, datasets, book files, or other materials:
+The reference archive is not included in this repository. Its resource entries and prose have not been republished. The upstream README states that its repository files are CC BY 4.0; this notice applies to that project's covered files, not the individual books or sites to which its lists link. Verify provenance and permission before adding third-party text, images, code, or data, and record the author or rights holder, source, license, and required attribution. Keep it clearly identified as third-party work.
 
-1. Verify the source and the right to reuse it.
-2. Record the author or rights holder, source URL, license, and required attribution.
-3. Keep third-party material clearly separated from Tajkart-authored material.
-4. Do not describe a third-party resource as Tajkart-owned.
-5. Remove material if its permission or provenance cannot be established.
-
-For legal certainty about a commercial launch, obtain qualified legal advice for the jurisdictions in which the project will operate.
+See the [reference coverage audit]({{ '/docs/REFERENCE_COVERAGE/' | relative_url }}) for the scope and limitation of the comparison. Mention of a name or resource does not imply affiliation or endorsement.
