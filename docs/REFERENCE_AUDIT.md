@@ -104,3 +104,39 @@ The reviewable batch is local; no commit or push was made by this audit.
 - [Current main branch API](https://api.github.com/repos/EbookFoundation/free-programming-books/branches/main)
 - [Checked-in workflow tree at the audited commit](https://api.github.com/repos/EbookFoundation/free-programming-books/contents/.github/workflows?ref=2574d859ecf34dd8d1643cc5c7c9f11ae99f845c)
 - [GitHub Pages deployment history API](https://api.github.com/repos/EbookFoundation/free-programming-books/deployments?environment=github-pages&per_page=8)
+
+## Current comparison with upstream main (2026-10-15)
+
+I reread the official [upstream README](https://github.com/EbookFoundation/free-programming-books/blob/main/README.md) and checked its `main` tree on 2026-10-15. The checked head was `4c301cce10db10026d632606b5167a9d1b8cd4ec` (`docs(kn): fix contribution guide navigation links`, 2026-10-14). This updates the 2026-10-14 snapshot recorded earlier in this report. The current tree is not the same snapshot as the supplied ZIP. Its tree contains 48 Markdown files under `books`, 41 under `courses`, 21 under `casts`, 94 under `docs`, 10 under `more`, and seven workflow files under `.github/workflows`; these are file counts, not counts of individual resources.
+
+The README currently groups the directory into books, cheatsheets, online courses, interactive programming resources, problem sets/competitive programming, podcasts/screencasts, and browser playgrounds. It also links multilingual indexes and contributor translations. Tajkart uses those areas as an information-architecture reference, but its existing library is mostly original learning material rather than a mirror of upstream's external-resource catalogue. No upstream resource entries, prose, code, or workflow implementation were copied.
+
+### Coverage status
+
+| Upstream area | Tajkart status | What exists now | What remains for comparable coverage |
+|---|---|---|---|
+| Books and subject indexes | **Partial; no book catalogue** | A reading guide, 12 original subject guides, and 11 introductory language paths. | Curated book entries by subject/language, each with a verified source, attribution, current link, and rights note. |
+| Courses | **Partial; original study plans** | Three self-guided plans for foundations, data structures, and web development. | A curated directory of external courses by topic/language, if that is a product goal, with individual source and rights review. |
+| Cheatsheets | **Original content present** | Ten Tajkart-authored cheatsheets. | Human technical review and additional focused references where useful; upstream-linked cheat sheets are not catalogued. |
+| Interactive resources | **Partial** | An original practice routine and four-question browser quiz; no arbitrary code execution. | More interaction types or a verified directory of external interactive tutorials. Browser and assistive-technology review is still open. |
+| Problem sets / competitive programming | **Original practice present; catalogue partial** | Nine authored problem specifications; eight Python solutions and one SQL solution have automated tests. | Human solution review, more difficulty tiers, and optionally verified contest/problem-set directories. |
+| Podcasts / screencasts | **Guide only** | An original viewing and note-taking guide plus metadata schema. | Verified channels or episodes with language, topic, source, and last-checked date. |
+| Programming playgrounds | **Guide and project briefs only** | Safety guidance and six reproducible project briefs. | Verified browser-playground directory if desired. There is no hosted code runner. |
+| Language coverage and translations | **Partial; drafts only** | Eleven English introductory paths and one Hindi plus one Urdu translation draft. `data/language_coverage.yml` tracks the 57 locale records found in the earlier source snapshot; those records are not translated Tajkart pages. | Fluent Hindi/Urdu review, more translated lessons, and accurate per-language coverage before claiming multilingual catalogue parity. |
+| Subject taxonomy | **Mapped, not fully taught** | The 46 subject entries from the earlier source snapshot are mapped into seven Tajkart strands; 12 original subject guides have been written. | Add reviewed lessons and exercises for uncovered subjects. A taxonomy map does not mean complete curriculum coverage. |
+| Search and discovery | **Implemented for Tajkart's own pages** | A generated local index with 70 resources, relevance ordering, filters, provenance, and draft-status labels. | External-resource records are currently zero. Add them only if wanted and individually verified; the upstream README links to a separate search application. |
+| Contributor guidance and rights | **Core guidance present; permission policy incomplete** | Contribution/editorial guidance, code of conduct, templates, content schema, and a review workflow. | Decide and document the permission terms for outside contributions before accepting substantial third-party-authored material. Tajkart's license remains separate from upstream's CC BY 4.0 repository-file license; linked works keep their own terms. |
+| Automation and maintenance | **Core site checks implemented; narrower automation** | One SHA-pinned GitHub Pages workflow covers source validation, tests, Jekyll, generated HTML checks, and deployment. | Upstream also maintains list/URL and RTL/LTR checks plus PR/issue housekeeping workflows. Add only checks justified by Tajkart's content and contributor volume; do not copy its workflow implementation by default. |
+| Careers and student offers | **Tajkart-specific addition** | Five career guides and an offer-verification policy; no active job or offer listings are claimed. | Human review and individually verified listings if this area is expanded. These categories are not upstream parity items. |
+
+### Audit conclusion and release evidence
+
+**Built:** Tajkart has its own Jekyll site, original first-library content across the major learning formats, local search, metadata and rights validation, tests, generated-page checks, and a Pages deployment workflow. The local validator reports 112 Markdown files, 99 routes, and 70 searchable resources. The earlier detailed inventory remains in [reference coverage]({{ '/docs/REFERENCE_COVERAGE/' | relative_url }}) and [content progress]({{ '/docs/CONTENT_PROGRESS/' | relative_url }}).
+
+**Partly built:** Most upstream categories have an original guide, practice format, or local analogue, but that does not provide the same breadth as upstream's multilingual curated directory. Tajkart currently has no verified third-party learning-resource entries. Its 57-locale map describes the earlier reference snapshot, not Tajkart translation completion.
+
+**Still needed:** Human technical review, fluent Hindi/Urdu review, manual keyboard/screen-reader/mobile accessibility review, an explicit contributor-permission decision, and any desired expansion of external resource catalogues. These are release/editorial decisions, not missing build features.
+
+The hosting result is separate from content coverage: GitHub Actions and the Pages deploy job succeeded for commit `a83766c26c97e13767f307176c0883df7cd2023b`, but the deployed URL currently resolves through an HTTP custom-domain redirect and direct HTTPS has a certificate hostname failure. The HTTPS hostname/configuration remains a release blocker; see [deployment recovery evidence]({{ '/docs/DEPLOYMENT/' | relative_url }}). A successful workflow is not equivalent to secure deployment acceptance.
+
+No content was copied from upstream during this comparison. This audit edit is local and uncommitted; no commit, push, DNS edit, Pages setting change, or deployment was made.

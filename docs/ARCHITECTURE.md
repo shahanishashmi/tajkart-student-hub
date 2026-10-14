@@ -39,7 +39,7 @@ The locale map preserves reference filename codes separately from Tajkart langua
 
 The Pages workflow runs the Python source validator, Python solution tests, JavaScript syntax check, Ruby front matter/YAML validator, Bundler installation, a production Jekyll build, and generated HTML checks. Pull requests run checks but do not deploy. A successful push or manual dispatch on `main` packages the built site and deploys it through GitHub Pages. Build permissions are read-only; the deploy job separately receives `pages: write` and `id-token: write`.
 
-Local contributors can use the commands in [README]({{ '/' | relative_url }}) and [deployment instructions]({{ '/docs/DEPLOYMENT/' | relative_url }}). The local environment now uses Ruby 3.3.12 and a cross-platform `Gemfile.lock`; the production Jekyll build and generated-output checker pass. GitHub Actions has not yet run on the current local batch.
+Local contributors can use the commands in [README]({{ '/' | relative_url }}) and [deployment instructions]({{ '/docs/DEPLOYMENT/' | relative_url }}). The local environment now uses Ruby 3.3.12 and a cross-platform `Gemfile.lock`; the production Jekyll build and generated-output checker pass. GitHub Actions build and deploy passed for committed SHA `a83766c`; later uncommitted documentation edits have not run through hosted CI. The deployed host still has an HTTPS/hostname blocker; see the [next-phase roadmap]({{ '/docs/ROADMAP_NEXT_PHASE/' | relative_url }}).
 
 ## Design constraints and growth points
 

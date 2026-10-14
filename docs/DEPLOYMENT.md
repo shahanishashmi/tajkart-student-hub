@@ -125,3 +125,68 @@ After the target is selected and the owner has reviewed the complete diff:
 5. Smoke-test the home page, a nested lesson, search index and query, CSS/JS, canonical URL, sitemap, and a direct refresh of a nested route.
 
 No commit, push, Pages-setting change, DNS update, or deployment was performed. The current working tree remains uncommitted.
+
+## Post-push recovery verification (2026-10-15)
+
+This section supersedes the earlier pending CI/deployment status with read-only evidence collected after commit `a83766c`. The earlier statement that no push had occurred describes the pre-push diagnosis on 2026-10-14. No DNS or Pages setting was changed during this follow-up.
+
+### Source and hosted workflow
+
+At the start of this follow-up, `main`, `origin/main`, and the worktree were clean at `a83766c26c97e13767f307176c0883df7cd2023b` (`Build out Tajkart Student Hub learning platform`). GitHub Actions run [38585940306](https://github.com/shahanishashmi/tajkart-student-hub/actions/runs/38585940306) completed with `success` for that exact SHA. Its `build` and `deploy` jobs both completed successfully. GitHub's deployment record `7069065011` also reports `success`, with environment URL `http://shahanishashmi.me/tajkart-student-hub/`.
+
+The workflow and Pages artifact deployment therefore succeeded. The deployment record's HTTP URL and the live HTTPS failure below mean that hosted workflow success does not establish secure release acceptance.
+
+### Authenticated Pages settings and domain evidence
+
+Read-only authenticated GitHub API inspection returned:
+
+| Pages site | Build type | Configured custom domain | HTTPS enforced | GitHub-reported URL/status |
+|---|---|---|---|---|
+| `shahanishashmi/tajkart-student-hub` | `workflow` | none (`cname: null`) | `false` | `http://shahanishashmi.me/tajkart-student-hub/`; API `status` was null. |
+| `shahanishashmi/shahanishashmi.github.io` | `legacy` | `shahanishashmi.me` | `false` | `http://shahanishashmi.me/`; API status `built`. |
+
+GitHub's Pages API reports the project URL as the apex-domain path even though the project repo has no custom CNAME, while the user-site Pages configuration owns `shahanishashmi.me`. A first-hop header check for the public `github.io` URL returned `301 Moved Permanently`, `Server: GitHub.com`, and `Location: http://shahanishashmi.me/tajkart-student-hub/`. This confirms GitHub's edge is issuing the HTTP redirect; DNS is not doing HTTP forwarding. The authenticated Pages health endpoint returned no warnings (`{}`) for the user-site domain; the project-site health endpoint returned 422 because that repo has no CNAME. The direct apex TLS error is confirmed, but the Pages API does not expose certificate-provisioning state, so its certificate issuance history remains unknown.
+
+Read-only DNS still shows the apex A records `185.199.108.153`, `.109.153`, `.110.153`, and `.111.153`, `www` CNAME to the apex, and NXDOMAIN for `learn.shahanishashmi.me`. The apex HTTP page is the existing personal homepage (`shahanishashmi.github.io | Shah Anis Hashmi`). The apex is actively used and must not be repointed as part of Tajkart's recovery.
+
+### Live smoke-test matrix
+
+Requests used normal certificate verification and followed at most eight redirects. No TLS-verification bypass was used.
+
+| Check | Observed result | Assessment |
+|---|---|---|
+| `https://shahanishashmi.github.io/tajkart-student-hub/` | HTTP 200 after one redirect to `http://shahanishashmi.me/tajkart-student-hub/`. | Fails HTTPS acceptance: the final destination is HTTP. |
+| Direct `https://shahanishashmi.me/tajkart-student-hub/` | TLS hostname validation failed (`curl` 60 / Schannel `SEC_E_WRONG_PRINCIPAL`). | Fail; do not suppress certificate validation. |
+| Home and nested course page | Both returned HTTP 200 after the same redirect. | Routes publish and refresh; transport remains insecure. |
+| CSS and JavaScript | Both returned HTTP 200 from `/tajkart-student-hub/assets/...`. | Asset paths work on the current HTTP route. |
+| Search page | `/learning/` returned 200; HTML has canonical `https://shahanishashmi.github.io/tajkart-student-hub/learning/` and `data-index-url="/tajkart-student-hub/search-index.json"`. | Paths are consistent with the checked-in project `baseurl`; canonical host disagrees with the effective HTTP destination. |
+| Search index | HTTP 200, `application/json`, valid JSON with 70 entries. | Index is deployed and fetchable through the HTTP redirect target. |
+| Sitemap and robots | Sitemap returned 200 with 98 locations, all on the `github.io` project URL; `robots.txt` returned 200. | Generated URLs still describe the default project host. |
+| Dedicated `learn` host | DNS lookup returned NXDOMAIN; HTTPS request could not resolve. | Not configured; no live test is possible yet. |
+| Search interaction and resource links | Deployed search JavaScript returned 200; local Node search tests pass. No remote browser interaction was run. | Matching/filter behavior still needs browser or human verification on the selected HTTPS host. |
+
+The release checklist included in the supplied plan must not be marked 9/9: HTTPS and hostname checks fail, and technical, Hindi/Urdu, accessibility, and licensing reviews remain human tasks. The search index and route delivery are confirmed; interactive browser behavior is not.
+
+### Hosting options and recommendation
+
+The current `_config.yml` already matches Plan A's candidate values:
+
+```yaml
+url: "https://shahanishashmi.github.io"
+baseurl: "/tajkart-student-hub"
+```
+
+Jekyll generates the expected project-path asset, search-index, canonical, and sitemap URLs. GitHub's live Pages behavior currently redirects the default project URL to the user-site apex path, so Plan A cannot be independently verified at its HTTPS URL while the current user-site domain configuration remains in effect. Removing that user-site domain setting could break the existing personal homepage; no such change should be made without the owner's explicit decision.
+
+Plan B would give Tajkart `https://learn.shahanishashmi.me/` with `url: "https://learn.shahanishashmi.me"` and `baseurl: ""`. It requires a `learn` CNAME directly to `shahanishashmi.github.io`, setting that custom domain on the Tajkart Pages site, waiting for certificate provisioning, and enabling HTTPS after the certificate is valid. Keep the apex A records and `www` CNAME unchanged. Rollback would remove only the `learn` CNAME and Tajkart's subdomain setting, then restore `_config.yml` to the reviewed commit version.
+
+**Recommendation:** For a permanent Tajkart hostname that preserves the existing personal homepage, Plan B has the lower domain-collision risk. Plan A remains the simplest Jekyll configuration and should only be used if the owner confirms how to test the default host without disrupting the user-site domain. The permanent hostname is still the owner's choice; no configuration or hosting change was applied.
+
+### Required manual actions and current Git state
+
+1. Choose the permanent URL. If choosing Plan B, confirm DNS-zone and repository-admin access.
+2. In GitHub Pages settings, have the owner configure only the selected target and verify HTTPS after GitHub issues a valid certificate. Do not alter the user-site apex domain as a shortcut.
+3. Rebuild for the selected `url`/`baseurl`; verify canonical links, sitemap, robots, CSS/JS/icon paths, nested refreshes, and search-index URL before release.
+4. Run browser checks for search, filters, empty results, resource links, keyboard behavior, and mobile layout on the valid HTTPS hostname; finish the documented human content and rights reviews.
+
+This diagnosis changed only `docs/DEPLOYMENT.md` locally. It is uncommitted; no new commit, push, DNS update, Pages-setting change, or deployment was performed. The pre-edit worktree was clean at `a83766c26c97e13767f307176c0883df7cd2023b`.

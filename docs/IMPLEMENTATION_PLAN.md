@@ -45,3 +45,7 @@ Each batch updates the progress matrix and reference inventory. Work remains loc
 - **Deployment blocker:** verify Pages/custom-domain settings and restore valid HTTPS on the published target before calling deployment ready. The current local `url` and `baseurl` build a project path, but the published URL redirects to a custom-domain HTTP address.
 - **Pending human review:** technical correctness of examples and lessons, fluent Hindi/Urdu translations, attribution/originality and reuse terms, keyboard/screen-reader/contrast/zoom/mobile accessibility.
 - **Worktree:** all prior work is preserved and remains uncommitted; no commit, push, or deployment was made. Exact status counts are recorded in the audit.
+
+## Current baseline (2026-10-15)
+
+The hosted Pages workflow and deployment succeeded for `a83766c26c97e13767f307176c0883df7cd2023b`. Read-only endpoint checks still show a redirect from the GitHub project URL to HTTP on the custom domain and a certificate hostname failure on direct HTTPS. Local source, test, production-build, and generated-HTML checks pass; uncommitted documentation changes have not run through hosted CI. The immediate recommended task is to resolve the HTTPS hostname without changing the active personal homepage; see the [next-phase audit and roadmap]({{ '/docs/ROADMAP_NEXT_PHASE/' | relative_url }}) and [deployment recovery evidence]({{ '/docs/DEPLOYMENT/' | relative_url }}).
