@@ -3,6 +3,20 @@ layout: page
 title: Show your work in a resume and portfolio
 description: Turn learning projects into clear, truthful evidence of your skills.
 permalink: /careers/resume-portfolio/
+id: career-resume-portfolio
+content_type: career
+category: career-skills
+language: en
+difficulty: beginner
+tags: [resume, portfolio, projects]
+prerequisites: []
+learning_objectives:
+  - Select truthful project evidence that matches a role.
+  - Review a resume for clarity, accuracy, and privacy.
+content_status: drafted
+review_status: pending
+searchable: true
+
 ---
 
 ## Learning objectives

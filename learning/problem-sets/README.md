@@ -1,6 +1,6 @@
 # Problem Sets and Project Challenges
 
-Practice problems should develop reasoning, not just memorisation. Tajkart-authored challenges will include difficulty, prerequisites, constraints, sample input/output, hints, and an explanation of at least one solution approach.
+Practice problems should develop reasoning, not just memorisation. The [problem-set index](index.md) links nine original specifications across arrays, strings, hashing, search, sorting, recursion, trees, graphs, and SQL. Canonical Python solutions and the SQL aggregate example have automated tests.
 
 ## Difficulty levels
 - **Starter:** one concept, small input, direct feedback.

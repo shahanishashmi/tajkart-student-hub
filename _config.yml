@@ -1,21 +1,19 @@
 title: Tajkart Student Hub
+lang: en
 description: Original programming lessons, study plans, computer science guides, and career preparation for learners.
 url: "https://shahanishashmi.github.io"
 baseurl: "/tajkart-student-hub"
 markdown: kramdown
 show_downloads: false
 permalink: pretty
-collections:
-  lessons:
-    output: true
-    permalink: /learning/lessons/:name/
 defaults:
   - scope:
       path: ""
-      type: lessons
+      type: pages
     values:
-      layout: lesson
+      layout: page
       sitemap: true
+      content_origin: original
 plugins:
   - jekyll-seo-tag
   - jekyll-sitemap
@@ -25,6 +23,20 @@ exclude:
   - Gemfile.lock
   - vendor
   - README.md
+  - learning/README.md
+  - learning/books/README.md
+  - learning/cheatsheets/README.md
+  - learning/courses/README.md
+  - learning/interactive-tutorials/README.md
+  - learning/languages/README.md
+  - learning/playgrounds/README.md
+  - learning/podcasts-screencasts/README.md
+  - learning/problem-sets/README.md
+  - learning/subjects/README.md
+  - careers/README.md
+  - offers/README.md
+  - tests
+  - examples
 kramdown:
   input: GFM
   hard_wrap: false

@@ -1,38 +1,34 @@
 ---
 layout: page
-title: Programming practice set
-description: Small original exercises for practising variables, loops, and clear reasoning.
+title: Original programming problem set
+description: Beginner and intermediate problems with specifications, examples, hints, reference solutions, and tested Python implementations.
 permalink: /learning/problem-sets/
 ---
 
-Try each task before looking at the hint. Write one example input and expected output first; it makes it easier to tell whether your program works.
+For each problem, write the expected result before coding. Reference solutions are included after the hint. The Python functions are also imported by the local unit tests; the SQL example is executed against a temporary SQLite database. Difficulty describes the concept, not the time required for every learner.
 
-## 1. Remaining pages
+## Foundations
 
-Given `total_pages = 240` and `pages_read = 35`, calculate how many pages remain.
+- [PS-001: Total a list]({{ '/learning/problem-sets/array-total/' | relative_url }}) — arrays and accumulators.
+- [PS-002: Find the first repeated value]({{ '/learning/problem-sets/first-duplicate/' | relative_url }}) — hashing and sets.
+- [PS-003: Count vowels]({{ '/learning/problem-sets/string-vowel-count/' | relative_url }}) — strings and character tests.
+- [PS-004: Binary search]({{ '/learning/problem-sets/binary-search/' | relative_url }}) — sorted arrays and search invariants.
+- [PS-005: Insertion sort]({{ '/learning/problem-sets/insertion-sort/' | relative_url }}) — sorting and a maintained prefix.
 
-Hint: subtract the pages read from the total.
+## Recursion and graph-shaped data
 
-## 2. Count completed sessions
+- [PS-006: Factorial]({{ '/learning/problem-sets/factorial-recursion/' | relative_url }}) — base cases and termination.
+- [PS-007: Binary tree height]({{ '/learning/problem-sets/tree-height/' | relative_url }}) — recursive structures.
+- [PS-008: Graph reachability]({{ '/learning/problem-sets/graph-reachability/' | relative_url }}) — breadth-first search and visited state.
 
-Given `sessions = [20, 0, 30, 25]`, count sessions whose duration is greater than zero.
+## Databases
 
-Hint: start a count at zero, then add one when a session is positive. Expected count: `3`.
+- [PS-009: Summarize study sessions]({{ '/learning/problem-sets/sql-session-summary/' | relative_url }}) — filtering, grouping, and aggregation.
 
-## 3. Study-time total
+The older five prompts below are warm-ups without full solution specifications. They remain for gradual practice; use the linked PS-ID challenges for complete problem statements and testable reference solutions.
 
-Given `minutes = [15, 20, 10]`, calculate total study time using a loop.
-
-Hint: use an accumulator. Expected total: `45`.
-
-## 4. Find the longest title
-
-Given `titles = ["Loops", "Variables", "Functions"]`, find and print the longest title.
-
-Hint: keep a current best title. Compare lengths with `len(title)`. Expected answer: `"Functions"`.
-
-## 5. Explain the method
-
-Write a short explanation of one exercise as if a classmate will implement it in another language. Include the input, the steps, and how you know the output is correct.
-
-See the [loop lesson]({{ '/learning/lessons/problem-solving-loops/' | relative_url }}) for an example of processing a list.
+1. Given `total_pages = 240` and `pages_read = 35`, calculate pages remaining.
+2. Count positive values in `[20, 0, 30, 25]`.
+3. Sum `[15, 20, 10]` with a loop.
+4. Find the longest title in `["Loops", "Variables", "Functions"]`.
+5. Explain one solution in language-neutral steps.

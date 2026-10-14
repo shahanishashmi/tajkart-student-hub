@@ -1,7 +1,25 @@
 ---
+layout: lesson
 title: Save project progress with Git commits
 summary: Inspect changed files, stage selected work, and write a useful commit message.
-category: Software tools
+permalink: /learning/lessons/git-small-commits/
+id: git-small-commits-001
+content_type: lesson
+category: developer-tools
+language: en
+difficulty: beginner
+tags: [git, version-control, code-review, command-line]
+prerequisites: []
+related_resources: [guide-software-engineering-testing, project-reading-tracker, course-programming-foundations-four-weeks]
+learning_objectives:
+  - Inspect unstaged and staged changes separately.
+  - Create a focused commit with a descriptive summary.
+estimated_minutes: 20
+content_status: drafted
+review_status: pending
+searchable: true
+order: 4
+topic: Git
 level: Beginner
 reading_time: 9
 ---

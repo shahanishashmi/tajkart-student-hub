@@ -3,6 +3,20 @@ layout: page
 title: Safe coding playgrounds
 description: Set up small experiments that are easy to understand and undo.
 permalink: /learning/playgrounds/
+id: guide-safe-playgrounds
+content_type: guide
+category: programming-fundamentals
+language: en
+difficulty: beginner
+tags: [playgrounds, experimentation, safety]
+prerequisites: []
+learning_objectives:
+  - Run a small, isolated experiment and record what changed.
+  - Protect private data and review packages before using them.
+content_status: drafted
+review_status: pending
+searchable: true
+
 ---
 
 A playground is any isolated place to test an idea. A local folder with one small program can be enough.

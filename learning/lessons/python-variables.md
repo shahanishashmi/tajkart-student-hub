@@ -1,7 +1,25 @@
 ---
+layout: lesson
 title: Variables and values in Python
 summary: Name data clearly, inspect its type, and update a value.
-category: Python
+permalink: /learning/lessons/python-variables/
+id: python-variables-001
+content_type: lesson
+category: programming-languages
+language: en
+difficulty: beginner
+tags: [python, variables, data-types, assignment]
+prerequisites: []
+related_resources: [python-loops-001, python-functions-001, guide-programming-foundations]
+learning_objectives:
+  - Assign values to descriptive names.
+  - Distinguish common types and update a value safely.
+estimated_minutes: 20
+content_status: drafted
+review_status: pending
+searchable: true
+order: 1
+topic: Python
 level: Beginner
 reading_time: 8
 ---

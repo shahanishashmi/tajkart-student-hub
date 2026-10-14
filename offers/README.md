@@ -2,6 +2,8 @@
 
 This section is intended for legitimate student discounts and learning offers. Offers are time-sensitive and must be verified before publication.
 
+The [Student Offers page](index.md) currently provides verification guidance only. No discounts, scholarships, internships, or competitions are listed as live or verified.
+
 ## Required listing fields
 - Provider and offer title
 - What is included and what is excluded

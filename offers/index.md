@@ -3,6 +3,20 @@ layout: page
 title: Student Offers
 description: Standards for reviewing student discounts, scholarships, internships, and learning opportunities.
 permalink: /offers/
+id: student-opportunity-guidance
+content_type: opportunity-guide
+category: student-opportunities
+language: en
+difficulty: beginner
+tags: [scholarships, internships, student-offers, verification]
+prerequisites: []
+learning_objectives:
+  - Check opportunity details through an official provider source.
+  - Identify eligibility, terms, deadline, and verification date before sharing a listing.
+content_status: drafted
+review_status: pending
+searchable: true
+
 ---
 
 There are no currently listed or verified offers on this site. This page explains what we would check before publishing one; it is not an offer directory.

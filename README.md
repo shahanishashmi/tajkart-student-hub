@@ -2,41 +2,55 @@
 
 **Learn. Build. Grow.**
 
-Tajkart Student Hub is an original Tajkart learning and opportunity project for students, self-learners, and early-career professionals. It is being built around practical learning guides, subject maps, study plans, career preparation, and student offers.
+Tajkart Student Hub is an original learning library for students, self-learners, and early-career learners. It brings together subject guides, language paths, self-guided courses, cheatsheets, interactive exercises, problem sets, project briefs, career guidance, and student-opportunity safety advice.
 
-> **Content policy:** The Free Programming Books archive was inspected to shape Tajkart's broad subject and learning-format taxonomy. Its resource entries, prose, branding, templates, code, and workflows have not been copied. See the [reference coverage audit](docs/REFERENCE_COVERAGE.md) for the snapshot, license, and category mapping.
+The project is led by **Shah Anis Hashmi, Founder & Educator**. This repository makes no unverified claims about qualifications, employment outcomes, partnerships, or live opportunities.
 
-## Explore Tajkart Student Hub
+## Explore
 
-- **[Learning Library](learning/index.md)** — learning paths, subject maps, study methods, and original educational guides.
-- **[Books & Reading Guides](learning/books/)** — how to choose learning material, read technical books, and practise responsibly.
-- **[Courses & Study Plans](learning/courses/)** — original self-study curricula and weekly plans.
-- **[Podcasts & Screencasts](learning/podcasts-screencasts/)** — guidance for learning from audio and video formats.
-- **[Interactive Learning](learning/interactive-tutorials/)** — practice-first tutorial design and exercises.
-- **[Playgrounds](learning/playgrounds/)** — safe experimentation plans for code and concepts.
-- **[Cheatsheets](learning/cheatsheets/)** — original quick-reference notes.
-- **[Problem Sets](learning/problem-sets/)** — original practice problems and project challenges.
-- **[Subjects](learning/subjects/)** — computer-science and software-development topic map.
-- **[Languages](learning/languages/)** — original programming language guidance.
-- **[Career Hub](careers/)** — resumes, interviews, portfolios, job-search skills, and career roadmaps.
-- **[Student Offers](offers/)** — principles for reviewing student discounts and opportunities.
+- [Learning Library](learning/index.md)
+- [Books and reading guides](learning/books/index.md)
+- [Courses and study plans](learning/courses/index.md)
+- [Programming languages](learning/languages/index.md)
+- [Computer science subjects](learning/subjects/index.md)
+- [Cheatsheets](learning/cheatsheets/index.md)
+- [Interactive learning](learning/interactive-tutorials/index.md)
+- [Problem sets](learning/problem-sets/index.md)
+- [Projects and playground guidance](learning/projects/index.md)
+- [Podcasts and screencasts](learning/podcasts-screencasts/index.md)
+- [Career Hub](careers/index.md)
+- [Student Offers guidance](offers/index.md)
 
-## What this project is—and is not
+## Reference and content policy
 
-Tajkart Student Hub aims to create useful original educational content, not to mirror another repository's entries. It does not claim ownership of third-party books, products, trademarks, or materials. A mention of a topic or technology does not imply endorsement or affiliation.
+The supplied `free-programming-books-main.zip` archive was audited for breadth, organization, and resource-discovery categories. Its curated entries, prose, translations, code, branding, templates, and workflows were not copied. See the [repository and source audit](docs/REFERENCE_AUDIT.md), [architecture](docs/ARCHITECTURE.md), [coverage map](docs/REFERENCE_COVERAGE.md), [licensing review](docs/LICENSING_REVIEW.md), [machine-readable category map](data/reference_coverage.yml), and [57-locale inventory](data/language_coverage.yml). Hindi and Urdu content is clearly marked as draft pending fluent review.
 
-## Contributing
+The existing `LICENSE` was inspected and preserved. It reserves rights in original Tajkart work; it does not grant rights to third-party works linked or mentioned here. Read [copyright and licensing](COPYRIGHT.md) and the [content policy](docs/CONTENT_POLICY.md) before contributing external material.
 
-Read [CONTRIBUTING.md](CONTRIBUTING.md) and [docs/CONTENT_STANDARDS.md](docs/CONTENT_STANDARDS.md) before proposing changes. Contributions should be original, accurate, accessible, and clearly sourced where factual claims need references.
+## Work locally
 
-## Copyright and licensing
+Install Ruby, Bundler, Python 3, and Node.js. From the repository root:
 
-Copyright © 2026 Tajkart applies to original Tajkart-authored text, code, documentation, and visual assets in this repository, except where a file states otherwise. Do not assume every third-party name, logo, fact, or linked resource is owned by Tajkart.
+```sh
+bundle install
+bundle exec jekyll serve
+```
 
-The inspected reference repository identifies its contents as CC BY 4.0; that license does not apply to Tajkart material. Linked books and other external works retain their own rights and terms. Any third-party material introduced into Tajkart must have its source, license, and attribution recorded. See [COPYRIGHT.md](COPYRIGHT.md) and [the audit](docs/REFERENCE_COVERAGE.md).
+Run the content and code checks:
 
-## Run locally
+```sh
+python scripts/validate_site.py
+python -m unittest discover -s tests -v
+node --check assets/js/site.js
+node tests/search_test.js
+bundle exec jekyll build
+python scripts/validate_html.py _site
+```
 
-Install Ruby and Bundler, then run `bundle install` followed by `bundle exec jekyll serve`. Open the local URL printed by Jekyll. GitHub Pages serves the site at `https://shahanishashmi.github.io/tajkart-student-hub/` with the current configuration.
+The search index and quiz work on static hosting. Tajkart does not execute submitted code on a server.
 
-See [deployment instructions](docs/DEPLOYMENT.md) for GitHub Pages setup.
+## Publish with GitHub Pages
+
+The repository workflow builds pull requests and deploys successful updates to `main`. In repository **Settings → Pages**, choose **GitHub Actions** as the deployment source. The exact published address appears in the Pages settings and the `github-pages` deployment environment. Keep `url` and `baseurl` in [_config.yml](_config.yml) aligned with the repository or custom domain.
+
+See [deployment instructions](docs/DEPLOYMENT.md), [content progress](docs/CONTENT_PROGRESS.md), and [contribution guide](CONTRIBUTING.md). No build/deploy claim applies to the current local changes until CI runs on them.

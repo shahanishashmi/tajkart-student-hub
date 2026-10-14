@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:tajkart:schemas:opportunity:v1",
+  "title": "Student opportunity record",
+  "description": "A scholarship, internship, student offer, competition, or learning programme; publish only after verification.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "title", "provider", "eligibility", "official_source", "verification_status", "last_verified", "terms"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+    "title": {"type": "string", "minLength": 1},
+    "provider": {"type": "string", "minLength": 1},
+    "eligibility": {"type": "string", "minLength": 1},
+    "region": {"type": "string"},
+    "official_source": {"type": "string", "format": "uri"},
+    "deadline": {"type": ["string", "null"], "format": "date"},
+    "last_verified": {"type": "string", "format": "date"},
+    "verification_status": {"enum": ["unverified", "verified", "expired", "withdrawn"]},
+    "terms": {"type": "string", "minLength": 1},
+    "disclosure": {"type": "string"}
+  }
+}

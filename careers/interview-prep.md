@@ -3,6 +3,20 @@ layout: page
 title: Prepare for a technical interview
 description: A calm practice routine for explaining technical choices, solving problems, and reflecting on your work.
 permalink: /careers/interview-prep/
+id: career-interview-preparation
+content_type: career
+category: career-skills
+language: en
+difficulty: beginner
+tags: [interviews, problem-solving, communication]
+prerequisites: []
+learning_objectives:
+  - Clarify a technical problem before solving it.
+  - Explain a solution and check examples and edge cases.
+content_status: drafted
+review_status: pending
+searchable: true
+
 ---
 
 ## Learning objectives

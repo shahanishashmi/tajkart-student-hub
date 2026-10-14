@@ -1,33 +1,26 @@
 ---
 layout: page
-title: Python starter reference
-description: A compact original reminder of Python syntax introduced in the beginner lessons.
+title: Original programming quick references
+description: Scannable Tajkart-authored reminders for languages, tools, databases, testing, and deployment.
 permalink: /learning/cheatsheets/
 ---
 
-Use this as a reminder after practising each idea. It is not a substitute for reading error messages or checking the official documentation for details.
+Use a quick reference after learning the idea; it is not a substitute for reading an error message or checking the documentation for the exact tool and version you use.
 
-```python
-# Assign values
-name = "Amina"
-minutes = 25
+## Languages and web
 
-# Choose a branch
-if minutes >= 20:
-    print("Goal reached")
-else:
-    print("Keep going")
+- [Python]({{ '/learning/cheatsheets/python/' | relative_url }})
+- [Java]({{ '/learning/cheatsheets/java/' | relative_url }})
+- [JavaScript and TypeScript]({{ '/learning/cheatsheets/javascript-typescript/' | relative_url }})
+- [HTML, CSS, and HTTP]({{ '/learning/cheatsheets/web/' | relative_url }})
+- [SQL]({{ '/learning/cheatsheets/sql/' | relative_url }})
 
-# Repeat for each item
-topics = ["lists", "loops"]
-for topic in topics:
-    print(topic)
+## Tools and engineering
 
-# Define and call a function
-def double(number):
-    return number * 2
+- [Git and command line]({{ '/learning/cheatsheets/git-cli/' | relative_url }})
+- [Data structures and algorithms]({{ '/learning/cheatsheets/data-structures/' | relative_url }})
+- [Debugging and testing]({{ '/learning/cheatsheets/debugging-testing/' | relative_url }})
+- [Networking and security]({{ '/learning/cheatsheets/networking-security/' | relative_url }})
+- [Containers and deployment]({{ '/learning/cheatsheets/containers-deployment/' | relative_url }})
 
-print(double(4))  # 8
-```
-
-Remember: indentation defines blocks, `=` assigns, and `==` compares. See the [variables lesson]({{ '/learning/lessons/python-variables/' | relative_url }}) and [loop lesson]({{ '/learning/lessons/problem-solving-loops/' | relative_url }}) for explanations and exercises.
+The references are intentionally compact and may not cover every language feature or vendor-specific behavior. Use the related learning path for explanations and exercises.

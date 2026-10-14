@@ -1,49 +1,38 @@
 ---
 layout: page
 title: Computer science subjects
-description: A map of core ideas behind programming and software development.
+description: A mapped, honest guide to computing topics and the original Tajkart material currently available.
 permalink: /learning/subjects/
 ---
 
-This map groups ideas by the questions they help answer. The subjects build on one another, but you can begin with the problem in front of you.
+This map groups topics by the questions they help answer. It covers all 46 entries in the inspected reference subject index, but coverage means mapped for discovery—not that a full course exists. The machine-readable [source map]({{ '/docs/REFERENCE_COVERAGE/' | relative_url }}) records each source heading and its content status.
 
-## Foundations
+## Start with foundations
 
-- **Problem solving:** break a goal into inputs, rules, and an output you can check.
-- **Programming concepts:** names, values, conditions, loops, and functions. Begin with [Python variables]({{ '/learning/lessons/python-variables/' | relative_url }}) and [loops]({{ '/learning/lessons/problem-solving-loops/' | relative_url }}).
-- **Algorithms:** describe a repeatable method and compare its work as input grows. Read [algorithm efficiency]({{ '/learning/lessons/algorithm-efficiency/' | relative_url }}).
-- **Data structures:** choose ways to group and retrieve information, such as lists, maps, queues, and trees.
+- **Programming and problem solving:** [programming foundations]({{ '/learning/guides/programming-foundations/' | relative_url }}), [Python variables]({{ '/learning/lessons/python-variables/' | relative_url }}), and [loops]({{ '/learning/lessons/problem-solving-loops/' | relative_url }}).
+- **Algorithms and data structures:** [subject guide]({{ '/learning/guides/data-structures-algorithms/' | relative_url }}), [algorithm efficiency lesson]({{ '/learning/lessons/algorithm-efficiency/' | relative_url }}), and [practice set]({{ '/learning/problem-sets/' | relative_url }}).
+- **Computer science and theory:** complexity, programming paradigms, compilers, mathematics, formal models, standards, and regular expressions are mapped; most still need dedicated lessons.
+- **Computer architecture:** [introductory guide]({{ '/learning/guides/computer-architecture/' | relative_url }}).
 
-## Building software
+## Build and operate software
 
-- **Web fundamentals:** browsers, URLs, HTTP requests, HTML structure, CSS presentation, and JavaScript behavior.
-- **Databases:** model information and retrieve it with queries; consider integrity, access, and backups.
-- **Software engineering:** version control, testing, readable changes, debugging, and collaboration. Start with [Git commits]({{ '/learning/lessons/git-small-commits/' | relative_url }}).
-- **Operating systems and networks:** understand processes, files, permissions, addressing, and how programs communicate.
-- **Security and privacy:** protect accounts, validate untrusted input, limit access, and avoid exposing private data.
+- **Web development:** [web guide]({{ '/learning/guides/web-development/' | relative_url }}) and [web course]({{ '/learning/courses/web-development/' | relative_url }}).
+- **Databases:** [database and SQL guide]({{ '/learning/guides/databases-and-sql/' | relative_url }}), [SQL path]({{ '/learning/languages/sql/' | relative_url }}), and [SQL quick reference]({{ '/learning/cheatsheets/sql/' | relative_url }}).
+- **Software engineering and testing:** [guide]({{ '/learning/guides/software-engineering-testing/' | relative_url }}), [Git commits lesson]({{ '/learning/lessons/git-small-commits/' | relative_url }}), and [testing reference]({{ '/learning/cheatsheets/debugging-testing/' | relative_url }}).
+- **Operating systems and networks:** [operating systems]({{ '/learning/guides/operating-systems/' | relative_url }}) and [networking]({{ '/learning/guides/computer-networks/' | relative_url }}).
+- **Security and privacy:** [defensive security guide]({{ '/learning/guides/cybersecurity-basics/' | relative_url }}). Reverse engineering is mapped but has no dedicated material yet.
+- **Cloud and containers:** [DevOps and cloud guide]({{ '/learning/guides/devops-cloud/' | relative_url }}); provider-specific material remains out of scope until it can be kept current.
 
-## Wider subject map
+## Broader mapped subject areas
 
-The reference archive's subject index also covers these fields. They are part of Tajkart's navigation roadmap; listing a subject here does not mean a complete Tajkart lesson or course exists yet.
+The reference also indexes artificial intelligence, blockchain, cellular automata, competitive programming, compiler design, computer vision, containers, data science, embedded systems, game development, graphics, graphical interfaces, IDEs, information retrieval, licensing, machine learning, meta-lists, parallel programming, partial evaluation, professional development, prompt engineering, quantum computing, search engines, software architecture, theoretical computer science, web performance, web services, and workflow practices. These are mapped in `data/reference_coverage.yml`; listing them here is not a claim that lessons exist.
 
-| Strand | Topics to explore |
-|---|---|
-| Theory and foundations | Meta-lists, computer science, mathematics, theoretical computer science, algorithms and data structures, compilers, computer architecture, standards, regular expressions |
-| Languages and paradigms | Programming languages, language paradigms, object-oriented programming, partial evaluation, language-agnostic problem solving, developer workflows |
-| Data and intelligent systems | Databases, data science, information retrieval, search engines, artificial intelligence, machine learning, computer vision, quantum computing |
-| Systems and infrastructure | Operating systems, networking, cloud computing, containers, parallel programming, embedded systems, web services |
-| Software practice | IDEs and editors, software architecture, version control, open-source participation, professional development, software licensing, web performance |
-| Safety and resilience | Security and privacy, reverse engineering |
-| Applications and computing fields | Graphical interfaces, graphics programming, game development, cellular automata, blockchain, competitive programming, prompt engineering, other computing topics |
+## Suggested sequence
 
-These groups cover all 46 subject entries in the inspected reference index (47 level-three headings including its Index); closely related headings have been grouped to keep the learner map readable. The [Career Hub]({{ '/careers/' | relative_url }}) and [Student Offers]({{ '/offers/' | relative_url }}) are Tajkart additions beyond that subject index.
+1. Practise values, conditions, loops, and functions in one language.
+2. Solve a small problem and explain its steps before coding.
+3. Learn data structures and growth of work alongside measurement.
+4. Build a project, track it with Git, and test the behavior you rely on.
+5. Choose web, databases, systems, or security based on a real goal.
 
-## Suggested order
-
-1. Practise variables, conditions, loops, and functions in one language.
-2. Solve small problems and explain your reasoning aloud or in writing.
-3. Learn data structures and algorithm growth alongside practical measurement.
-4. Build a small project, track it with Git, and test the behavior you depend on.
-5. Study web, databases, systems, or security according to your goals.
-
-Use the [four-week plan]({{ '/learning/courses/' | relative_url }}) as a starting schedule. This is a learning map; it does not claim that a complete course is published for every subject.
+Use the [four-week plan]({{ '/learning/courses/' | relative_url }}) as a flexible start. Check [content progress]({{ '/docs/CONTENT_PROGRESS/' | relative_url }}) for reviewed versus drafted work.

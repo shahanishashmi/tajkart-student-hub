@@ -1,5 +1,7 @@
 # Interactive Tutorials
 
+The [interactive index](index.md) includes an active practice routine and a four-question browser quiz. The quiz checks selected answers locally and does not run learner-submitted code.
+
 An interactive tutorial should let learners make a decision, see a result, and understand why that result occurred.
 
 ## Design pattern

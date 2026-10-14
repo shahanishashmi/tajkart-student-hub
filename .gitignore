@@ -10,4 +10,6 @@ _site/
 .jekyll-cache/
 .jekyll-metadata
 .cache/
+__pycache__/
+*.py[cod]
 *.log

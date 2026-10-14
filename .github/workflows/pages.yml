@@ -35,10 +35,19 @@ jobs:
       - name: Check JavaScript syntax
         run: node --check assets/js/site.js
 
+      - name: Test search matching, ranking, and provenance filters
+        run: node tests/search_test.js
+
+      - name: Test solutions, resource metadata, and SQL examples
+        run: python -m unittest discover -s tests -v
+
       - name: Set up Ruby and Bundler
         uses: ruby/setup-ruby@651ff0d62c5c79bed6d53ec518387aae20e72c1a # v1.329.0
         with:
           ruby-version: "3.3"
+
+      - name: Parse Markdown front matter and YAML inventories
+        run: ruby scripts/validate_front_matter.rb
 
       - name: Install site dependencies
         run: bundle install --jobs 4 --retry 3
@@ -47,6 +56,9 @@ jobs:
         run: bundle exec jekyll build
         env:
           JEKYLL_ENV: production
+
+      - name: Validate generated routes, search index, and accessibility basics
+        run: python scripts/validate_html.py _site
 
       - name: Package GitHub Pages artifact
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'

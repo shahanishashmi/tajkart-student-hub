@@ -1,0 +1,276 @@
+reference:
+  title: Free Programming Books
+  archive: free-programming-books-main.zip
+  sha256: a57382573afb96eed8623f41884e049b12b9fab54dcf43815629437906abd1e1
+  inspected_on: '2026-10-14'
+  upstream_snapshot: https://github.com/EbookFoundation/free-programming-books/tree/2574d859ecf34dd8d1643cc5c7c9f11ae99f845c
+  upstream_commit: 2574d859ecf34dd8d1643cc5c7c9f11ae99f845c
+  screenshot_status: not-provided-in-attachment-folder
+  source_license: CC BY 4.0 for eligible repository content; linked works retain their own terms
+  safety: Archive files were listed/read as reference data; no scripts, actions, or workflow files were executed
+    or copied.
+  file_counts:
+    books_markdown: 48
+    courses_markdown: 41
+    casts_markdown: 21
+    more_markdown: 10
+    docs_markdown: 94
+    github_files: 10
+    scripts: 2
+    includes: 1
+categories:
+- id: books
+  source:
+  - books/free-programming-books-en.md
+  - books/free-programming-books-langs.md
+  destination: /learning/books/
+  implementation_type: original reading guides; no external catalogue copied
+  content_status: in-progress
+  validation_status: markdown-routes-and-local-links-validated
+  remaining_work: Twelve original subject guides exist; deepen examples, add verified reading references only when
+    reviewed, and retain third-party rights checks.
+- id: books-by-language
+  source:
+  - books/free-programming-books-langs.md
+  - books/free-programming-books-<locale>.md
+  destination: /learning/languages/ and /data/language_coverage.yml
+  implementation_type: language paths plus locale status registry
+  content_status: in-progress
+  validation_status: locale-map-and-eleven-paths-validated
+  remaining_work: Add substantive lessons for each programming language and human-language translations with review.
+- id: books-by-subject
+  source:
+  - books/free-programming-books-subjects.md
+  destination: /learning/subjects/ and /data/reference_coverage.yml
+  implementation_type: grouped subject map
+  content_status: in-progress
+  validation_status: all-forty-six-headings-mapped; twelve-original-guides-exist
+  remaining_work: Continue subject-specific material; many mapped areas still have no dedicated tutorial or course.
+- id: courses
+  source:
+  - courses/free-courses-en.md
+  - courses/free-courses-<locale>.md
+  destination: /learning/courses/
+  implementation_type: Tajkart-authored self-study curricula
+  content_status: drafted
+  validation_status: source-metadata-routes-and-links-validated
+  remaining_work: Three self-guided curricula exist; technical review and intermediate/advanced progression remain.
+- id: cheatsheets
+  source:
+  - more/free-programming-cheatsheets.md
+  destination: /learning/cheatsheets/
+  implementation_type: original quick-reference material
+  content_status: drafted
+  validation_status: source-metadata-routes-and-links-validated
+  remaining_work: Ten original quick references exist; review correctness and add a focused CLI/REST reference.
+- id: interactive-tutorials
+  source:
+  - more/free-programming-interactive-tutorials-<locale>.md
+  destination: /learning/interactive-tutorials/
+  implementation_type: static browser activities; no arbitrary code execution
+  content_status: drafted
+  validation_status: quiz-is-client-side;-source-metadata-and-routes-validated
+  remaining_work: Add output prediction, code reading, debugging, fill-in activities, and keyboard review.
+- id: problem-sets
+  source:
+  - more/problem-sets-competitive-programming.md
+  destination: /learning/problem-sets/
+  implementation_type: original challenge statements and tested reference solutions
+  content_status: drafted
+  validation_status: nine-specifications-and-nine-tests-validated
+  remaining_work: Nine distinct problem statements cover the requested core topics; review solutions and add more
+    difficulty tiers.
+- id: podcasts-screencasts
+  source:
+  - casts/free-podcasts-screencasts-en.md
+  - casts/free-podcasts-screencasts-<locale>.md
+  destination: /learning/podcasts-screencasts/
+  implementation_type: media study guides and a metadata schema for future checked entries
+  content_status: in-progress
+  validation_status: resource-metadata-schema-added
+  remaining_work: Review actual official creator pages before publishing any entries; none are currently listed.
+- id: playgrounds
+  source:
+  - more/free-programming-playgrounds.md
+  - more/free-programming-playgrounds-<locale>.md
+  destination: /learning/playgrounds/ and /learning/projects/
+  implementation_type: safe practice guidance and reproducible project briefs
+  content_status: drafted
+  validation_status: six-project-brief-routes-and-local-links-validated
+  remaining_work: Implement selected briefs and add intermediate/advanced projects; no submitted code is run on
+    a server.
+- id: translations
+  source:
+  - books/
+  - courses/
+  - casts/
+  - more/
+  - docs/ language-specific indexes
+  destination: /data/language_coverage.yml
+  implementation_type: locale registry, original translations, and human editorial review
+  content_status: review-required
+  validation_status: fifty-seven-source-locales-mapped;-two-translation-drafts-validated-structurally
+  remaining_work: Fluent reviewers must review the Hindi and Urdu drafts; add content progressively for other locales.
+- id: documentation-and-contribution
+  source:
+  - docs/CONTRIBUTING.md
+  - docs/HOWTO.md
+  - docs/CODE_OF_CONDUCT.md
+  - translations
+  destination: /CONTRIBUTING.md and /docs/
+  implementation_type: Tajkart contributor and editorial documentation
+  content_status: drafted
+  validation_status: routes-and-local-links-validated
+  remaining_work: Human review of contribution terms and translation workflow remains; do not imply all submissions
+    are approved.
+- id: content-format-conventions
+  source:
+  - README.md
+  - docs/CONTRIBUTING.md
+  - docs/CONTRIBUTING.md inclusion rules
+  destination: /docs/CONTENT_STANDARDS/ and /docs/CONTENT_SCHEMA/
+  implementation_type: shared metadata, writing, examples, attribution, and review rules
+  content_status: validated
+  validation_status: source-metadata-and-required-section-checks-pass
+  remaining_work: Expand schema validation for category-specific structure and complete human editorial review.
+- id: link-and-content-validation
+  source:
+  - .github/workflows/check-urls.yml
+  - scripts/rtl_ltr_linter.py
+  destination: /scripts/validate_site.py and CI workflow
+  implementation_type: local route, schema, duplicate, example, and generated-HTML checks
+  content_status: in-progress
+  validation_status: local-validator-unit-tests-and-javascript-check-pass
+  remaining_work: Run the Ruby/Jekyll build, YAML checks, and generated HTML validation in CI on the review branch.
+- id: repository-templates-and-workflows
+  source:
+  - .github/workflows/
+  - .github/PULL_REQUEST_TEMPLATE.md
+  - docs/ templates
+  destination: /.github/ and /templates/
+  implementation_type: minimal SHA-pinned Tajkart build/deploy workflow
+  content_status: drafted
+  validation_status: sha-pinned-workflow-and-templates-added
+  remaining_work: Run CI on a review branch and check branch protections and GitHub Pages environment settings.
+- id: search-and-discovery
+  source:
+  - README.md resource groups
+  - external dynamic search link
+  destination: /learning/ and static search index
+  implementation_type: client-side search over Tajkart-authored local pages
+  content_status: in-progress
+  validation_status: seventy-searchable-resources-identified;generated-index-check-is-configured
+  remaining_work: Build the production Jekyll output and confirm rendered Liquid JSON and every indexed route.
+- id: licensing-and-attribution
+  source:
+  - LICENSE
+  - README.md License section
+  destination: /LICENSE, /COPYRIGHT.md, /docs/CONTENT_POLICY/
+  implementation_type: preserve existing licence; distinguish source and linked-work rights
+  content_status: validated
+  validation_status: existing-license-inspected-and-preserved;-boundaries-documented
+  remaining_work: Record contributor rights terms before accepting any third-party or differently licensed work.
+- id: site-architecture
+  source:
+  - _config.yml
+  - _layouts/
+  - _includes/head-custom.html
+  - favicon.ico
+  destination: /_config.yml, /_layouts/, /assets/
+  implementation_type: original Jekyll layouts, design tokens, responsive CSS, and SVG favicon
+  content_status: in-progress
+  validation_status: responsive-layout-metadata-search-and-generated-html-checks-added
+  remaining_work: Run production build and manual responsive, keyboard, RTL, and screen-reader review.
+subject_groups:
+- title: Foundations and theory
+  destination: /learning/subjects/
+  content_status: in-progress
+  source_headings:
+  - 0 - Meta-Lists
+  - Algorithms & Data Structures
+  - Computer Science
+  - Compiler Design
+  - Computer Organization and Architecture
+  - Mathematics
+  - Regular Expressions
+  - Standards
+  - Theoretical Computer Science
+- title: Languages and programming models
+  destination: /learning/languages/ and /learning/subjects/
+  content_status: in-progress
+  source_headings:
+  - Object Oriented Programming
+  - Partial Evaluation
+  - Programming
+  - Programming Paradigms
+  - Workflow
+- title: Data and intelligent systems
+  destination: /learning/subjects/
+  content_status: in-progress
+  source_headings:
+  - Artificial Intelligence
+  - Computer Vision
+  - Data Science
+  - Database
+  - Information Retrieval
+  - Machine Learning
+  - Search Engines
+  - Quantum Computing
+- title: Systems and infrastructure
+  destination: /learning/subjects/
+  content_status: in-progress
+  source_headings:
+  - Cloud Computing
+  - Containers
+  - Embedded Systems
+  - Networking
+  - Operating Systems
+  - Parallel Programming
+  - Web Services
+- title: Software practice
+  destination: /learning/subjects/ and /careers/
+  content_status: in-progress
+  source_headings:
+  - IDE and editors
+  - Licensing
+  - Open Source Ecosystem
+  - Professional Development
+  - Software Architecture
+  - Version Control Systems
+  - Web Performance
+- title: Safety and resilience
+  destination: /learning/subjects/
+  content_status: in-progress
+  source_headings:
+  - Reverse Engineering
+  - Security & Privacy
+- title: Applications and emerging fields
+  destination: /learning/subjects/
+  content_status: in-progress
+  source_headings:
+  - Blockchain
+  - Cellular Automata
+  - Competitive Programming
+  - Game Development
+  - Graphics Programming
+  - Graphical User Interfaces
+  - Misc
+  - Prompt Engineering
+subject_heading_count_including_index: 47
+subject_entry_count_excluding_index: 46
+status_values:
+- not-started
+- in-progress
+- drafted
+- review-required
+- validated
+- complete
+audit_notes:
+- The screenshot mentioned with the request was not present in the attachment folder.
+- Archive workflows, scripts, templates, and resource entries were inspected as reference data and not executed
+  or copied.
+searchable_resource_count: 70
+searchable_resources_by_language:
+  en: 68
+  hi: 1
+  ur: 1

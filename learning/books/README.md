@@ -1,5 +1,7 @@
 # Books and Reading Guides
 
+The published index and current original reading guides are at [Books and Reading Guides](index.md). Twelve subject guides are available under `../guides/`.
+
 Tajkart's reading guides help learners use technical books effectively. This section does not redistribute books or reproduce third-party book descriptions.
 
 ## How to choose a technical book

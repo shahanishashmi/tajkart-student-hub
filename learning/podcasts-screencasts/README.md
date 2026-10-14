@@ -1,5 +1,7 @@
 # Podcasts and Screencasts
 
+The [media learning guide](index.md) offers an active listening routine. No podcast or screencast is listed as verified. Future records should use the [resource metadata schema](../../data/verified_resource.schema.json) and be checked at the creator's official source.
+
 Audio and video can support learning, but passive watching rarely builds durable skill by itself.
 
 ## The active-watch loop

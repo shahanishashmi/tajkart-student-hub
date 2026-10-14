@@ -3,6 +3,19 @@ layout: page
 title: Interactive learning
 description: A practice-first routine for turning a short lesson into an active coding session.
 permalink: /learning/interactive-tutorials/
+id: interactive-learning-guide
+content_type: interactive
+category: programming-fundamentals
+language: en
+difficulty: beginner
+tags: [prediction, practice, feedback, programming]
+learning_objectives:
+  - Predict a program result before running it.
+  - Compare a result with a prediction and explain the difference.
+prerequisites: []
+content_status: drafted
+review_status: pending
+searchable: true
 ---
 
 An effective interactive lesson asks you to predict, act, observe, and explain. You can use this routine in any local editor or browser-based environment.
@@ -33,3 +46,5 @@ for day in ["Mon", "Tue", "Wed"]:
 ## Make a useful activity
 
 Keep one idea per step. Give learners a way to check their result, a hint they can request, and a chance to retry. Avoid treating typing speed as understanding. When using a third-party playground, review its privacy and data-handling terms before entering personal information.
+
+Try the [four-question code-reading quiz]({{ '/learning/interactive-tutorials/quiz/' | relative_url }}). It checks selected answers in your browser and does not execute submitted code.

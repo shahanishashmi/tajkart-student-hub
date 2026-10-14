@@ -1,4 +1,45 @@
 ---
 layout: default
 ---
-<article class="lesson-page"><p class="eyebrow"><a href="{{ '/learning/' | relative_url }}">LEARNING LIBRARY</a> / {{ page.category | default: "LESSON" }}</p><h1>{{ page.title }}</h1><p class="page-intro">{{ page.summary }}</p><div class="lesson-meta"><span>{{ page.level | default: "Beginner" }}</span>{% if page.reading_time %}<span>{{ page.reading_time }} min read</span>{% endif %}</div><div class="prose lesson-body">{{ content }}</div><aside class="next-step"><h2>Keep going</h2><p>Visit the <a href="{{ '/learning/' | relative_url }}">Learning Library</a> for related subjects, study plans, and practice.</p></aside></article>
+{% assign ordered_lessons = site.pages | where: "content_type", "lesson" | where: "language", page.language | sort: "order" %}
+<article class="lesson-page">
+  <p class="eyebrow"><a href="{{ '/learning/' | relative_url }}">Learning Library</a> / {{ page.topic | default: page.category | escape }}</p>
+  <h1>{{ page.title }}</h1>
+  <p class="page-intro">{{ page.summary }}</p>
+  <div class="lesson-meta">
+    <span>{{ page.difficulty | default: page.level | default: "Beginner" | capitalize }}</span>
+    {% if page.estimated_minutes %}<span>About {{ page.estimated_minutes }} minutes</span>
+    {% elsif page.reading_time %}<span>{{ page.reading_time }} min read</span>{% endif %}
+    {% if page.language %}<span lang="{{ page.language }}">{{ page.language }}</span>{% endif %}
+    {% if page.content_origin == "original" %}<span lang="en">Tajkart original</span>{% endif %}
+    {% if page.content_origin == "translation" %}<span lang="en">Translation {{ page.translation_status | escape }} · review {{ page.review_status | escape }}</span>{% endif %}
+    {% if page.content_origin == "external" %}<span lang="en">External reference · {{ page.verification_status | escape }} · {{ page.rights_status | escape }}</span>{% endif %}
+  </div>
+  {% if page.content_origin == "translation" %}
+    {% assign translation_source = site.pages | where: "id", page.translation_of | first %}
+    {% if translation_source %}<p class="translation-notice" lang="en">Translated from <a href="{{ translation_source.url | relative_url }}">{{ translation_source.title | escape }}</a>. This draft still needs language review.</p>{% endif %}
+  {% elsif page.content_origin == "external" %}
+    <p class="translation-notice" lang="en">External resource by {{ page.creator | escape }}. {{ page.attribution | escape }} {{ page.rights_note | escape }}{% if page.terms_or_license %} Terms: {{ page.terms_or_license | escape }}.{% endif %} Source checked {{ page.source_checked | escape }}. <a href="{{ page.source_url | escape }}" rel="external noopener noreferrer">Open the official source</a>.</p>
+  {% endif %}
+  <div class="prose lesson-body">{{ content }}</div>
+  {% include related_resources.html ids=page.related_resources %}
+  {% if page.content_type == "lesson" and ordered_lessons.size > 1 %}
+    <nav class="lesson-pagination" aria-label="Lesson navigation">
+      {% for lesson in ordered_lessons %}
+        {% if lesson.url == page.url %}
+          {% assign lesson_index = forloop.index0 %}
+          {% assign next_index = forloop.index0 | plus: 1 %}
+          {% if lesson_index > 0 %}
+            {% assign previous_index = forloop.index0 | minus: 1 %}
+            {% assign previous_lesson = ordered_lessons[previous_index] %}
+            <a class="pagination-previous" href="{{ previous_lesson.url | relative_url }}"><span>Previous lesson</span><strong>{{ previous_lesson.title | escape }}</strong></a>
+          {% endif %}
+          {% assign next_lesson = ordered_lessons[next_index] %}
+          {% if next_lesson %}
+            <a class="pagination-next" href="{{ next_lesson.url | relative_url }}"><span>Next lesson</span><strong>{{ next_lesson.title | escape }}</strong></a>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+    </nav>
+  {% endif %}
+</article>

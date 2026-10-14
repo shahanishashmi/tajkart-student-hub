@@ -10,6 +10,10 @@ The Learning Library is designed around formats and learning outcomes rather tha
 | Courses and study plans | Follow structured self-study curricula |
 | Podcasts and screencasts | Learn actively from audio and video |
 | Interactive tutorials | Learn concepts through guided practice |
+| Programming language paths | Follow introductory tracks and choose a next exercise |
+| Computer science subjects | Navigate mapped topics and find authored guides |
+| Cheatsheets and problem sets | Revise concepts and test understanding |
+| Projects and playgrounds | Apply skills using safe, reproducible briefs |
 | Playgrounds | Experiment in safe, reversible environments |
 | Cheatsheets | Review concepts with concise original references |
 | Problem sets | Build fluency through original exercises |

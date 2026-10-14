@@ -1,7 +1,25 @@
 ---
+layout: lesson
 title: Repeat a task with a Python loop
 summary: Use for loops to process a sequence and keep a running total.
-category: Python
+permalink: /learning/lessons/problem-solving-loops/
+id: python-loops-001
+content_type: lesson
+category: programming-languages
+language: en
+difficulty: beginner
+tags: [python, loops, iteration, accumulator]
+prerequisites: [python-variables-001]
+related_resources: [python-variables-001, algorithms-efficiency-001, problem-array-total-001]
+learning_objectives:
+  - Trace a loop across a sequence.
+  - Use an accumulator and describe its value after each pass.
+estimated_minutes: 25
+content_status: drafted
+review_status: pending
+searchable: true
+order: 2
+topic: Python
 level: Beginner
 reading_time: 9
 ---

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="{{ page.language | default: site.lang | default: 'en' }}" dir="{{ page.direction | default: 'ltr' }}">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,11 +16,11 @@
         <a class="brand" href="{{ '/' | relative_url }}" aria-label="Tajkart Student Hub home"><span class="brand-mark" aria-hidden="true">T</span><span>Tajkart <small>Student Hub</small></span></a>
         <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu</button>
         <nav id="primary-nav" class="primary-nav" aria-label="Main navigation">
-          <a href="{{ '/learning/' | relative_url }}">Learn</a><a href="{{ '/learning/courses/' | relative_url }}">Study plans</a><a href="{{ '/careers/' | relative_url }}">Career</a><a href="{{ '/offers/' | relative_url }}">Offers</a><a href="{{ '/about/' | relative_url }}">About</a>
+          <a href="{{ '/learning/' | relative_url }}">Learn</a><a href="{{ '/learning/courses/' | relative_url }}">Courses</a><a href="{{ '/learning/projects/' | relative_url }}">Projects</a><a href="{{ '/careers/' | relative_url }}">Career</a><a href="{{ '/offers/' | relative_url }}">Offers</a><a href="{{ '/about/' | relative_url }}">About</a>
         </nav>
       </div>
     </header>
     <main id="main" class="container">{{ content }}</main>
-    <footer class="site-footer"><div class="container footer-inner"><div><a class="footer-brand" href="{{ '/' | relative_url }}">Tajkart Student Hub</a><p>Learn. Build. Grow.</p><p>Founder &amp; Educator: Shah Anis Hashmi</p></div><nav aria-label="Footer navigation"><a href="{{ '/docs/CONTENT_STANDARDS/' | relative_url }}">Content standards</a><a href="{{ '/contributing/' | relative_url }}">Contribute</a><a href="{{ '/copyright/' | relative_url }}">Copyright</a></nav></div><div class="container copyright">Copyright © 2026 Tajkart. All rights reserved for original Tajkart-authored content, code, documentation, and visual assets, except where otherwise stated.</div></footer>
+    <footer class="site-footer"><div class="container footer-inner"><div><a class="footer-brand" href="{{ '/' | relative_url }}">Tajkart Student Hub</a><p>Learn. Build. Grow.</p><p>Founder &amp; Educator: Shah Anis Hashmi</p></div><nav aria-label="Footer navigation"><a href="{{ '/docs/CONTENT_STANDARDS/' | relative_url }}">Content standards</a><a href="{{ '/contributing/' | relative_url }}">Contribute</a><a href="{{ '/code-of-conduct/' | relative_url }}">Code of conduct</a><a href="{{ '/copyright/' | relative_url }}">Copyright</a></nav></div><div class="container copyright">Copyright © 2026 Tajkart. All rights reserved for original Tajkart-authored content, code, documentation, and visual assets, except where otherwise stated.</div></footer>
   </body>
 </html>

@@ -3,6 +3,20 @@ layout: page
 title: Learn from audio and video
 description: A note-taking and practice method for educational podcasts and screencasts.
 permalink: /learning/podcasts-screencasts/
+id: guide-podcasts-screencasts
+content_type: guide
+category: media-learning
+language: en
+difficulty: beginner
+tags: [podcasts, screencasts, note-taking]
+prerequisites: []
+learning_objectives:
+  - Turn a technical video into a prediction, note, and practice task.
+  - Check dates, versions, captions, and creator context.
+content_status: drafted
+review_status: pending
+searchable: true
+
 ---
 
 Audio and video can introduce an idea, but passive watching makes it hard to tell what you can apply. Use a short active routine:

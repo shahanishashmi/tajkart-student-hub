@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:tajkart:schemas:verified-resource:v1",
+  "title": "Verified external learning resource",
+  "description": "Metadata for a third-party learning resource. Publish only after checking its official source, attribution, and reuse terms.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "title", "creator", "language", "url", "topic", "source_checked", "format", "attribution", "rights_status", "rights_note", "verification_status"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+    "title": {"type": "string", "minLength": 1},
+    "creator": {"type": "string", "minLength": 1},
+    "language": {"type": "string", "minLength": 2},
+    "url": {"type": "string", "format": "uri"},
+    "topic": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1},
+    "source_checked": {"type": "string", "format": "date"},
+    "format": {"enum": ["book", "course", "tutorial", "documentation", "podcast", "screencast", "tool", "article", "website"]},
+    "attribution": {"type": "string", "minLength": 1},
+    "rights_status": {"enum": ["link-only", "license-identified", "permission-granted", "public-domain"]},
+    "rights_note": {"type": "string", "minLength": 1},
+    "verification_status": {"enum": ["unverified", "verified", "expired", "withdrawn"]},
+    "captions_or_transcript": {"type": "string"},
+    "accessibility_notes": {"type": "string"},
+    "terms_or_license": {"type": "string", "minLength": 1}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"rights_status": {"const": "license-identified"}}, "required": ["rights_status"]},
+      "then": {"required": ["terms_or_license"]}
+    }
+  ]
+}

@@ -2,6 +2,8 @@
 
 Career guidance here is original educational content. Individual job, internship, or scholarship listings should be verified separately and must not be presented as guaranteed outcomes.
 
+The [Career Hub](index.md) links five guides covering resumes, interviews, internship preparation, professional email, and entry-level learning paths. It does not list live jobs or promise placements.
+
 ## Career preparation tracks
 
 ### Explore

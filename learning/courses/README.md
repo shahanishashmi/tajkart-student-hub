@@ -2,6 +2,8 @@
 
 This section provides Tajkart-authored curricula and study schedules. It is not a mirror of another site's course catalogue.
 
+The [course index](index.md) now includes three plans: programming foundations, data structures, and web foundations. Time estimates are planning aids, not accreditation or guaranteed outcomes.
+
 ## A practical four-week starter plan
 
 ### Week 1 — Foundations

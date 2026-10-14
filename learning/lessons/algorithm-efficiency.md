@@ -1,7 +1,25 @@
 ---
+layout: lesson
 title: Compare algorithms by their growth
 summary: Estimate how work changes as input grows, using simple examples.
-category: Computer science
+permalink: /learning/lessons/algorithm-efficiency/
+id: algorithms-efficiency-001
+content_type: lesson
+category: algorithms-and-data-structures
+language: en
+difficulty: beginner
+tags: [algorithms, complexity, measurement, loops]
+prerequisites: [python-loops-001]
+related_resources: [guide-data-structures-algorithms, problem-binary-search-004, course-data-structures-six-weeks]
+learning_objectives:
+  - Count repeated operations in a simple algorithm.
+  - Compare linear and quadratic growth qualitatively.
+estimated_minutes: 25
+content_status: drafted
+review_status: pending
+searchable: true
+order: 3
+topic: Algorithms
 level: Beginner
 reading_time: 10
 ---

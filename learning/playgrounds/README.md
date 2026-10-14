@@ -1,5 +1,7 @@
 # Coding Playgrounds
 
+The [playground guidance](index.md) and [project index](../projects/index.md) provide safe experiment advice and six project specifications. A project brief is a plan learners can implement; it does not claim a finished application is included.
+
 A playground is a controlled space for experiments. Tajkart guides should explain what can be changed, what output to observe, and how to reset the exercise.
 
 ## Safe experimentation checklist

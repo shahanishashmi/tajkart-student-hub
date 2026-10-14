@@ -1,0 +1,14 @@
+---
+layout: null
+permalink: /search-index.json
+---
+[
+{% assign item_count = 0 %}
+{% for item in site.pages %}
+{% if item.searchable == true %}
+{% if item_count > 0 %},{% endif %}
+  {"id":{{ item.id | jsonify }},"title":{{ item.title | jsonify }},"summary":{{ item.summary | default: item.description | jsonify }},"url":{{ item.url | relative_url | jsonify }},"type":{{ item.content_type | default: "guide" | jsonify }},"category":{{ item.category | default: "general" | jsonify }},"language":{{ item.language | default: "en" | jsonify }},"difficulty":{{ item.difficulty | default: "all-levels" | downcase | jsonify }},"tags":{{ item.tags | jsonify }},"origin":{{ item.content_origin | default: "original" | jsonify }},"translation_status":{{ item.translation_status | default: "" | jsonify }},"translation_of":{{ item.translation_of | default: "" | jsonify }},"content_status":{{ item.content_status | default: "" | jsonify }},"review_status":{{ item.review_status | default: "" | jsonify }},"source_url":{{ item.source_url | default: "" | jsonify }},"source_checked":{{ item.source_checked | default: "" | jsonify }},"creator":{{ item.creator | default: "" | jsonify }},"attribution":{{ item.attribution | default: "" | jsonify }},"rights_status":{{ item.rights_status | default: "" | jsonify }},"rights_note":{{ item.rights_note | default: "" | jsonify }},"terms_or_license":{{ item.terms_or_license | default: "" | jsonify }},"verification_status":{{ item.verification_status | default: "" | jsonify }}}
+{% assign item_count = item_count | plus: 1 %}
+{% endif %}
+{% endfor %}
+]

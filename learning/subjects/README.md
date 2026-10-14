@@ -1,6 +1,6 @@
 # Subject Map
 
-This map records the major subject coverage planned for Tajkart Student Hub. It is a new taxonomy for organising original learning material.
+The [published subject map](index.md) records all 46 subject headings from the inspected reference taxonomy and links to twelve original Tajkart guides. Mapping a topic does not mean a full course exists.
 
 ## Programming foundations
 - Algorithms and problem solving

@@ -1,0 +1,14 @@
+{% assign related_ids = include.ids %}
+{% if related_ids and related_ids.size > 0 %}
+  <nav class="related-resources" aria-label="Related learning resources">
+    <h2>Related resources</h2>
+    <ul>
+      {% for related_id in related_ids %}
+        {% assign related_page = site.pages | where: "id", related_id | first %}
+        {% if related_page %}
+          <li><a href="{{ related_page.url | relative_url }}">{{ related_page.title | escape }}</a></li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </nav>
+{% endif %}

@@ -17,6 +17,12 @@ For each project, be ready to describe the problem, your choices, a challenge yo
 
 Use the [resume and portfolio guide]({{ '/careers/resume-portfolio/' | relative_url }}) to present that evidence, then practise with the [interview preparation guide]({{ '/careers/interview-prep/' | relative_url }}).
 
+## Plan a next step
+
+- [Prepare for an internship application]({{ '/careers/internship-preparation/' | relative_url }}) — verify the opportunity, map requirements to real evidence, and prepare questions.
+- [Write a professional email]({{ '/careers/professional-email/' | relative_url }}) — organize context, a clear request, and a careful follow-up.
+- [Compare entry-level learning paths]({{ '/careers/entry-level-roadmaps/' | relative_url }}) — explore IT support, software development, and data work without job guarantees.
+
 ## Prepare a résumé
 
 - Put relevant skills and project evidence where a reader can find them quickly.

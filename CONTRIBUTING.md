@@ -6,6 +6,8 @@ permalink: /contributing/
 
 Contributions should add original, useful, accurate material for learners. Read [content standards]({{ '/docs/CONTENT_STANDARDS/' | relative_url }}) before drafting a guide.
 
+All project discussions follow the [community code of conduct]({{ '/code-of-conduct/' | relative_url }}). Use the issue templates for reproducible bugs and content corrections. Pull requests should describe the learner benefit and list the checks run.
+
 ## Before proposing a change
 
 - Search the repository to avoid duplicating a guide.
