@@ -33,7 +33,10 @@ bundle install --jobs 4 --retry 3
 python scripts/validate_site.py
 python -m unittest discover -s tests -v
 node --check assets/js/site.js
+node --check assets/js/learning-tools.js
 node tests/search_test.js
+node tests/learning_tools_test.js
+node tests/navigation_test.js
 bundle exec jekyll build
 python scripts/validate_html.py _site
 ```
@@ -46,6 +49,8 @@ Run the checks before opening a pull request:
 python scripts/validate_site.py
 python -m unittest discover -s tests -v
 node --check assets/js/site.js
+node --check assets/js/learning-tools.js
+node tests/learning_tools_test.js
 bundle exec jekyll build
 python scripts/validate_html.py _site
 ```
@@ -190,3 +195,54 @@ Plan B would give Tajkart `https://learn.shahanishashmi.me/` with `url: "https:/
 4. Run browser checks for search, filters, empty results, resource links, keyboard behavior, and mobile layout on the valid HTTPS hostname; finish the documented human content and rights reviews.
 
 This diagnosis changed only `docs/DEPLOYMENT.md` locally. It is uncommitted; no new commit, push, DNS update, Pages-setting change, or deployment was performed. The pre-edit worktree was clean at `a83766c26c97e13767f307176c0883df7cd2023b`.
+
+## Current execution recheck (2026-10-15, after `d60d3c5`)
+
+This is the latest read-only release snapshot and supersedes earlier statements in this file about the current URL, redirect, and homepage state. Earlier sections remain as dated evidence of what was observed at those times.
+
+### Git and hosted deployment
+
+- Branch `main`, `HEAD`, `origin/main`, and live `origin/main` all resolve to `d60d3c55589b05b16415c812ff4eb06cc553eb97`. The worktree was clean at the start of this recheck.
+- GitHub Actions [run 38628224439](https://github.com/shahanishashmi/tajkart-student-hub/actions/runs/38628224439) completed successfully for that exact SHA. Both the build and Pages deploy jobs passed.
+- The Pages deployment serves the new `/docs/ROADMAP_NEXT_PHASE/` page.
+
+### Current DNS, Pages API, and HTTPS results
+
+| Probe | Result |
+|---|---|
+| Tajkart Pages API | `build_type: workflow`, `cname: null`, `https_enforced: false`, `html_url: http://shahanishashmi.github.io/tajkart-student-hub/`, `status: null`. |
+| Default project HTTPS URL | `https://shahanishashmi.github.io/tajkart-student-hub/` returns HTTP 200 with zero redirects and normal TLS validation. |
+| Default project HTTP URL | `http://shahanishashmi.github.io/tajkart-student-hub/` returns HTTP 200 with zero redirects. HTTPS is not enforced. |
+| Project smoke routes/assets | Home, learning library, nested data-structures course, roadmap page, search index, sitemap, robots, CSS, and JavaScript all return HTTP 200 over HTTPS. The learning-page canonical URL and search-index path match the checked-in project `url`/`baseurl`. |
+| Apex DNS | `shahanishashmi.me` resolves to GitHub Pages A records `.108.153`, `.109.153`, `.110.153`, and `.111.153`. HTTP currently returns GitHub Pages 404 `Site not found`; normal HTTPS validation fails with `SEC_E_WRONG_PRINCIPAL`. |
+| `www` DNS and response | `www.shahanishashmi.me` is a CNAME to the apex; HTTP currently returns GitHub Pages 404 `Site not found`. |
+| `learn` hostname | `learn.shahanishashmi.me` does not resolve; no HTTPS test is possible. |
+| Separate user-site repo | `gh repo view shahanishashmi/shahanishashmi.github.io` and its Pages API return 404 to the current GitHub CLI credential; `https://shahanishashmi.github.io/` also returns 404. This does not prove the repository was deleted or establish its current settings. |
+
+The earlier reported project-URL redirect to the apex was **not reproduced** after `d60d3c5`; current HTTPS project routes return directly from `github.io`. The current Tajkart transport blocker is that HTTP also returns the page and the Pages API reports `https_enforced: false`. The apex/`www` site is currently unavailable by these probes, so do not claim the previous personal homepage is live, preserved, or restored. No DNS or Pages setting was changed.
+
+### Owner-authorized HTTPS enforcement attempt (2026-10-15)
+
+The owner explicitly authorized enabling **Enforce HTTPS** for Tajkart's current `github.io` project URL. The documented GitHub REST **Update information about a GitHub Pages site** endpoint was called with only `https_enforced: true`; GitHub returned HTTP 404 with `The certificate does not exist yet`. A follow-up GET still reports `https_enforced: false`, `cname: null`, and the same project URL. No Pages setting changed. The checked-in config remains `url: "https://shahanishashmi.github.io"` and `baseurl: "/tajkart-student-hub"`.
+
+After the rejected request, normal `curl.exe` checks again returned HTTP 200 with zero redirects for both the HTTP and HTTPS home and learning routes. HTTPS certificate validation still succeeds for the project host; HTTP enforcement remains off. The apex A records, `www` CNAME, missing `learn` DNS record, and `_config.yml` were not changed.
+
+**Current blocker:** GitHub refuses the enforcement update because its Pages settings API says the certificate does not exist yet; the latest read also reports `https_certificate: null`, despite the public project URL passing normal HTTPS validation. The next step is to inspect the Tajkart repository's **Settings → Pages** certificate/control state or obtain GitHub's explanation for this mismatch. Retry only the same `https_enforced` setting after GitHub reports it can be enforced. Do not change DNS, `cname`, `build_type`, or `_config.yml` as part of that retry. If GitHub confirms this host cannot enable enforcement, the separate `learn.shahanishashmi.me` option and support draft are in the [P0 incident report]({{ '/docs/P0_INCIDENT_REPORT/' | relative_url }}). Keep apex and `www` records untouched.
+
+No setting change, DNS update, commit, push, or deployment occurred during this recheck. The current worktree has eight modified tracked documentation files and the new untracked `docs/P0_INCIDENT_REPORT.md`; nothing is staged. After adding the report, `python scripts/validate_site.py` passed with 114 Markdown files, 101 routes, and 70 searchable resources. The 16 Python tests and Node syntax/search checks passed during the preceding documentation follow-up; they were not rerun after this report-only update. Ruby and Bundler are not available in the current PowerShell PATH, so front-matter validation, a fresh production Jekyll build, and generated-HTML validation could not be rerun after the latest documentation edits; the earlier baseline results above apply to the earlier snapshot. No external-link crawl or human technical, language, rights, browser, or accessibility review was performed.
+
+## Local student-first candidate validation (2026-10-15)
+
+The local PowerShell PATH did not include Ruby, but Ruby 3.3.12 was found at `C:\Ruby33-x64\bin`; Bundler 2.5.22 and the `Gemfile.lock` dependencies were already available. No installation or lockfile change was needed. The current student-first candidate passed:
+
+| Check | Result |
+|---|---|
+| `python scripts/validate_site.py` | **Pass:** 125 Markdown files, 112 routes, 79 searchable resources; no reported metadata, duplicate ID/route, curated URL, reference, Python syntax, or local Markdown-link errors. |
+| `python -m unittest discover -s tests -v` | **Pass:** 21 tests. |
+| JavaScript syntax, `node tests/search_test.js`, `node tests/navigation_test.js` | **Pass:** search token/tag/provenance cases; eight navigation destinations, five student routes, menu state, Escape/focus return, and source-level responsive CSS checks. |
+| `ruby scripts/validate_front_matter.rb` | **Pass:** 115 Markdown front-matter files and five YAML files. |
+| `JEKYLL_ENV=production bundle exec jekyll build --strict_front_matter --destination <temporary-directory>` | **Pass:** generated the candidate without touching the existing `_site/`; final output contains 112 HTML pages and 79 search records. Jekyll printed a non-blocking notice that optional `faraday-retry` middleware is not installed. |
+| `python scripts/validate_html.py <temporary-directory>` | **Pass:** 112 generated HTML pages, 79 search records, local links/fragments, IDs, labels, language, landmarks, and provenance metadata. |
+| `git diff --check` | **Pass:** no whitespace errors; Git reports expected LF-to-CRLF normalization notices for existing files. |
+
+The table above records an earlier student-first candidate and its counts; later local implementation supersedes those numbers. The current algebra/mastery/planner/portfolio candidate validates 136 Markdown files, 123 routes, 89 searchable resources, 47 Python tests, six generated course paths, and 32 planner sessions. Headless Chrome 154 checked planner, quiz, and portfolio interactions at 375×812 CSS pixels with no horizontal overflow on those pages. This is not human visual, accessibility, technical, or language approval. No GitHub Actions run covers the current worktree; the Pages HTTPS enforcement state remains off, and no DNS/Pages mutation, commit, push, or deployment occurred. See the [combined platform audit]({{ '/docs/MASTER_AUDIT_REPORT/' | relative_url }}) for the single current evidence record and remaining release gates.

@@ -33,4 +33,4 @@ Use the [resume and portfolio guide]({{ '/careers/resume-portfolio/' | relative_
 
 ## Verify opportunities
 
-Confirm the employer through its official site, understand the role and application terms, and do not pay a recruiter to guarantee a job. Check suspicious requests with a trusted adult, career adviser, or relevant institution before sharing sensitive information.
+Confirm the employer through its official site, understand the role and application terms, and do not pay a recruiter to guarantee a job. Check suspicious requests with a trusted adult, career adviser, or relevant institution before sharing sensitive information. Use the [student opportunity checklist]({{ '/offers/' | relative_url }}) to review scholarships, internships, competitions, or offers; this site does not currently list active opportunities.

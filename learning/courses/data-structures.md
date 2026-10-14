@@ -9,6 +9,7 @@ language: en
 difficulty: beginner
 tags: [algorithms, data-structures, complexity, problem-solving]
 prerequisites: [guide-programming-foundations]
+related_resources: [python-collections-001, algorithms-efficiency-001, problem-array-total-001, problem-first-duplicate-002, problem-binary-search-004, problem-insertion-sort-005, problem-tree-height-007, problem-graph-reachability-008]
 learning_objectives:
   - Implement and test searches and simple sorts.
   - Select a list, set, map, stack, or queue for a stated operation.

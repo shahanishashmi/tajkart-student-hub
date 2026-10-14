@@ -9,6 +9,7 @@ language: en
 difficulty: beginner
 tags: [html, css, javascript, accessibility, web]
 prerequisites: [guide-programming-foundations]
+related_resources: [guide-web-development, language-path-html-css, language-path-javascript-typescript, project-browser-flashcard-quiz]
 learning_objectives:
   - Build semantic page structure and responsive CSS.
   - Implement a keyboard-accessible interaction in JavaScript.

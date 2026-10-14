@@ -1,19 +1,18 @@
 ---
 layout: page
 title: Next steps
-description: Ordered continuation tasks for the next Tajkart Student Hub content batch.
+description: Ordered continuation tasks for Tajkart Student Hub's student-first learning platform.
 permalink: /docs/NEXT_STEPS/
 ---
 
-Continue from the current authored material and preserve the progress records. These are open tasks, not claims that the current local work is complete or approved. The evidence, acceptance criteria, and full four-phase order are in the [next-phase audit and roadmap]({{ '/docs/ROADMAP_NEXT_PHASE/' | relative_url }}).
+This list is a continuation queue, not a claim that drafts are approved. The single evidence record for current product coverage, implementation, checks, reference comparison, worktree state, and release gates is the [combined platform audit]({{ '/docs/MASTER_AUDIT_REPORT/' | relative_url }}). The dependency order and earlier recovery evidence remain in the [next-phase roadmap]({{ '/docs/ROADMAP_NEXT_PHASE/' | relative_url }}).
 
-1. Resolve the HTTPS hostname blocker for Tajkart. Confirm the intended hostname and DNS/Pages access with the owner first; preserve the active apex and `www` personal homepage. The successful workflow for `a83766c` does not resolve the live HTTP redirect or TLS mismatch.
-2. Arrange human technical review for the six English lessons, three study plans, nine problem sets/solutions, guides, language paths, project briefs, and cheatsheets. Update review statuses only after a reviewer has checked each item.
-3. Have fluent Hindi and Urdu reviewers check the draft translations, terminology, `lang`/`dir`, and rendered layout before approval.
-4. Perform manual mobile, keyboard-only, zoom, reduced-motion, RTL, and screen-reader review. Record tested browsers, devices, assistive technology, findings, and retests.
-5. Decide and document contributor permission terms before accepting substantial outside contributions; preserve Tajkart's existing license unless the rights-holder approves a change.
-6. Use review findings to build a bounded Python beginner-to-intermediate path with worked examples, exercises, tested solutions, and one assessed project. Keep current language paths labelled introductory until expanded and reviewed.
-7. Choose additional mapped subject areas based on learner demand, and build complete learning units rather than treating index pages as courses.
-8. Decide whether Tajkart should maintain external resource catalogues. Add no listing without checking the official source, attribution, terms, rights state, and last-checked date; empty catalogues are preferable to unverified entries.
-9. Add URL or maintenance automation only for demonstrated problems, with bounded retries, rate limits, redirects, and manual review for blocked/uncertain results.
-10. Review the complete local diff before any separate commit/push decision. No changes from this roadmap task have been pushed or deployed.
+1. Retry the already authorized **Enforce HTTPS** setting for `https://shahanishashmi.github.io/tajkart-student-hub/` only after GitHub Pages reports that a certificate is available. The previous API attempt returned HTTP 404, `The certificate does not exist yet`; enforcement remains off. Do not alter DNS, `_config.yml`, CNAME, build source, or personal-domain settings as part of that retry. See the [P0 incident report]({{ '/docs/P0_INCIDENT_REPORT/' | relative_url }}).
+2. Arrange a mathematics educator review of the seven draft arithmetic/algebra lessons, two courses, both formative assessments, and all ten algebra answer derivations. Separately review the ten programming lessons, intermediate Python path, other courses, guides, solutions, projects, and cheatsheets. Keep `review_status: pending` until a human records a decision.
+3. Have fluent Hindi and Urdu reviewers check the existing translation drafts, terminology, `lang`/`dir`, and rendered reading order before approval.
+4. Run a human browser review of navigation, search, planner, quiz feedback, local data clearing, and portfolio drafts on mobile and desktop. Include keyboard-only use, zoom/reflow, reduced motion, RTL, and a screen-reader pairing. Headless Chrome passed a narrow interaction/overflow check; that is not human accessibility or usability approval.
+5. For the next content increment, draft an original **linear-equation word problems and modeling** unit that connects algebra to practical student scenarios. Include objectives, prerequisites, worked translations, unit checks, hints, substitution checks, and tested examples; map it into the algebra course and keep it pending educator review. Use learner/teacher feedback before choosing another subject.
+6. Decide whether Tajkart should maintain third-party book/course/media/playground directories. Add no item without checking its official source, attribution, terms, rights state, and last-checked date; keep catalogues empty where those checks are unresolved.
+7. Have the rights-holder decide contributor reuse terms before accepting substantial outside contributions. Preserve Tajkart's current license unless that decision is explicit.
+8. Consider a bounded external-link crawl only if maintenance needs justify it. Use timeouts, retry limits, rate limits, redirect caps, and a manual queue for blocked or uncertain results; never remove a resource only because a crawler cannot access it.
+9. Review the complete accumulated diff before a separate commit/push decision. The current worktree remains uncommitted on `main` at `d60d3c5`; no hosted Actions run covers this candidate. Do not commit, push, or deploy until the owner chooses that step.

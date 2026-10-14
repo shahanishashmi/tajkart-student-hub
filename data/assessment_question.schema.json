@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:tajkart:schemas:assessment-question:v1",
+  "title": "Tajkart assessment question",
+  "description": "A structured, answer-bearing question with a stable skill mapping and review state.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "question", "skill_ids", "difficulty", "lesson_id", "answer_format", "accepted_answers", "hint", "solution", "explanation", "verification_method", "verification", "review_status"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+    "question": {"type": "string", "minLength": 1},
+    "skill_ids": {"type": "array", "items": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"}, "minItems": 1, "uniqueItems": true},
+    "difficulty": {"enum": ["beginner", "intermediate", "advanced"]},
+    "lesson_id": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+    "answer_format": {"enum": ["integer", "decimal", "fraction", "text"]},
+    "accepted_answers": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1, "uniqueItems": true},
+    "hint": {"type": "string", "minLength": 1},
+    "solution": {"type": "string", "minLength": 1},
+    "explanation": {"type": "string", "minLength": 1},
+    "verification_method": {"enum": ["substitution", "direct-evaluation", "special-case"]},
+    "verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {"enum": ["combine-coefficients", "evaluate-linear", "solve-linear", "classify-zero-coefficient"]},
+        "coefficients": {"type": "array", "items": {"type": "integer"}, "minItems": 1},
+        "coefficient": {"type": "integer"},
+        "constant": {"type": "integer"},
+        "variable_value": {"type": "integer"},
+        "rhs": {"type": "integer"}
+      },
+      "required": ["kind"]
+    },
+    "review_status": {"enum": ["pending", "technical-reviewed", "approved"]}
+  },
+  "allOf": [
+    {"if": {"properties": {"verification_method": {"const": "substitution"}}, "required": ["verification_method"]}, "then": {"properties": {"verification": {"properties": {"kind": {"enum": ["solve-linear", "classify-zero-coefficient"]}}}}}},
+    {"if": {"properties": {"verification_method": {"const": "direct-evaluation"}}, "required": ["verification_method"]}, "then": {"properties": {"verification": {"properties": {"kind": {"enum": ["combine-coefficients", "evaluate-linear"]}}}}}}
+  ]
+}

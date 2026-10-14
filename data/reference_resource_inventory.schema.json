@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:tajkart:schemas:reference-resource-inventory:v1",
+  "title": "Reference link candidate inventory",
+  "description": "A source-attributed index of third-party links that have not been verified by Tajkart.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "dataset_kind", "license", "attribution", "derivative_note", "source", "inventory", "publication_policy", "source_files", "records", "exceptions"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "dataset_kind": {"const": "unverified-reference-link-candidates"},
+    "license": {"const": "CC BY 4.0"},
+    "attribution": {"type": "string", "minLength": 1},
+    "derivative_note": {"type": "string", "minLength": 1},
+    "source": {
+      "type": "object",
+      "required": ["repository", "revision", "input_archive_sha256", "archive_root", "scope"],
+      "properties": {
+        "repository": {"type": "string", "format": "uri"},
+        "revision": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+        "input_archive_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "archive_root": {"type": "string"},
+        "scope": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "inventory": {
+      "type": "object",
+      "required": ["source_file_count", "source_list_entry_count", "unique_destination_count", "duplicate_appearances", "additional_destination_link_count", "exception_count", "resource_types_by_unique_destination", "source_files_with_entries"],
+      "properties": {
+        "source_file_count": {"type": "integer", "minimum": 0},
+        "source_list_entry_count": {"type": "integer", "minimum": 0},
+        "unique_destination_count": {"type": "integer", "minimum": 0},
+        "duplicate_appearances": {"type": "integer", "minimum": 0},
+        "additional_destination_link_count": {"type": "integer", "minimum": 0},
+        "exception_count": {"type": "integer", "minimum": 0},
+        "resource_types_by_unique_destination": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+        "source_files_with_entries": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": false
+    },
+    "publication_policy": {"type": "string", "minLength": 1},
+    "source_files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "sha256", "bytes"],
+        "properties": {
+          "path": {"type": "string"},
+          "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "bytes": {"type": "integer", "minimum": 0}
+        },
+        "additionalProperties": false
+      }
+    },
+    "records": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "url", "normalized_url", "resource_types", "topics", "source_list_locales", "verification_status", "rights_status", "access_status", "source_occurrences"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^reference-[a-f0-9]{20}$"},
+          "title": {"type": "string", "minLength": 1},
+          "url": {"type": "string", "format": "uri"},
+          "normalized_url": {"type": "string", "format": "uri"},
+          "resource_types": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+          "topics": {"type": "array", "items": {"type": "string"}},
+          "source_list_locales": {"type": "array", "items": {"type": "string"}},
+          "verification_status": {"const": "unverified"},
+          "rights_status": {"const": "not-assessed"},
+          "access_status": {"const": "not-checked"},
+          "source_occurrences": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["source_path", "source_line", "source_list_category", "resource_type", "source_list_locale", "topic_path", "title", "url", "additional_links", "source_annotation"],
+              "properties": {
+                "source_path": {"type": "string"},
+                "source_line": {"type": "integer", "minimum": 1},
+                "source_list_category": {"type": "string"},
+                "resource_type": {"type": "string"},
+                "source_list_locale": {"type": ["string", "null"]},
+                "topic_path": {"type": "array", "items": {"type": "string"}},
+                "title": {"type": "string", "minLength": 1},
+                "url": {"type": "string", "format": "uri"},
+                "additional_links": {"type": "array", "items": {"type": "object"}},
+                "source_annotation": {"type": "string"}
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "exceptions": {"type": "array", "items": {"type": "object"}}
+  }
+}

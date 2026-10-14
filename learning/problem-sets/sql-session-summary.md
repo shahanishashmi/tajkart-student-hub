@@ -18,7 +18,7 @@ searchable: true
 
 ## Problem
 
-**PS-009.** Given a `sessions(student_id, minutes)` table, return each student with the total of positive session minutes, ordered from largest total to smallest. Ignore zero-minute rows.
+**PS-009.** Given a `sessions(student_id, minutes)` table, return each identified student who has at least one positive, non-null session, with the total positive minutes. Order by total from largest to smallest, then by student ID alphabetically to make ties reproducible. Ignore zero, negative, and `NULL` minute values. Students with no positive session are omitted. The input is expected to use a non-null `student_id` for each real student.
 
 ## Sample rows and expected result
 
@@ -31,14 +31,14 @@ Rows: `('L1',20)`, `('L1',15)`, `('L2',0)`, `('L2',45)`.
 
 ## Hint and reference solution
 
-Filter rows before grouping; group on the student key, then order by the aggregate.
+Filter invalid/non-positive durations before grouping; group on the student key, then order by the aggregate and a stable tie-breaker. SQL `WHERE minutes > 0` also excludes `NULL`, because that comparison is unknown rather than true.
 
 ```sql
 SELECT student_id, SUM(minutes) AS total_minutes
 FROM sessions
 WHERE minutes > 0
 GROUP BY student_id
-ORDER BY total_minutes DESC;
+ORDER BY total_minutes DESC, student_id ASC;
 ```
 
-The expected output is checked against SQLite in `tests/test_sql_examples.py`. SQL syntax and type behavior can vary by database, so verify the target dialect before relying on extensions.
+The query is tested against SQLite with duplicate sessions, non-positive and `NULL` durations, tied totals, and an empty input. It relies on standard grouping and ordering; still check the target database's type and identifier rules before using it on real tables. The sample has no privacy-sensitive records.

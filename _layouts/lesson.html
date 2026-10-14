@@ -1,7 +1,7 @@
 ---
 layout: default
 ---
-{% assign ordered_lessons = site.pages | where: "content_type", "lesson" | where: "language", page.language | sort: "order" %}
+{% assign ordered_lessons = site.pages | where: "content_type", "lesson" | where: "language", page.language | where: "topic", page.topic | sort: "order" %}
 <article class="lesson-page">
   <p class="eyebrow"><a href="{{ '/learning/' | relative_url }}">Learning Library</a> / {{ page.topic | default: page.category | escape }}</p>
   <h1>{{ page.title }}</h1>
@@ -23,7 +23,7 @@ layout: default
   {% endif %}
   <div class="prose lesson-body">{{ content }}</div>
   {% include related_resources.html ids=page.related_resources %}
-  {% if page.content_type == "lesson" and ordered_lessons.size > 1 %}
+  {% if page.content_type == "lesson" and page.topic and ordered_lessons.size > 1 %}
     <nav class="lesson-pagination" aria-label="Lesson navigation">
       {% for lesson in ordered_lessons %}
         {% if lesson.url == page.url %}

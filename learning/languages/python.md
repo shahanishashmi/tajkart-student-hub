@@ -39,6 +39,8 @@ Expected output: `Hello, Amina!` The f-string inserts the value of `name` inside
 5. Files and structured data; test with temporary sample files, not private records.
 6. Small automated tests, debugging, and one project organized into modules.
 
+For a sequenced intermediate practice project, continue with [Python beyond the basics]({{ '/learning/courses/python-intermediate/' | relative_url }}): structured records, validation, JSON persistence, testing, and a local study log. This draft path adds depth but still awaits technical review.
+
 ## Common mistakes and practice
 
 Indentation defines a block. `=` assigns while `==` compares. A list index starts at zero; check its length before using an index that might not exist. Convert text input deliberately because `input()` returns text.

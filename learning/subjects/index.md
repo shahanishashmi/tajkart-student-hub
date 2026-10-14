@@ -11,7 +11,8 @@ This map groups topics by the questions they help answer. It covers all 46 entri
 
 - **Programming and problem solving:** [programming foundations]({{ '/learning/guides/programming-foundations/' | relative_url }}), [Python variables]({{ '/learning/lessons/python-variables/' | relative_url }}), and [loops]({{ '/learning/lessons/problem-solving-loops/' | relative_url }}).
 - **Algorithms and data structures:** [subject guide]({{ '/learning/guides/data-structures-algorithms/' | relative_url }}), [algorithm efficiency lesson]({{ '/learning/lessons/algorithm-efficiency/' | relative_url }}), and [practice set]({{ '/learning/problem-sets/' | relative_url }}).
-- **Computer science and theory:** complexity, programming paradigms, compilers, mathematics, formal models, standards, and regular expressions are mapped; most still need dedicated lessons.
+- **Mathematics and foundations:** follow the original [arithmetic and data path]({{ '/learning/courses/academic-foundations/' | relative_url }}) through fractions, decimals, ratios, percentages, and reading small data sets, then the separate [algebra foundations path]({{ '/learning/courses/algebra-foundations/' | relative_url }}). These English drafts are short introductions, not a complete mathematics curriculum.
+- **Computer science and theory:** complexity, programming paradigms, compilers, formal models, standards, and regular expressions are mapped; most still need dedicated lessons.
 - **Computer architecture:** [introductory guide]({{ '/learning/guides/computer-architecture/' | relative_url }}).
 
 ## Build and operate software

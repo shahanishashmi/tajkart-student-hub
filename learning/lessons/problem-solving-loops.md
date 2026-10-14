@@ -9,6 +9,7 @@ category: programming-languages
 language: en
 difficulty: beginner
 tags: [python, loops, iteration, accumulator]
+skills: [python-loop-tracing]
 prerequisites: [python-variables-001]
 related_resources: [python-variables-001, algorithms-efficiency-001, problem-array-total-001]
 learning_objectives:

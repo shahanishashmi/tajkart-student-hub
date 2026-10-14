@@ -2,7 +2,7 @@
 
 This section provides Tajkart-authored curricula and study schedules. It is not a mirror of another site's course catalogue.
 
-The [course index](index.md) now includes three plans: programming foundations, data structures, and web foundations. Time estimates are planning aids, not accreditation or guaranteed outcomes.
+The course section includes six Tajkart-authored paths: programming foundations, data structures, web foundations, intermediate Python, arithmetic mathematics, and introductory algebra. The academic mathematics paths remain short student-facing drafts; the other paths focus on computing. Time estimates are planning aids, not accreditation or guaranteed outcomes. The browser-local [study planner]({{ '/learning/planner/' | relative_url }}) currently uses courses with explicit `related_resources` metadata.
 
 ## A practical four-week starter plan
 

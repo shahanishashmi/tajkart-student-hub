@@ -17,4 +17,4 @@ Learning material should make its goals clear, show examples, invite practice, a
 
 ## Contact and contributions
 
-Use the repository's contribution process to suggest a correction or an original lesson. Read the [content standards]({{ '/docs/CONTENT_STANDARDS/' | relative_url }}) before submitting educational material.
+Use the repository's [contribution process]({{ '/contributing/' | relative_url }}) to suggest a correction or an original lesson. Read the [content standards]({{ '/docs/CONTENT_STANDARDS/' | relative_url }}) before submitting educational material.

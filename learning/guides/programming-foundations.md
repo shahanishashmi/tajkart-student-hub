@@ -8,6 +8,7 @@ category: programming-fundamentals
 language: en
 difficulty: beginner
 tags: [problem-solving, variables, control-flow, debugging]
+skills: [python-condition-tracing]
 prerequisites: []
 learning_objectives:
   - Break a task into input, transformation, and output.

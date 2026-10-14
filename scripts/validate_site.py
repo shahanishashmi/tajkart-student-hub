@@ -24,6 +24,157 @@ VALID_ORIGINS = {"original", "translation", "external"}
 VALID_TRANSLATION_STATES = {"draft", "review-required", "approved"}
 VALID_RIGHTS_STATES = {"link-only", "license-identified", "permission-granted", "public-domain"}
 VALID_EXTERNAL_VERIFICATION = {"verified"}
+VALID_ANSWER_FORMATS = {"integer", "decimal", "fraction", "text"}
+VALID_ASSESSMENT_REVIEW = {"pending", "technical-reviewed", "approved"}
+
+
+def validate_assessment_data(assessment: object, resources: dict[str, dict[str, str]], skill_ids: set[str]) -> list[str]:
+    """Validate structured question contracts without treating validity as subject approval."""
+    errors: list[str] = []
+    if not isinstance(assessment, dict) or assessment.get("schema_version") != 1:
+        return ["algebra assessment needs schema_version 1"]
+    if not isinstance(assessment.get("id"), str) or not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", assessment["id"]):
+        errors.append("algebra assessment needs a stable id")
+    if not isinstance(assessment.get("title"), str) or not assessment["title"].strip():
+        errors.append("algebra assessment needs a title")
+    if assessment.get("review_status") not in VALID_ASSESSMENT_REVIEW:
+        errors.append("algebra assessment needs a valid review_status")
+    questions = assessment.get("questions")
+    if not isinstance(questions, list) or not questions:
+        return ["algebra assessment needs a non-empty questions list"]
+    question_ids: set[str] = set()
+    for index, question in enumerate(questions, start=1):
+        label = f"algebra assessment question {index}"
+        if not isinstance(question, dict):
+            errors.append(f"{label} must be an object")
+            continue
+        question_id = question.get("id")
+        if not isinstance(question_id, str) or not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", question_id):
+            errors.append(f"{label} has an invalid id")
+        elif question_id in question_ids:
+            errors.append(f"duplicate assessment question id {question_id}")
+        else:
+            question_ids.add(question_id)
+        for field in ("question", "hint", "solution", "explanation"):
+            if not isinstance(question.get(field), str) or not question[field].strip():
+                errors.append(f"{label} is missing {field}")
+        for field in ("question", "hint", "solution", "explanation"):
+            if isinstance(question.get(field), str) and len(question[field]) > 4000:
+                errors.append(f"{label} {field} exceeds the supported length")
+        question_skills = question.get("skill_ids")
+        if not isinstance(question_skills, list) or not question_skills:
+            errors.append(f"{label} needs at least one skill mapping")
+        else:
+            string_skills = [skill for skill in question_skills if isinstance(skill, str)]
+            if len(string_skills) != len(set(string_skills)):
+                errors.append(f"{label} has duplicate skill mappings")
+            for skill in question_skills:
+                if not isinstance(skill, str) or skill not in skill_ids:
+                    errors.append(f"{label} references unknown skill {skill!r}")
+        lesson_id = question.get("lesson_id")
+        lesson = resources.get(lesson_id) if isinstance(lesson_id, str) else None
+        if lesson is None or lesson.get("content_type") != "lesson":
+            errors.append(f"{label} has a broken lesson link {lesson_id!r}")
+        answer_format = question.get("answer_format")
+        if answer_format not in VALID_ANSWER_FORMATS:
+            errors.append(f"{label} has an invalid answer_format {answer_format!r}")
+        if question.get("difficulty") not in VALID_DIFFICULTY:
+            errors.append(f"{label} has an invalid difficulty")
+        accepted = question.get("accepted_answers")
+        if not isinstance(accepted, list) or not accepted or any(not isinstance(answer, str) or not answer.strip() for answer in accepted):
+            errors.append(f"{label} needs a non-empty accepted_answers list")
+        else:
+            if len(accepted) != len(set(accepted)):
+                errors.append(f"{label} has duplicate accepted answers")
+            patterns = {
+                "integer": re.compile(r"^[+-]?\d{1,30}$"),
+                "decimal": re.compile(r"^[+-]?\d{1,24}(?:\.\d{1,12})?$"),
+                "fraction": re.compile(r"^(?:[+-]?\d{1,30}/[1-9]\d{0,29}|[+-]?\d{1,24}(?:\.\d{1,12})?)$"),
+                "text": re.compile(r"^.{1,200}$", re.S)
+            }
+            pattern = patterns.get(answer_format)
+            if pattern and any(not pattern.fullmatch(answer.strip()) for answer in accepted):
+                errors.append(f"{label} has an answer that does not match {answer_format} format")
+        verification_method = question.get("verification_method")
+        verification = question.get("verification")
+        if verification_method not in {"substitution", "direct-evaluation", "special-case"} or not isinstance(verification, dict):
+            errors.append(f"{label} needs a valid verification method and derivation")
+        else:
+            kind = verification.get("kind")
+            required = {
+                "combine-coefficients": ("coefficients",),
+                "evaluate-linear": ("coefficient", "constant", "variable_value"),
+                "solve-linear": ("coefficient", "constant", "rhs"),
+                "classify-zero-coefficient": ("coefficient", "constant", "rhs")
+            }.get(kind)
+            if required is None:
+                errors.append(f"{label} has an invalid verification derivation")
+            else:
+                for field in required:
+                    if field not in verification:
+                        errors.append(f"{label} verification is missing {field}")
+                if kind == "combine-coefficients" and not isinstance(verification.get("coefficients"), list):
+                    errors.append(f"{label} verification coefficients must be a list")
+                for field in ("coefficient", "constant", "variable_value", "rhs"):
+                    if field in verification and (isinstance(verification[field], bool) or not isinstance(verification[field], int)):
+                        errors.append(f"{label} verification {field} must be an integer")
+                if kind == "solve-linear" and verification.get("coefficient") == 0:
+                    errors.append(f"{label} cannot solve by dividing by a zero coefficient")
+                if kind == "classify-zero-coefficient" and verification.get("coefficient") != 0:
+                    errors.append(f"{label} zero-coefficient classification needs coefficient 0")
+            compatible = {
+                "substitution": {"solve-linear", "classify-zero-coefficient"},
+                "direct-evaluation": {"combine-coefficients", "evaluate-linear"},
+                "special-case": {"classify-zero-coefficient"}
+            }
+            if kind not in compatible.get(verification_method, set()):
+                errors.append(f"{label} verification method does not match its derivation")
+        review_status = question.get("review_status")
+        if review_status not in VALID_ASSESSMENT_REVIEW:
+            errors.append(f"{label} has an invalid review_status")
+        if review_status == "approved" and lesson and lesson.get("review_status") != "approved":
+            errors.append(f"{label} cannot be approved while its lesson remains unapproved")
+    return errors
+
+
+def validate_inline_question_attributes(attributes: dict[str, str], resources: dict[str, dict[str, str]], skill_ids: set[str]) -> list[str]:
+    """Check a static HTML assessment question's stable ID, skill map, answer format, and resource route."""
+    errors: list[str] = []
+    question_id = attributes.get("data-question-id", "")
+    if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", question_id):
+        errors.append("inline assessment question needs a stable data-question-id")
+    skills = [item.strip() for item in attributes.get("data-skill-ids", "").split(",") if item.strip()]
+    if not skills:
+        errors.append(f"inline assessment {question_id or '(unknown)'} needs a skill mapping")
+    for skill in skills:
+        if skill not in skill_ids:
+            errors.append(f"inline assessment {question_id or '(unknown)'} references unknown skill {skill!r}")
+    resource_id = attributes.get("data-resource-id", "")
+    resource = resources.get(resource_id)
+    if not resource:
+        errors.append(f"inline assessment {question_id or '(unknown)'} has a broken resource link {resource_id!r}")
+    else:
+        route = resource.get("permalink", "")
+        liquid_route = LIQUID_PATH.search(attributes.get("data-resource-url", ""))
+        if not liquid_route or liquid_route.group(1) != route:
+            errors.append(f"inline assessment {question_id or '(unknown)'} resource URL does not match {resource_id}")
+    answer_format = attributes.get("data-answer-format", "")
+    accepted = [item for item in attributes.get("data-accepted-answers", "").split("|") if item]
+    if answer_format not in VALID_ANSWER_FORMATS:
+        errors.append(f"inline assessment {question_id or '(unknown)'} has an invalid answer format")
+    if not accepted:
+        errors.append(f"inline assessment {question_id or '(unknown)'} needs accepted answers")
+    else:
+        patterns = {
+            "integer": re.compile(r"^[+-]?\d{1,30}$"),
+            "decimal": re.compile(r"^[+-]?\d{1,24}(?:\.\d{1,12})?$"),
+            "fraction": re.compile(r"^(?:[+-]?\d{1,30}/[1-9]\d{0,29}|[+-]?\d{1,24}(?:\.\d{1,12})?)$"),
+            "text": re.compile(r"^.{1,200}$", re.S)
+        }
+        pattern = patterns.get(answer_format)
+        if pattern and any(not pattern.fullmatch(value) for value in accepted):
+            errors.append(f"inline assessment {question_id or '(unknown)'} has an answer outside {answer_format} format")
+    return errors
 
 
 def valid_http_url(value: str) -> bool:
@@ -69,13 +220,46 @@ def list_value(metadata: str, key: str) -> list[str]:
     return []
 
 
+def find_prerequisite_cycles(graph: dict[str, list[str]]) -> list[tuple[str, ...]]:
+    """Return prerequisite cycles as paths whose first ID is repeated at the end."""
+    state: dict[str, int] = {}
+    stack: list[str] = []
+    cycles: list[tuple[str, ...]] = []
+    seen: set[tuple[str, ...]] = set()
+
+    def visit(resource_id: str) -> None:
+        state[resource_id] = 1
+        stack.append(resource_id)
+        for prerequisite in sorted(graph.get(resource_id, [])):
+            if prerequisite not in graph:
+                continue
+            if state.get(prerequisite, 0) == 0:
+                visit(prerequisite)
+            elif state.get(prerequisite) == 1:
+                start = stack.index(prerequisite)
+                cycle = tuple(stack[start:] + [prerequisite])
+                if cycle not in seen:
+                    seen.add(cycle)
+                    cycles.append(cycle)
+        stack.pop()
+        state[resource_id] = 2
+
+    for resource_id in sorted(graph):
+        if state.get(resource_id, 0) == 0:
+            visit(resource_id)
+    return cycles
+
+
 def main() -> int:
     files = markdown_files()
     routes: dict[str, Path] = {}
     canonical_routes: dict[str, Path] = {}
     ids: dict[str, Path] = {}
+    resource_metadata: dict[str, dict[str, str]] = {}
+    skill_ids: set[str] = set()
     searchable: dict[str, Path] = {}
     prerequisites: list[tuple[Path, str]] = []
+    prerequisite_graph: dict[str, list[str]] = {}
     related_references: list[tuple[Path, str]] = []
     translations: list[tuple[Path, str]] = []
     errors: list[str] = []
@@ -85,7 +269,10 @@ def main() -> int:
     if default_origin not in VALID_ORIGINS:
         errors.append("_config.yml must set a valid default content_origin")
 
-    for path in (ROOT / "data").glob("*.json"):
+    json_files = list((ROOT / "data").glob("*.json"))
+    if (ROOT / "_data").is_dir():
+        json_files.extend((ROOT / "_data").glob("*.json"))
+    for path in json_files:
         try:
             json.loads(path.read_text(encoding="utf-8"))
         except json.JSONDecodeError as error:
@@ -164,6 +351,7 @@ def main() -> int:
                 errors.append(f"duplicate resource id {resource_id}: {ids[resource_id].relative_to(ROOT)} and {relative}")
             ids[resource_id] = path
             searchable[resource_id] = path
+            resource_metadata[resource_id] = values
         if values.get("content_type") not in VALID_TYPES:
             errors.append(f"invalid content_type {values.get('content_type')!r}: {relative}")
         if values.get("difficulty") not in VALID_DIFFICULTY:
@@ -175,10 +363,25 @@ def main() -> int:
         for key in ("tags", "learning_objectives"):
             if not list_value(metadata, key):
                 errors.append(f"searchable resource needs a non-empty {key} list: {relative}")
-        for prerequisite in list_value(metadata, "prerequisites"):
+        for skill_id in list_value(metadata, "skills"):
+            if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", skill_id):
+                errors.append(f"invalid skill id {skill_id!r}: {relative}")
+            elif skill_id in skill_ids:
+                # Skills may be taught by several resources; this set is only a registry.
+                pass
+            skill_ids.add(skill_id)
+        resource_id = values.get("id", "")
+        prerequisite_ids = list_value(metadata, "prerequisites")
+        if resource_id:
+            prerequisite_graph[resource_id] = prerequisite_ids
+        for prerequisite in prerequisite_ids:
             if re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", prerequisite):
                 prerequisites.append((path, prerequisite))
+                if prerequisite == resource_id:
+                    errors.append(f"resource cannot be its own prerequisite: {resource_id}: {relative}")
         related_references.extend((path, related_id) for related_id in list_value(metadata, "related_resources"))
+        if values.get("content_type") == "course" and not list_value(metadata, "related_resources"):
+            errors.append(f"course needs explicit related_resources session checkpoints: {relative}")
         body = FRONT_MATTER.sub("", source, count=1).strip()
         if len(body) < 240:
             errors.append(f"searchable resource has too little explanatory content: {relative}")
@@ -207,6 +410,8 @@ def main() -> int:
     for path, prerequisite in prerequisites:
         if prerequisite not in ids:
             errors.append(f"unknown prerequisite id {prerequisite}: {path.relative_to(ROOT)}")
+    for cycle in find_prerequisite_cycles(prerequisite_graph):
+        errors.append(f"prerequisite cycle: {' -> '.join(cycle)}")
     for path, related_id in related_references:
         if related_id not in ids:
             errors.append(f"unknown related resource id {related_id}: {path.relative_to(ROOT)}")
@@ -218,6 +423,28 @@ def main() -> int:
             source_origin = fields(source_match.group(1)).get("content_origin", default_origin) if source_match else default_origin
             if source_origin != "original":
                 errors.append(f"translation source must be an original resource: {source_id}: {path.relative_to(ROOT)}")
+
+    assessment_path = ROOT / "_data" / "algebra_assessment.json"
+    if assessment_path.is_file():
+        try:
+            assessment = json.loads(assessment_path.read_text(encoding="utf-8"))
+            errors.extend(validate_assessment_data(assessment, resource_metadata, skill_ids))
+        except json.JSONDecodeError as error:
+            errors.append(f"invalid algebra assessment JSON at line {error.lineno}: {error.msg}")
+
+    inline_question_ids: set[str] = set()
+    for path in files:
+        source = path.read_text(encoding="utf-8")
+        for tag in re.findall(r"<fieldset\b[^>]*\bdata-question\b[^>]*>", source):
+            if "{{" in tag or "{%" in tag:
+                # Liquid-generated questions are validated from their JSON source of truth above.
+                continue
+            attributes = dict(re.findall(r"([a-zA-Z_:][a-zA-Z0-9_:.-]*)=\"([^\"]*)\"", tag))
+            question_id = attributes.get("data-question-id", "")
+            if question_id and question_id in inline_question_ids:
+                errors.append(f"duplicate inline assessment question id {question_id}: {path.relative_to(ROOT)}")
+            inline_question_ids.add(question_id)
+            errors.extend(f"{message}: {path.relative_to(ROOT)}" for message in validate_inline_question_attributes(attributes, resource_metadata, skill_ids))
 
     for path in files:
         source = path.read_text(encoding="utf-8")

@@ -11,6 +11,9 @@ from urllib.parse import unquote, urlsplit
 
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "scripts"))
+from import_reference_resources import validate_inventory
+
 CONFIG = (ROOT / "_config.yml").read_text(encoding="utf-8")
 BASEURL_MATCH = re.search(r'(?m)^baseurl:\s*["\']?([^"\'\s]*)', CONFIG)
 BASEURL = BASEURL_MATCH.group(1) if BASEURL_MATCH else ""
@@ -182,11 +185,28 @@ def main() -> int:
         except (json.JSONDecodeError, ValueError) as error:
             errors.append(f"invalid generated search-index.json: {error}")
 
+    reference_source = ROOT / "data" / "reference_resources.json"
+    reference_index = site / "data" / "reference_resources.json"
+    reference_count = 0
+    if reference_source.is_file():
+        if not reference_index.is_file():
+            errors.append("generated reference candidate index is missing")
+        else:
+            try:
+                candidates = json.loads(reference_index.read_text(encoding="utf-8"))
+                errors.extend(
+                    f"generated reference candidate index: {message}"
+                    for message in validate_inventory(candidates, expected_archive_sha256=None)
+                )
+                reference_count = len(candidates.get("records", []))
+            except (json.JSONDecodeError, ValueError) as error:
+                errors.append(f"invalid generated reference candidate index: {error}")
+
     if errors:
         print("Generated-site validation failed:")
         print("\n".join(f"- {error}" for error in errors))
         return 1
-    print(f"Validated {len(documents)} generated HTML pages and {indexed_count} searchable resources; local links/fragments, unique IDs, labelled controls, language, landmarks, and provenance metadata pass.")
+    print(f"Validated {len(documents)} generated HTML pages, {indexed_count} Tajkart search resources, and {reference_count} unverified reference candidates; local links/fragments, unique IDs, labelled controls, language, landmarks, and provenance metadata pass.")
     return 0
 
 

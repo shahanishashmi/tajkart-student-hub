@@ -10,6 +10,7 @@ language: en
 difficulty: beginner
 tags: [programming, study-plan, python, beginner]
 prerequisites: []
+related_resources: [python-variables-001, python-loops-001, python-functions-001, python-collections-001, git-small-commits-001, problem-array-total-001, project-reading-tracker]
 learning_objectives:
   - Explain and use variables, decisions, loops, functions, and collections.
   - Practise with small examples and test typical and boundary cases.
@@ -21,6 +22,20 @@ searchable: true
 ---
 
 This is an estimate of about ten hours across four weeks, not a credential, deadline, or accredited course. A session may take 25–45 minutes; change the pace to fit your schedule. Choose one language and keep a short learning log: What did I try? What surprised me? What will I try next?
+
+## Other student learning paths
+
+- [Mathematics foundations]({{ '/learning/courses/academic-foundations/' | relative_url }}) sequences original lessons on fractions, decimals, ratios, percentages, and data interpretation, followed by a mixed self-check. This is a small English draft, not a complete academic curriculum.
+- [Algebra foundations]({{ '/learning/courses/algebra-foundations/' | relative_url }}) follows arithmetic with expressions, one-step equations, two-step equations, and a checked practice set. It is introductory and pending educator review.
+- [Data structures and algorithms]({{ '/learning/courses/data-structures/' | relative_url }}) provides a computing study plan.
+- [Web foundations]({{ '/learning/courses/web-development/' | relative_url }}) sequences web concepts and a small project.
+- [Python beyond the basics]({{ '/learning/courses/python-intermediate/' | relative_url }}) extends the programming foundations course.
+
+Use the [study planner]({{ '/learning/planner/' | relative_url }}) to choose an authored path, review prerequisites, and optionally save session checkmarks in this browser. Progress is not synchronized or treated as mastery evidence.
+
+## Continue with an intermediate Python sequence
+
+After completing the foundations, use the [four-part Python intermediate plan]({{ '/learning/courses/python-intermediate/' | relative_url }}) for structured records, validation, local JSON, and testing. Its capstone is a learner-built study log; the course remains a draft pending technical review.
 
 ## Prerequisites and materials
 

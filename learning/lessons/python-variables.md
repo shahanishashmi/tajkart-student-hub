@@ -9,6 +9,7 @@ category: programming-languages
 language: en
 difficulty: beginner
 tags: [python, variables, data-types, assignment]
+skills: [python-values, python-assignment-tracing]
 prerequisites: []
 related_resources: [python-loops-001, python-functions-001, guide-programming-foundations]
 learning_objectives:

@@ -9,6 +9,7 @@ category: programming-languages
 language: en
 difficulty: beginner
 tags: [python, lists, dictionaries, data-structures]
+skills: [python-list-indexing, python-collections]
 prerequisites: [python-variables-001, python-loops-001]
 related_resources: [guide-data-structures-algorithms, problem-first-duplicate-002, course-data-structures-six-weeks]
 learning_objectives:

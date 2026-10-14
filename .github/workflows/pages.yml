@@ -32,11 +32,20 @@ jobs:
       - name: Validate site routes, metadata, links, and Python examples
         run: python scripts/validate_site.py
 
-      - name: Check JavaScript syntax
-        run: node --check assets/js/site.js
+      - name: Validate attributed reference candidate inventory
+        run: python scripts/import_reference_resources.py --check
 
-      - name: Test search matching, ranking, and provenance filters
+      - name: Check JavaScript syntax
+        run: node --check assets/js/learning-tools.js && node --check assets/js/site.js
+
+      - name: Test search matching, ranking, and discovery filters
         run: node tests/search_test.js
+
+      - name: Test student navigation, routes, and mobile menu
+        run: node tests/navigation_test.js
+
+      - name: Test local mastery, planner, and portfolio rules
+        run: node tests/learning_tools_test.js
 
       - name: Test solutions, resource metadata, and SQL examples
         run: python -m unittest discover -s tests -v
