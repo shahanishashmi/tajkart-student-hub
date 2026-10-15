@@ -1,5 +1,6 @@
 ---
 title: "Computer architecture: how instructions use hardware"
+description: "Connect machine instructions, registers, memory, and input/output devices."
 summary: Connect machine instructions, registers, memory, and input/output devices.
 permalink: /learning/guides/computer-architecture/
 id: guide-computer-architecture

@@ -1,6 +1,8 @@
 ---
 layout: lesson
 title: "Python में नाम और मान"
+sitemap: false
+robots: "noindex, follow"
 summary: चर के नाम रखें, मान का प्रकार पहचानें, और मान को सही ढंग से बदलें।
 permalink: /learning/translations/hi/python-variables/
 id: hi-python-variables-001

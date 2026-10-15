@@ -1,6 +1,7 @@
 ---
 layout: lesson
 title: "Problem PS-001: total a list of numbers"
+description: "Add values in a list and define the result for an empty input."
 summary: Add values in a list and define the result for an empty input.
 permalink: /learning/problem-sets/array-total/
 id: problem-array-total-001

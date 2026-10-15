@@ -1,5 +1,6 @@
 ---
 title: "Data structures and algorithms quick reference"
+description: "Compare common structures by the operations they support."
 summary: Compare common structures by the operations they support.
 permalink: /learning/cheatsheets/data-structures/
 id: cheatsheet-data-structures

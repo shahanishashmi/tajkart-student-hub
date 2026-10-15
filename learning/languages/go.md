@@ -1,5 +1,6 @@
 ---
 title: "Go learning path"
+description: "Learn Go through values, functions, slices, maps, errors, and small packages."
 summary: Learn Go through values, functions, slices, maps, errors, and small packages.
 permalink: /learning/languages/go/
 id: language-path-go

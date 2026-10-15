@@ -1,6 +1,7 @@
 ---
 layout: lesson
 title: Define a reusable Python function
+description: "Give a useful operation named inputs, a return value, and a testable contract."
 summary: Give a useful operation named inputs, a return value, and a testable contract.
 permalink: /learning/lessons/python-functions/
 id: python-functions-001

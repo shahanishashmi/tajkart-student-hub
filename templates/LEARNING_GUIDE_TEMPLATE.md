@@ -1,6 +1,9 @@
 ---
 layout: page
 title: Learning guide template
+description: "A reusable outline for original Tajkart learning guides, with objectives, examples, practice, and review prompts."
+sitemap: false
+robots: "noindex, follow"
 permalink: /templates/LEARNING_GUIDE_TEMPLATE/
 ---
 

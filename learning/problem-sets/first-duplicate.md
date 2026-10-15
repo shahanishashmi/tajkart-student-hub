@@ -1,6 +1,7 @@
 ---
 layout: lesson
 title: "Problem PS-002: find the first repeated value"
+description: "Use a set to detect when a value has already appeared."
 summary: Use a set to detect when a value has already appeared.
 permalink: /learning/problem-sets/first-duplicate/
 id: problem-first-duplicate-002

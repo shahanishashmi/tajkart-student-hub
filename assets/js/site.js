@@ -47,7 +47,7 @@
     const updateProgress = () => {
       const answered = questions.filter((question) => {
         return Boolean(question.querySelector('input[type="radio"]:checked'))
-          || Array.from(question.querySelectorAll('input[type="text"], input[type="number"]')).some((input) => input.value.trim());
+          || Array.from(question.querySelectorAll('input[type="text"], input[type="number"], textarea')).some((input) => input.value.trim());
       }).length;
       if (progress) progress.textContent = `${answered} of ${questions.length} questions answered.`;
     };
@@ -57,11 +57,13 @@
       event.preventDefault();
       let score = 0;
       let answered = 0;
+      let scoredAnswered = 0;
+      let manualAnswered = 0;
       const practicedSkills = new Set();
       let firstUnanswered = null;
       for (const question of questions) {
         const selected = question.querySelector('input[type="radio"]:checked');
-        const textInput = question.querySelector('input[type="text"], input[type="number"]');
+        const textInput = question.querySelector('input[type="text"], input[type="number"], textarea');
         const value = selected ? selected.value : (textInput ? textInput.value.trim() : '');
         const result = question.querySelector('[data-feedback]');
         const solution = question.querySelector('[data-solution]');
@@ -73,14 +75,21 @@
         answered++;
         const accepted = (question.dataset.acceptedAnswers || question.dataset.answer || '').split('|').filter(Boolean);
         const format = question.dataset.answerFormat || 'text';
+        const manualComparison = format === 'manual';
         const formatValid = tools ? tools.normalizeAnswer(value, format) !== null : true;
-        const correct = tools ? tools.answerIsAccepted(value, accepted, format)
+        const correct = manualComparison ? false : tools ? tools.answerIsAccepted(value, accepted, format)
           : value.trim().toLocaleLowerCase() === String(question.dataset.answer || '').trim().toLocaleLowerCase();
-        if (correct) score++;
+        if (manualComparison) manualAnswered++;
+        else {
+          scoredAnswered++;
+          if (correct) score++;
+        }
         const hint = question.querySelector('details p');
         if (result) {
           result.replaceChildren();
-          result.textContent = correct
+          result.textContent = manualComparison
+            ? 'Manual comparison only. This written response is not scored and does not count as skill evidence. Compare your reasoning with the worked solution below.'
+            : correct
             ? 'Correct. Compare your steps with the worked method.'
             : !formatValid
               ? `This input does not match the expected ${format} answer format. ${hint ? hint.textContent : 'Review the linked lesson, then try again.'}`
@@ -93,9 +102,9 @@
           }
         }
         if (solution) solution.hidden = false;
-        const skillIds = (question.dataset.skillIds || '').split(',').map((item) => item.trim()).filter(Boolean);
+        const skillIds = manualComparison ? [] : (question.dataset.skillIds || '').split(',').map((item) => item.trim()).filter(Boolean);
         for (const skillId of skillIds) practicedSkills.add(skillId);
-        if (tools && question.dataset.questionId && skillIds.length) {
+        if (!manualComparison && tools && question.dataset.questionId && skillIds.length) {
           learningState = tools.recordAttempt(learningState, {
             questionId: question.dataset.questionId,
             skillIds,
@@ -108,7 +117,7 @@
       if (firstUnanswered && firstUnanswered.focus) firstUnanswered.focus();
       const status = quiz.querySelector('[data-quiz-status]');
       if (status) status.textContent = answered
-        ? `You got ${score} of ${answered} answered correctly. ${questions.length - answered} unanswered. This is practice feedback, not a grade.`
+        ? `${scoredAnswered ? `You got ${score} of ${scoredAnswered} automatically checked answers correct. ` : ''}${manualAnswered ? `${manualAnswered} written response(s) are for manual comparison and were not scored. ` : ''}${questions.length - answered} unanswered. This is practice feedback, not a grade.`
         : 'No answers were checked yet. Enter at least one answer and try again.';
       const progressSaved = tools && answered ? tools.saveState(learningState) : null;
       const mastery = quiz.querySelector('[data-mastery-summary]');
@@ -375,6 +384,8 @@
   const controls = {
     type: search.querySelector('#filter-type'),
     category: search.querySelector('#filter-category'),
+    sourceCategory: search.querySelector('#filter-source-category'),
+    sourceTopic: search.querySelector('#filter-source-topic'),
     tag: search.querySelector('#filter-tag'),
     language: search.querySelector('#filter-language'),
     sourceLocale: search.querySelector('#filter-source-locale'),
@@ -382,6 +393,9 @@
     origin: search.querySelector('#filter-origin')
   };
   if (!query || !resultList || !status) return;
+  const requestedFilters = new URLSearchParams(document.location?.search || '');
+  const requestedReference = requestedFilters.get('reference') === '1';
+  if (requestedReference && includeReference) includeReference.checked = true;
 
   const normalize = (value) => String(value || '').normalize('NFKC').trim().toLocaleLowerCase();
   const tokenize = (value) => normalize(value).match(/[\p{L}\p{N}]+/gu) || [];
@@ -435,6 +449,20 @@
       ? (Array.isArray(item.source_list_locales) ? item.source_list_locales : [])
       : [];
     const sourceOccurrences = referenceCandidates ? (item.source_occurrences || []) : [];
+    const sourceCategories = [...new Set(sourceOccurrences.map((occurrence) => occurrence.source_list_category).filter(Boolean))];
+    const sourceTopicPaths = [...new Set(sourceOccurrences
+      .map((occurrence) => (occurrence.topic_path || []).join(' / '))
+      .filter(Boolean))];
+    const hasUnlabeledSourceList = sourceOccurrences.some((occurrence) => !occurrence.source_list_locale);
+    const sourceEntries = sourceOccurrences.map((occurrence) => ({
+      url: source.repository && source.revision
+        ? `${source.repository}/blob/${source.revision}/${occurrence.source_path}#L${occurrence.source_line}`
+        : '',
+      label: `${occurrence.source_path}:${occurrence.source_line}`,
+      topic: (occurrence.topic_path || []).join(' / '),
+      annotation: occurrence.source_annotation || '',
+      additionalLinks: Array.isArray(occurrence.additional_links) ? occurrence.additional_links : []
+    }));
     const occurrenceText = sourceOccurrences.flatMap((occurrence) => [
       occurrence.source_path,
       ...(occurrence.topic_path || []),
@@ -450,6 +478,10 @@
       categories,
       resource_types: resourceTypes,
       source_list_locales: locales,
+      source_list_categories: sourceCategories,
+      source_topic_paths: sourceTopicPaths,
+      has_unlabeled_source_list: hasUnlabeledSourceList,
+      source_entries: sourceEntries,
       type: referenceCandidates ? (resourceTypes[0] || 'reference-resource') : item.type,
       category: referenceCandidates ? (categories[0] || 'uncategorized') : item.category,
       origin: referenceCandidates ? 'reference-candidate' : item.origin,
@@ -473,6 +505,8 @@
       normalized.rights_status,
       normalized.rights_note,
       normalized.terms_or_license,
+      ...sourceCategories,
+      ...sourceTopicPaths,
       ...tags,
       ...categories,
       ...locales,
@@ -514,16 +548,39 @@
     let referenceItems = null;
     let referencePromise = null;
     let items = localItems;
+    let deepLinkFiltersApplied = false;
 
     const addOptions = (collection) => {
-      const unique = (key) => [...new Set(collection.map((item) => item[key]).filter(Boolean))].sort((a, b) => a.localeCompare(b));
+      const unique = (key) => [...new Set(collection.flatMap((item) => Array.isArray(item[key]) ? item[key] : [item[key]]).filter(Boolean))].sort((a, b) => a.localeCompare(b));
       fillOptions(controls.type, [...new Set(collection.flatMap((item) => item.resource_types || [item.type]))].sort((a, b) => a.localeCompare(b)));
       fillOptions(controls.category, [...new Set(collection.flatMap((item) => item.categories || [item.category]))].sort((a, b) => a.localeCompare(b)));
+      fillOptions(controls.sourceCategory, unique('source_list_categories'));
+      fillOptions(controls.sourceTopic, unique('source_topic_paths'));
       fillOptions(controls.tag, [...new Set(collection.flatMap((item) => item.tags))].sort((a, b) => a.localeCompare(b)));
       fillOptions(controls.language, unique('language'), languages);
-      fillOptions(controls.sourceLocale, [...new Set(collection.flatMap((item) => item.source_list_locales || []))].sort((a, b) => a.localeCompare(b)));
+      const sourceLocales = [...new Set(collection.flatMap((item) => item.source_list_locales || []))].sort((a, b) => a.localeCompare(b));
+      if (collection.some((item) => item.has_unlabeled_source_list)) sourceLocales.push('__unlabeled__');
+      fillOptions(controls.sourceLocale, sourceLocales, { __unlabeled__: 'No locale label in source list' });
       fillOptions(controls.difficulty, unique('difficulty'));
       fillOptions(controls.origin, unique('origin'), origins);
+    };
+
+    const applyDeepLinkFilters = () => {
+      if (deepLinkFiltersApplied || (requestedReference && !referenceItems)) return;
+      if (requestedFilters.has('q')) query.value = requestedFilters.get('q') || '';
+      const filterParams = {
+        type: 'type', category: 'category', topic: 'category', topic_path: 'sourceTopic',
+        source_category: 'sourceCategory', tag: 'tag', language: 'language',
+        locale: 'sourceLocale', difficulty: 'difficulty', origin: 'origin'
+      };
+      for (const [parameter, controlName] of Object.entries(filterParams)) {
+        const control = controls[controlName];
+        const value = requestedFilters.get(parameter);
+        if (control && value) control.value = value;
+      }
+      const requestedSort = requestedFilters.get('sort');
+      if (sort && ['relevance', 'title', 'type', 'difficulty'].includes(requestedSort)) sort.value = requestedSort;
+      deepLinkFiltersApplied = true;
     };
 
     const render = () => {
@@ -534,9 +591,13 @@
         return (!terms.length || terms.every((token) => item.haystack.includes(token)))
           && (!selected.type || item.resource_types.includes(selected.type))
           && (!selected.category || item.categories.includes(selected.category))
+          && (!selected.sourceCategory || item.source_list_categories.includes(selected.sourceCategory))
+          && (!selected.sourceTopic || item.source_topic_paths.includes(selected.sourceTopic))
           && (!selected.tag || item.tags.includes(selected.tag))
           && (!selected.language || item.language === selected.language)
-          && (!selected.sourceLocale || item.source_list_locales.includes(selected.sourceLocale))
+          && (!selected.sourceLocale || (selected.sourceLocale === '__unlabeled__'
+            ? item.has_unlabeled_source_list
+            : item.source_list_locales.includes(selected.sourceLocale)))
           && (!selected.difficulty || item.difficulty === selected.difficulty)
           && (!selected.origin || item.origin === selected.origin);
       });
@@ -595,6 +656,32 @@
           sourceLink.target = '_blank';
           sourceLink.rel = 'external noopener noreferrer';
         }
+        if (candidate) {
+          const details = document.createElement('details');
+          addText(details, 'summary', `Source appearances and alternate links (${item.source_occurrences.length})`);
+          const sourceList = document.createElement('ul');
+          for (const entry of item.source_entries) {
+            const sourceRow = document.createElement('li');
+            const sourceRowLink = addText(sourceRow, 'a', entry.label);
+            sourceRowLink.href = entry.url;
+            sourceRowLink.target = '_blank';
+            sourceRowLink.rel = 'external noopener noreferrer';
+            if (entry.topic) addText(sourceRow, 'p', `Source topic: ${entry.topic}`);
+            if (entry.annotation) addText(sourceRow, 'p', `Source annotation: ${entry.annotation}`);
+            for (const alternate of entry.additionalLinks) {
+              const alternateRow = document.createElement('div');
+              const alternateLink = addText(alternateRow, 'a', alternate.label || alternate.url);
+              alternateLink.href = alternate.url;
+              alternateLink.target = '_blank';
+              alternateLink.rel = 'external noopener noreferrer';
+              addText(alternateRow, 'span', ` (alternate link, source line ${alternate.source_line})`);
+              sourceRow.append(alternateRow);
+            }
+            sourceList.append(sourceRow);
+          }
+          details.append(sourceList);
+          row.append(details);
+        }
         resultList.append(row);
       }
       const candidatesIncluded = items.some((item) => item.origin === 'reference-candidate');
@@ -618,6 +705,7 @@
         if (!referenceItems) referenceItems = await referencePromise;
         items = [...localItems, ...referenceItems];
         addOptions(items);
+        applyDeepLinkFilters();
         render();
       } catch (error) {
         includeReference.checked = false;
@@ -628,7 +716,9 @@
     };
     includeReference?.addEventListener('change', refresh);
     addOptions(localItems);
+    applyDeepLinkFilters();
     render();
+    if (requestedReference) refresh();
   }).catch((error) => {
     status.textContent = `Search could not load. Browse the categories below instead. (${error.message})`;
   });

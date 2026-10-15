@@ -1,6 +1,7 @@
 ---
 layout: lesson
 title: Repeat a task with a Python loop
+description: "Use for loops to process a sequence and keep a running total."
 summary: Use for loops to process a sequence and keep a running total.
 permalink: /learning/lessons/problem-solving-loops/
 id: python-loops-001

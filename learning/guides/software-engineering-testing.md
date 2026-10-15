@@ -1,5 +1,6 @@
 ---
 title: "Software engineering and testing: make change safer"
+description: "Plan small changes, define observable behavior, and use tests as feedback."
 summary: Plan small changes, define observable behavior, and use tests as feedback.
 permalink: /learning/guides/software-engineering-testing/
 id: guide-software-engineering-testing

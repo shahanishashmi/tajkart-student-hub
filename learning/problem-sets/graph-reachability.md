@@ -1,6 +1,7 @@
 ---
 layout: lesson
 title: "Problem PS-008: check graph reachability with BFS"
+description: "Use a queue and a visited set to determine whether one node can reach another."
 summary: Use a queue and a visited set to determine whether one node can reach another.
 permalink: /learning/problem-sets/graph-reachability/
 id: problem-graph-reachability-008

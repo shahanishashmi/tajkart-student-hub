@@ -1,5 +1,6 @@
 ---
 title: "Java learning path"
+description: "Learn Java through classes, methods, collections, exceptions, and tests."
 summary: Learn Java through classes, methods, collections, exceptions, and tests.
 permalink: /learning/languages/java/
 id: language-path-java

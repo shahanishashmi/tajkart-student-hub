@@ -1,5 +1,6 @@
 ---
 title: "Operating systems: processes, memory, files, and permissions"
+description: "Study the services an operating system provides to programs."
 summary: Study the services an operating system provides to programs.
 permalink: /learning/guides/operating-systems/
 id: guide-operating-systems

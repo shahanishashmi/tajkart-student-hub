@@ -1,6 +1,7 @@
 ---
 layout: lesson
 title: Compare algorithms by their growth
+description: "Estimate how work changes as input grows, using simple examples."
 summary: Estimate how work changes as input grows, using simple examples.
 permalink: /learning/lessons/algorithm-efficiency/
 id: algorithms-efficiency-001

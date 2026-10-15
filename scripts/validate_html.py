@@ -34,9 +34,12 @@ class Document(HTMLParser):
         self.heading_levels: list[int] = []
         self.questions: list[dict[str, int | str | bool]] = []
         self.current_question: dict[str, int | str | bool] | None = None
+        self.links: list[str] = []
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         values = {key: value or "" for key, value in attrs}
+        if tag == "a":
+            self.links.append(values.get("href", ""))
         element_id = values.get("id", "")
         if element_id:
             if element_id in self.ids:
@@ -47,7 +50,10 @@ class Document(HTMLParser):
         elif tag == "fieldset" and "data-question" in values:
             self.current_question = {
                 "id": values.get("data-question-id", ""),
+                "answer_format": values.get("data-answer-format", ""),
                 "radio_options": 0,
+                "has_text_input": False,
+                "has_textarea": False,
                 "has_solution": False,
                 "solution_hidden": False,
             }
@@ -62,6 +68,10 @@ class Document(HTMLParser):
         elif tag in {"input", "select", "textarea"}:
             if tag == "input" and values.get("type", "text").lower() == "radio" and self.current_question is not None:
                 self.current_question["radio_options"] = int(self.current_question["radio_options"]) + 1
+            elif tag == "input" and self.current_question is not None:
+                self.current_question["has_text_input"] = True
+            if tag == "textarea" and self.current_question is not None:
+                self.current_question["has_textarea"] = True
             if tag == "input" and values.get("type", "text").lower() in {"hidden", "submit", "button", "reset"}:
                 return
             self.controls.append({"id": element_id, "aria": values.get("aria-label", "") or values.get("aria-labelledby", ""), "wrapped": self.label_depth > 0})
@@ -129,11 +139,15 @@ def main() -> int:
         return 2
     parsed_documents: dict[Path, Document] = {}
     for path in documents:
+        relative = path.relative_to(site)
+        if relative == Path("googlef0a0d65fc3e621d7.html"):
+            # Search Console's file-upload token is intentionally a plain text
+            # body, not an HTML document. validate_seo.py checks its exact bytes.
+            continue
         parser = Document()
         html = path.read_text(encoding="utf-8")
         parser.feed(html)
         parsed_documents[path] = parser
-        relative = path.relative_to(site)
         if not parser.html_lang:
             errors.append(f"missing html lang: {relative}")
         if parser.mains != 1:
@@ -151,6 +165,47 @@ def main() -> int:
                     errors.append(f"code-reading question {question_id} needs at least two answer choices: {relative}")
                 if not question["has_solution"] or not question["solution_hidden"]:
                     errors.append(f"code-reading question {question_id} needs a hidden worked-solution disclosure: {relative}")
+        if relative == Path("learning/problem-sets/math-foundations-check/index.html"):
+            if len(parser.questions) != 7:
+                errors.append(f"expected seven generated arithmetic/data questions, found {len(parser.questions)}: {relative}")
+            for question in parser.questions:
+                question_id = question["id"] or "(unknown)"
+                if not question["has_solution"] or not question["solution_hidden"]:
+                    errors.append(f"arithmetic/data question {question_id} needs a hidden worked-solution disclosure: {relative}")
+                if question["answer_format"] == "manual" and (not question["has_textarea"] or question["has_text_input"]):
+                    errors.append(f"manual question {question_id} needs a written-response field, not a scored input: {relative}")
+                if question["answer_format"] != "manual" and (not question["has_text_input"] or question["has_textarea"]):
+                    errors.append(f"numeric question {question_id} needs its answer input: {relative}")
+        if relative == Path("learning/lessons/math-algebra-word-problems/index.html"):
+            if len(parser.questions) != 3:
+                errors.append(f"expected three generated equation-modeling questions, found {len(parser.questions)}: {relative}")
+            for question in parser.questions:
+                question_id = question["id"] or "(unknown)"
+                if question["answer_format"] != "integer" or not question["has_text_input"]:
+                    errors.append(f"modeling question {question_id} needs a deterministic numeric answer field: {relative}")
+                if not question["has_solution"] or not question["solution_hidden"]:
+                    errors.append(f"modeling question {question_id} needs a hidden worked-solution disclosure: {relative}")
+        if relative == Path("explore/index.html"):
+            categories = [element_id for element_id in parser.ids if element_id.startswith("resource-category-")]
+            candidate_links = [href for href in parser.links if "reference=1" in href]
+            if len(categories) != 18:
+                errors.append(f"expected 18 generated Explore categories, found {len(categories)}: {relative}")
+            if not candidate_links:
+                errors.append(f"Explore directory needs opt-in candidate search links: {relative}")
+            try:
+                facets = json.loads((ROOT / "_data" / "reference_resource_facets.json").read_text(encoding="utf-8"))
+                expected_facet_ids = {
+                    "reference-source-category-": len(facets["source_categories"]),
+                    "reference-source-list-": len(facets["source_list_files"]),
+                    "reference-list-locale-": len(facets["source_locales"]),
+                    "reference-topic-path-": len(facets["topic_paths"]),
+                }
+                for prefix, expected_count in expected_facet_ids.items():
+                    actual_count = sum(element_id.startswith(prefix) for element_id in parser.ids)
+                    if actual_count != expected_count:
+                        errors.append(f"expected {expected_count} generated {prefix} entries, found {actual_count}: {relative}")
+            except (OSError, json.JSONDecodeError, KeyError, TypeError) as error:
+                errors.append(f"could not validate generated reference facets: {error}")
         for control in parser.controls:
             if control["wrapped"] or control["aria"] or (control["id"] and control["id"] in parser.labels_for):
                 continue
@@ -232,7 +287,8 @@ def main() -> int:
         print("Generated-site validation failed:")
         print("\n".join(f"- {error}" for error in errors))
         return 1
-    print(f"Validated {len(documents)} generated HTML pages, {indexed_count} Tajkart search resources, and {reference_count} unverified reference candidates; local links/fragments, unique IDs, labelled controls, language, landmarks, and provenance metadata pass.")
+    html_page_count = sum(1 for path in documents if path.name != "googlef0a0d65fc3e621d7.html")
+    print(f"Validated {html_page_count} generated HTML pages, {indexed_count} Tajkart search resources, and {reference_count} unverified reference candidates; local links/fragments, unique IDs, labelled controls, language, landmarks, and provenance metadata pass.")
     return 0
 
 

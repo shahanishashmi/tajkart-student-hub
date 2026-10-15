@@ -1,5 +1,6 @@
 ---
 title: "C learning path"
+description: "Learn C's explicit types, functions, arrays, and memory through small programs."
 summary: Learn C's explicit types, functions, arrays, and memory through small programs.
 permalink: /learning/languages/c/
 id: language-path-c

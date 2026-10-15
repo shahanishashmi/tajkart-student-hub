@@ -1,5 +1,6 @@
 ---
 title: "Database concepts and SQL: store facts, ask precise questions"
+description: "Model related records and query them with readable, bounded SQL."
 summary: Model related records and query them with readable, bounded SQL.
 permalink: /learning/guides/databases-and-sql/
 id: guide-databases-sql

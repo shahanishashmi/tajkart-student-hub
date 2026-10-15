@@ -1,6 +1,7 @@
 ---
 layout: lesson
 title: Save project progress with Git commits
+description: "Inspect changed files, stage selected work, and write a useful commit message."
 summary: Inspect changed files, stage selected work, and write a useful commit message.
 permalink: /learning/lessons/git-small-commits/
 id: git-small-commits-001

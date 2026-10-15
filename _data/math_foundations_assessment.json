@@ -1,0 +1,291 @@
+{
+  "schema_version": 1,
+  "id": "math-foundations-check-001",
+  "title": "Mathematics foundations self-check",
+  "review_status": "pending",
+  "questions": [
+    {
+      "id": "math-foundations-fractions-exact-sum-001",
+      "question": "Simplify 18/30, then add 1/5. Enter the exact value of the sum.",
+      "subject": "mathematics",
+      "skill_ids": [
+        "math-fraction-operations"
+      ],
+      "prerequisite_ids": [],
+      "difficulty": "beginner",
+      "lesson_id": "math-fractions-operations-001",
+      "answer_format": "fraction",
+      "accepted_answers": [
+        "4/5"
+      ],
+      "hint": "Reduce 18/30 first. Then rewrite the fractions with a common denominator.",
+      "solution": "18/30 = 3/5. Then 3/5 + 1/5 = 4/5. Check: 4/5 is less than 1, as the original addends total 0.8.",
+      "explanation": "The checker compares the exact final fraction. Show the simplification and addition steps in your work; the final value alone does not assess the method.",
+      "constraints": [
+        "Use exact fractions; do not round to a decimal."
+      ],
+      "common_mistakes": [
+        "Adding denominators instead of finding a common denominator.",
+        "Stopping at 3/5 without adding 1/5."
+      ],
+      "provenance": {
+        "kind": "original",
+        "source_id": "problem-math-foundations-check-010"
+      },
+      "verification_method": "direct-evaluation",
+      "verification": {
+        "kind": "fraction-sum",
+        "terms": [
+          {
+            "numerator": 18,
+            "denominator": 30
+          },
+          {
+            "numerator": 1,
+            "denominator": 5
+          }
+        ]
+      },
+      "review_status": "pending"
+    },
+    {
+      "id": "math-foundations-fraction-to-percent-001",
+      "question": "Convert 7/16 to a decimal and a percentage, and state whether the decimal terminates. Write all three parts and compare them with the worked explanation; this response is not automatically scored.",
+      "subject": "mathematics",
+      "skill_ids": [
+        "math-decimal-conversion"
+      ],
+      "prerequisite_ids": [
+        "math-fractions-operations-001"
+      ],
+      "difficulty": "beginner",
+      "lesson_id": "math-decimals-conversions-001",
+      "answer_format": "manual",
+      "accepted_answers": [],
+      "hint": "Divide 7 by 16, then multiply the decimal by 100. For termination, reduce the fraction and inspect the denominator.",
+      "solution": "7/16 = 0.4375. Multiplying by 100 gives 43.75%. The reduced denominator is 16 = 2^4, so the decimal terminates.",
+      "explanation": "The page deliberately uses manual comparison because one answer contains a decimal, a percentage, and a short explanation. No exact-text match can judge alternate correct reasoning or equivalent notation.",
+      "constraints": [
+        "Keep the fraction exact until the decimal conversion. State the percentage with its percent sign in your written response."
+      ],
+      "common_mistakes": [
+        "Multiplying by 100 twice or forgetting the percent sign.",
+        "Calling every rational decimal terminating; the reduced denominator determines this case."
+      ],
+      "provenance": {
+        "kind": "original",
+        "source_id": "problem-math-foundations-check-010"
+      },
+      "verification_method": "direct-evaluation",
+      "verification": {
+        "kind": "fraction-conversion",
+        "numerator": 7,
+        "denominator": 16,
+        "expected_decimal": "0.4375",
+        "expected_percent": 43.75,
+        "decimal_terminates": true
+      },
+      "review_status": "pending"
+    },
+    {
+      "id": "math-foundations-rice-share-001",
+      "question": "A 2.4-kilogram bag contains 0.6 kilograms of rice. What percentage of the bag is rice? Enter the number only (for example, enter 25 for 25%).",
+      "subject": "mathematics",
+      "skill_ids": [
+        "math-percentages"
+      ],
+      "prerequisite_ids": [
+        "math-decimals-conversions-001",
+        "lesson-math-ratios-unit-rates-001"
+      ],
+      "difficulty": "beginner",
+      "lesson_id": "math-percentages-001",
+      "answer_format": "integer",
+      "accepted_answers": [
+        "25"
+      ],
+      "hint": "Divide the part by the whole, then multiply by 100. The part and whole must use the same unit.",
+      "solution": "0.6 / 2.4 = 6 / 24 = 1/4. Then 1/4 * 100 = 25, so rice is 25% of the bag.",
+      "explanation": "The check scores the numeric percentage only. Keep kilograms on both quantities to show that the units cancel.",
+      "constraints": [
+        "Treat 2.4 kg as the whole bag and 0.6 kg as the part. Enter 25 without a percent sign."
+      ],
+      "common_mistakes": [
+        "Dividing the whole by the part.",
+        "Reporting 0.25 as 0.25% instead of converting it to 25%."
+      ],
+      "provenance": {
+        "kind": "original",
+        "source_id": "problem-math-foundations-check-010"
+      },
+      "verification_method": "direct-evaluation",
+      "verification": {
+        "kind": "percentage-share",
+        "part_units": 6,
+        "whole_units": 24
+      },
+      "review_status": "pending"
+    },
+    {
+      "id": "math-foundations-notebook-unit-rate-001",
+      "question": "Four notebooks cost 120 currency units. Find the numeric cost per notebook. State the unit (currency units per notebook) in your written work.",
+      "subject": "mathematics",
+      "skill_ids": [
+        "math-unit-rates"
+      ],
+      "prerequisite_ids": [
+        "math-fractions-operations-001",
+        "math-decimals-conversions-001"
+      ],
+      "difficulty": "beginner",
+      "lesson_id": "lesson-math-ratios-unit-rates-001",
+      "answer_format": "integer",
+      "accepted_answers": [
+        "30"
+      ],
+      "hint": "Divide the total cost by the number of notebooks.",
+      "solution": "120 / 4 = 30 currency units per notebook. Check: 4 * 30 = 120 currency units.",
+      "explanation": "The automatic check compares the numeric rate; include the unit in your written solution.",
+      "constraints": [
+        "There are four notebooks and one total cost. The requested rate is per notebook."
+      ],
+      "common_mistakes": [
+        "Multiplying 120 by 4.",
+        "Giving 30 without identifying what the rate measures."
+      ],
+      "provenance": {
+        "kind": "original",
+        "source_id": "problem-math-foundations-check-010"
+      },
+      "verification_method": "direct-evaluation",
+      "verification": {
+        "kind": "unit-rate",
+        "total": 120,
+        "count": 4
+      },
+      "review_status": "pending"
+    },
+    {
+      "id": "math-foundations-discounted-price-001",
+      "question": "A 250-unit item is discounted by 12%. Find the reduced price. Enter the numeric price only.",
+      "subject": "mathematics",
+      "skill_ids": [
+        "math-percentages"
+      ],
+      "prerequisite_ids": [
+        "math-decimals-conversions-001",
+        "lesson-math-ratios-unit-rates-001"
+      ],
+      "difficulty": "beginner",
+      "lesson_id": "math-percentages-001",
+      "answer_format": "integer",
+      "accepted_answers": [
+        "220"
+      ],
+      "hint": "Find 12% of 250, then subtract the discount from 250.",
+      "solution": "12% of 250 is 0.12 * 250 = 30. The reduced price is 250 - 30 = 220 units. Check: 220 is less than the original 250.",
+      "explanation": "The check asks for the price after the discount, not the discount amount. No currency rounding is needed because the result is a whole number.",
+      "constraints": [
+        "The original price is 250 units and the discount rate is 12%."
+      ],
+      "common_mistakes": [
+        "Entering 30, the discount amount, instead of 220, the reduced price.",
+        "Adding the discount to the original price."
+      ],
+      "provenance": {
+        "kind": "original",
+        "source_id": "problem-math-foundations-check-010"
+      },
+      "verification_method": "direct-evaluation",
+      "verification": {
+        "kind": "percentage-discount",
+        "original_value": 250,
+        "percent": 12
+      },
+      "review_status": "pending"
+    },
+    {
+      "id": "math-foundations-percent-decrease-001",
+      "question": "A measured amount falls from 80 to 60. Find the percent change relative to the original. Enter a signed number only, so a decrease is negative.",
+      "subject": "mathematics",
+      "skill_ids": [
+        "math-percentages"
+      ],
+      "prerequisite_ids": [
+        "math-decimals-conversions-001",
+        "lesson-math-ratios-unit-rates-001"
+      ],
+      "difficulty": "intermediate",
+      "lesson_id": "math-percentages-001",
+      "answer_format": "integer",
+      "accepted_answers": [
+        "-25"
+      ],
+      "hint": "Subtract the original from the new value, divide by the original 80, then multiply by 100.",
+      "solution": "(60 - 80) / 80 * 100 = -20 / 80 * 100 = -25. The negative sign indicates a 25% decrease.",
+      "explanation": "Percent change uses the original amount as the denominator. The automatic check compares the signed numeric percentage; show the direction in your explanation.",
+      "constraints": [
+        "The original amount is 80, which is non-zero. Enter -25 without the percent sign."
+      ],
+      "common_mistakes": [
+        "Dividing by the new amount 60.",
+        "Dropping the negative sign and describing a decrease as an increase."
+      ],
+      "provenance": {
+        "kind": "original",
+        "source_id": "problem-math-foundations-check-010"
+      },
+      "verification_method": "direct-evaluation",
+      "verification": {
+        "kind": "percentage-change",
+        "old_value": 80,
+        "new_value": 60
+      },
+      "review_status": "pending"
+    },
+    {
+      "id": "math-foundations-study-data-summary-001",
+      "question": "Four recorded study sessions lasted 12, 15, 0, and 9 minutes. Find the total, mean, and median, then explain how a blank entry differs from the recorded zero. Write the response and compare it with the worked solution; this response is not scored automatically.",
+      "subject": "mathematics",
+      "skill_ids": [
+        "math-data-summaries"
+      ],
+      "prerequisite_ids": [
+        "math-percentages-001"
+      ],
+      "difficulty": "beginner",
+      "lesson_id": "math-data-interpretation-001",
+      "answer_format": "manual",
+      "accepted_answers": [],
+      "hint": "Add all four recorded values for the total. Sort them before finding the median; divide the total by four for the mean. Then distinguish an observed zero from an unrecorded value.",
+      "solution": "Total = 12 + 15 + 0 + 9 = 36 minutes. Mean = 36 / 4 = 9 minutes. Sorted data are 0, 9, 12, 15, so median = (9 + 12) / 2 = 10.5 minutes. A recorded zero is an observation; a blank is missing information and must not be treated as zero unless an explicit rule says so.",
+      "explanation": "The numeric summaries are checked independently in tests, but the full response includes an interpretation. The page therefore asks you to compare your wording and reasoning manually rather than awarding text-match correctness.",
+      "constraints": [
+        "All four values were recorded observations, including zero. Each value is in minutes."
+      ],
+      "common_mistakes": [
+        "Dropping the recorded zero from the count.",
+        "Using the third sorted value as the median of an even-sized set.",
+        "Treating a blank as an observed zero."
+      ],
+      "provenance": {
+        "kind": "original",
+        "source_id": "problem-math-foundations-check-010"
+      },
+      "verification_method": "direct-evaluation",
+      "verification": {
+        "kind": "statistics-summary",
+        "observations": [
+          12,
+          15,
+          0,
+          9
+        ],
+        "expected_total": 36,
+        "expected_mean": 9,
+        "expected_median": 10.5
+      },
+      "review_status": "pending"
+    }
+  ]
+}

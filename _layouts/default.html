@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#102a43">
     {% seo %}
+    {% if page.robots %}<meta name="robots" content="{{ page.robots | escape }}">{% endif %}
     <link rel="icon" type="image/svg+xml" href="{{ '/assets/favicon.svg' | relative_url }}">
     <link rel="stylesheet" href="{{ '/assets/css/site.css' | relative_url }}">
     <script src="{{ '/assets/js/learning-tools.js' | relative_url }}" defer></script>
@@ -17,6 +18,7 @@
         <a class="brand" href="{{ '/' | relative_url }}" aria-label="Tajkart Student Hub home"><span class="brand-mark" aria-hidden="true">T</span><span>Tajkart <small>Student Hub</small></span></a>
         <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu</button>
         <nav id="primary-nav" class="primary-nav" aria-label="Main navigation">
+          <a href="{{ '/explore/' | relative_url }}">Explore</a>
           <a href="{{ '/learning/subjects/' | relative_url }}">Subjects</a>
           <a href="{{ '/learning/courses/' | relative_url }}">Courses &amp; paths</a>
           <a href="{{ '/learning/problem-sets/' | relative_url }}">Practice</a>

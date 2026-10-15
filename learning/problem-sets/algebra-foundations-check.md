@@ -1,6 +1,7 @@
 ---
 layout: lesson
 title: "Algebra foundations: formative self-check"
+description: "A ten-question practice set for expressions, substitution, one-step equations, and introductory two-step equations."
 summary: A ten-question practice set for expressions, substitution, one-step equations, and introductory two-step equations.
 permalink: /learning/problem-sets/algebra-foundations-check/
 id: problem-algebra-foundations-check-011

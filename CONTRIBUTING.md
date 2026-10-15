@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Contributing
+description: "Learn how to propose original learning content, report an issue, and follow Tajkart review standards."
 permalink: /contributing/
 ---
 

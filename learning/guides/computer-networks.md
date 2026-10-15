@@ -1,5 +1,6 @@
 ---
 title: "Computer networks: follow a request across boundaries"
+description: "Build a basic model of names, addresses, transport, and application protocols."
 summary: Build a basic model of names, addresses, transport, and application protocols.
 permalink: /learning/guides/computer-networks/
 id: guide-computer-networks

@@ -1,6 +1,7 @@
 ---
 layout: lesson
 title: "Problem PS-007: find a binary tree's height"
+description: "Recursively count the longest path from a node to an empty child."
 summary: Recursively count the longest path from a node to an empty child.
 permalink: /learning/problem-sets/tree-height/
 id: problem-tree-height-007

@@ -9,6 +9,7 @@ category: math-foundations
 language: en
 difficulty: beginner
 tags: [mathematics, percentages, discounts, percent-change, decimals]
+skills: [math-percentages]
 prerequisites: [math-decimals-conversions-001, lesson-math-ratios-unit-rates-001]
 related_resources: [course-academic-math-foundations, math-fractions-operations-001]
 learning_objectives:

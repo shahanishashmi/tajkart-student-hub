@@ -1,6 +1,9 @@
 ---
 layout: page
 title: Offer listing template
+description: "A review template for documenting offer eligibility, region, pricing, source, verification, and expiry."
+sitemap: false
+robots: "noindex, follow"
 permalink: /templates/OFFER_TEMPLATE/
 ---
 

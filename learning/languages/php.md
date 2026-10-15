@@ -1,5 +1,6 @@
 ---
 title: "PHP learning path"
+description: "Learn PHP syntax and safe request handling through small server-side examples."
 summary: Learn PHP syntax and safe request handling through small server-side examples.
 permalink: /learning/languages/php/
 id: language-path-php

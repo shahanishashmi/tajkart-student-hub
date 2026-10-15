@@ -5,6 +5,10 @@ from __future__ import annotations
 import re
 import json
 import sys
+from decimal import Decimal, InvalidOperation
+from fractions import Fraction
+from math import gcd
+from statistics import mean, median
 from datetime import date
 from pathlib import Path, PurePosixPath
 from urllib.parse import urlsplit
@@ -24,7 +28,7 @@ VALID_ORIGINS = {"original", "translation", "external"}
 VALID_TRANSLATION_STATES = {"draft", "review-required", "approved"}
 VALID_RIGHTS_STATES = {"link-only", "license-identified", "permission-granted", "public-domain"}
 VALID_EXTERNAL_VERIFICATION = {"verified"}
-VALID_ANSWER_FORMATS = {"integer", "decimal", "fraction", "text"}
+VALID_ANSWER_FORMATS = {"integer", "decimal", "fraction", "text", "manual"}
 VALID_ASSESSMENT_REVIEW = {"pending", "technical-reviewed", "approved"}
 
 
@@ -107,7 +111,11 @@ def validate_assessment_data(assessment: object, resources: dict[str, dict[str, 
         if question.get("difficulty") not in VALID_DIFFICULTY:
             errors.append(f"{label} has an invalid difficulty")
         accepted = question.get("accepted_answers")
-        if not isinstance(accepted, list) or not accepted or any(not isinstance(answer, str) or not answer.strip() for answer in accepted):
+        if not isinstance(accepted, list) or any(not isinstance(answer, str) or not answer.strip() for answer in accepted):
+            errors.append(f"{label} needs an accepted_answers list containing only non-empty strings")
+        elif answer_format == "manual" and accepted:
+            errors.append(f"{label} manual-comparison questions cannot advertise machine-accepted answers")
+        elif answer_format != "manual" and not accepted:
             errors.append(f"{label} needs a non-empty accepted_answers list")
         else:
             if len(accepted) != len(set(accepted)):
@@ -116,7 +124,8 @@ def validate_assessment_data(assessment: object, resources: dict[str, dict[str, 
                 "integer": re.compile(r"^[+-]?\d{1,30}$"),
                 "decimal": re.compile(r"^[+-]?\d{1,24}(?:\.\d{1,12})?$"),
                 "fraction": re.compile(r"^(?:[+-]?\d{1,30}/[1-9]\d{0,29}|[+-]?\d{1,24}(?:\.\d{1,12})?)$"),
-                "text": re.compile(r"^.{1,200}$", re.S)
+                "text": re.compile(r"^.{1,200}$", re.S),
+                "manual": None
             }
             pattern = patterns.get(answer_format)
             if pattern and any(not pattern.fullmatch(answer.strip()) for answer in accepted):
@@ -139,7 +148,14 @@ def validate_assessment_data(assessment: object, resources: dict[str, dict[str, 
                 "combine-coefficients": ("coefficients",),
                 "evaluate-linear": ("coefficient", "constant", "variable_value"),
                 "solve-linear": ("coefficient", "constant", "rhs"),
-                "classify-zero-coefficient": ("coefficient", "constant", "rhs")
+                "classify-zero-coefficient": ("coefficient", "constant", "rhs"),
+                "fraction-sum": ("terms",),
+                "fraction-conversion": ("numerator", "denominator", "expected_decimal", "expected_percent", "decimal_terminates"),
+                "percentage-share": ("part_units", "whole_units"),
+                "unit-rate": ("total", "count"),
+                "percentage-discount": ("original_value", "percent"),
+                "percentage-change": ("old_value", "new_value"),
+                "statistics-summary": ("observations", "expected_total", "expected_mean", "expected_median")
             }.get(kind)
             if verification_method == "example-execution":
                 kind = verification.get("kind")
@@ -174,16 +190,80 @@ def validate_assessment_data(assessment: object, resources: dict[str, dict[str, 
                         errors.append(f"{label} verification is missing {field}")
                 if kind == "combine-coefficients" and not isinstance(verification.get("coefficients"), list):
                     errors.append(f"{label} verification coefficients must be a list")
-                for field in ("coefficient", "constant", "variable_value", "rhs"):
+                for field in ("coefficient", "constant", "variable_value", "rhs", "numerator", "denominator", "part_units", "whole_units", "total", "count", "original_value", "percent", "old_value", "new_value", "expected_total"):
                     if field in verification and (isinstance(verification[field], bool) or not isinstance(verification[field], int)):
                         errors.append(f"{label} verification {field} must be an integer")
                 if kind == "solve-linear" and verification.get("coefficient") == 0:
                     errors.append(f"{label} cannot solve by dividing by a zero coefficient")
                 if kind == "classify-zero-coefficient" and verification.get("coefficient") != 0:
                     errors.append(f"{label} zero-coefficient classification needs coefficient 0")
+            if kind == "fraction-sum":
+                terms = verification.get("terms")
+                if not isinstance(terms, list) or not terms or any(not isinstance(term, dict) or isinstance(term.get("numerator"), bool) or not isinstance(term.get("numerator"), int) or isinstance(term.get("denominator"), bool) or not isinstance(term.get("denominator"), int) or term["denominator"] <= 0 for term in terms):
+                    errors.append(f"{label} fraction-sum terms need integer numerators and positive denominators")
+                elif answer_format == "fraction":
+                    derived = sum((Fraction(term["numerator"], term["denominator"]) for term in terms), Fraction())
+                    expected = f"{derived.numerator}/{derived.denominator}" if derived.denominator != 1 else str(derived.numerator)
+                    if expected not in accepted:
+                        errors.append(f"{label} accepted_answers do not match the fraction-sum derivation")
+            if answer_format != "manual":
+                derived_answer: str | None = None
+                if kind == "combine-coefficients" and isinstance(verification.get("coefficients"), list) and all(isinstance(value, int) and not isinstance(value, bool) for value in verification["coefficients"]):
+                    derived_answer = str(sum(verification["coefficients"]))
+                elif kind == "evaluate-linear" and all(isinstance(verification.get(field), int) and not isinstance(verification.get(field), bool) for field in ("coefficient", "variable_value", "constant")):
+                    derived_answer = str(verification["coefficient"] * verification["variable_value"] + verification["constant"])
+                elif kind == "solve-linear" and isinstance(verification.get("coefficient"), int) and verification.get("coefficient") != 0 and isinstance(verification.get("constant"), int) and isinstance(verification.get("rhs"), int):
+                    result = Fraction(verification["rhs"] - verification["constant"], verification["coefficient"])
+                    derived_answer = f"{result.numerator}/{result.denominator}" if result.denominator != 1 else str(result.numerator)
+                elif kind == "classify-zero-coefficient" and verification.get("coefficient") == 0 and isinstance(verification.get("constant"), int) and isinstance(verification.get("rhs"), int):
+                    derived_answer = "infinitely many" if verification["constant"] == verification["rhs"] else "none"
+                if derived_answer is not None and derived_answer.casefold() not in {str(value).strip().casefold() for value in accepted}:
+                    errors.append(f"{label} accepted_answers do not match the configured derivation")
+            if kind == "fraction-conversion":
+                numerator, denominator = verification.get("numerator"), verification.get("denominator")
+                if isinstance(numerator, int) and not isinstance(numerator, bool) and isinstance(denominator, int) and not isinstance(denominator, bool) and denominator > 0:
+                    reduced_denominator = denominator // gcd(abs(numerator), denominator)
+                    while reduced_denominator % 2 == 0:
+                        reduced_denominator //= 2
+                    while reduced_denominator % 5 == 0:
+                        reduced_denominator //= 5
+                    terminates = reduced_denominator == 1
+                    value = Fraction(numerator, denominator)
+                    try:
+                        decimal_value = format(Decimal(value.numerator) / Decimal(value.denominator), "f")
+                    except (InvalidOperation, ZeroDivisionError):
+                        decimal_value = ""
+                    if verification.get("decimal_terminates") is not terminates or (terminates and decimal_value != verification.get("expected_decimal")) or value * 100 != verification.get("expected_percent"):
+                        errors.append(f"{label} fraction-conversion derivation is inconsistent")
+            if kind == "percentage-share" and isinstance(verification.get("whole_units"), int) and verification.get("whole_units", 0) > 0 and isinstance(verification.get("part_units"), int):
+                result = Fraction(verification["part_units"] * 100, verification["whole_units"])
+                expected = str(result.numerator) if result.denominator == 1 else f"{result.numerator}/{result.denominator}"
+                if expected not in accepted:
+                    errors.append(f"{label} accepted_answers do not match the percentage-share derivation")
+            if kind == "unit-rate" and isinstance(verification.get("count"), int) and verification.get("count", 0) > 0 and isinstance(verification.get("total"), int):
+                result = Fraction(verification["total"], verification["count"])
+                expected = str(result.numerator) if result.denominator == 1 else f"{result.numerator}/{result.denominator}"
+                if expected not in accepted:
+                    errors.append(f"{label} accepted_answers do not match the unit-rate derivation")
+            if kind == "percentage-discount" and isinstance(verification.get("original_value"), int) and isinstance(verification.get("percent"), int):
+                result = Fraction(verification["original_value"] * (100 - verification["percent"]), 100)
+                expected = str(result.numerator) if result.denominator == 1 else f"{result.numerator}/{result.denominator}"
+                if expected not in accepted:
+                    errors.append(f"{label} accepted_answers do not match the percentage-discount derivation")
+            if kind == "percentage-change" and isinstance(verification.get("old_value"), int) and verification.get("old_value", 0) != 0 and isinstance(verification.get("new_value"), int):
+                result = Fraction((verification["new_value"] - verification["old_value"]) * 100, verification["old_value"])
+                expected = str(result.numerator) if result.denominator == 1 else f"{result.numerator}/{result.denominator}"
+                if expected not in accepted:
+                    errors.append(f"{label} accepted_answers do not match the percentage-change derivation")
+            if kind == "statistics-summary":
+                observations = verification.get("observations")
+                if not isinstance(observations, list) or not observations or any(isinstance(value, bool) or not isinstance(value, int) for value in observations):
+                    errors.append(f"{label} statistics-summary observations must be a non-empty integer list")
+                elif verification.get("expected_total") != sum(observations) or verification.get("expected_mean") != mean(observations) or verification.get("expected_median") != median(observations):
+                    errors.append(f"{label} statistics-summary expected values do not match its observations")
             compatible = {
                 "substitution": {"solve-linear", "classify-zero-coefficient"},
-                "direct-evaluation": {"combine-coefficients", "evaluate-linear"},
+                "direct-evaluation": {"combine-coefficients", "evaluate-linear", "fraction-sum", "fraction-conversion", "percentage-share", "unit-rate", "percentage-discount", "percentage-change", "statistics-summary"},
                 "special-case": {"classify-zero-coefficient"},
                 "example-execution": {"python-output"}
             }
@@ -222,7 +302,9 @@ def validate_inline_question_attributes(attributes: dict[str, str], resources: d
     accepted = [item for item in attributes.get("data-accepted-answers", "").split("|") if item]
     if answer_format not in VALID_ANSWER_FORMATS:
         errors.append(f"inline assessment {question_id or '(unknown)'} has an invalid answer format")
-    if not accepted:
+    if answer_format == "manual" and accepted:
+        errors.append(f"inline assessment {question_id or '(unknown)'} manual response cannot advertise machine-accepted answers")
+    elif answer_format != "manual" and not accepted:
         errors.append(f"inline assessment {question_id or '(unknown)'} needs accepted answers")
     else:
         patterns = {
@@ -544,6 +626,9 @@ def main() -> int:
             if liquid:
                 target = liquid.group(1)
             else:
+                if "{{" in target or "{%" in target:
+                    # Data-driven Liquid URLs are checked against generated HTML.
+                    continue
                 target = target.split()[0]
             if not target or target.startswith(("http://", "https://", "mailto:", "tel:", "#", "data:")):
                 continue

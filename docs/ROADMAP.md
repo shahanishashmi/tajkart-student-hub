@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Project roadmap
+description: "Track completed Tajkart platform work and planned learning, quality, accessibility, and release tasks."
 permalink: /docs/ROADMAP/
 ---
 

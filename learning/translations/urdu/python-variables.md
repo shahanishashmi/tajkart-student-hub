@@ -1,6 +1,8 @@
 ---
 layout: lesson
 title: "Python میں نام اور values"
+sitemap: false
+robots: "noindex, follow"
 summary: ڈیٹا کو نام دیں، اس کی قسم پہچانیں، اور value کو درست طریقے سے تبدیل کریں۔
 permalink: /learning/translations/ur/python-variables/
 id: ur-python-variables-001

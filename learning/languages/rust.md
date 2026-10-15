@@ -1,5 +1,6 @@
 ---
 title: "Rust learning path"
+description: "Learn Rust's ownership model through values, borrowing, collections, and tests."
 summary: Learn Rust's ownership model through values, borrowing, collections, and tests.
 permalink: /learning/languages/rust/
 id: language-path-rust

@@ -1,5 +1,6 @@
 ---
 title: "Accessible web foundations: a six-week course"
+description: "Build a small semantic, responsive site with tested browser interactions."
 summary: Build a small semantic, responsive site with tested browser interactions.
 permalink: /learning/courses/web-development/
 id: course-web-foundations-six-weeks

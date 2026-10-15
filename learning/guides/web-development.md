@@ -1,5 +1,6 @@
 ---
 title: "Web development: connect structure, style, behavior, and HTTP"
+description: "Understand the browser-facing pieces of a small accessible website."
 summary: Understand the browser-facing pieces of a small accessible website.
 permalink: /learning/guides/web-development/
 id: guide-web-development

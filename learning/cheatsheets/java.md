@@ -1,5 +1,6 @@
 ---
 title: "Java quick reference"
+description: "Quick Java reminders for methods, collections, equality, and exceptions, with small code examples."
 summary: Compact reminders for Java methods, collections, equality, and exceptions.
 permalink: /learning/cheatsheets/java/
 id: cheatsheet-java

@@ -1,5 +1,6 @@
 ---
 title: "Git and command-line quick reference"
+description: "Safe starter commands for inspecting, saving, and reviewing project changes."
 summary: Safe starter commands for inspecting, saving, and reviewing project changes.
 permalink: /learning/cheatsheets/git-cli/
 id: cheatsheet-git-cli

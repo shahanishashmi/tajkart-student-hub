@@ -1,5 +1,6 @@
 ---
 title: "Debugging and testing quick reference"
+description: "A compact checklist for reproducing defects and testing behavior."
 summary: A compact checklist for reproducing defects and testing behavior.
 permalink: /learning/cheatsheets/debugging-testing/
 id: cheatsheet-debugging-testing

@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Content standards
+description: "Create explanations, examples, exercises, diagrams, and learning plans specifically for Tajkart."
 permalink: /docs/CONTENT_STANDARDS/
 ---
 

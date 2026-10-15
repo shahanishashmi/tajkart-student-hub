@@ -10,6 +10,7 @@ category: math-foundations
 language: en
 difficulty: beginner
 tags: [mathematics, data-interpretation, mean, median, charts, statistics]
+skills: [math-data-summaries]
 prerequisites: [math-percentages-001]
 related_resources: [course-academic-math-foundations, problem-math-foundations-check-010]
 learning_objectives:

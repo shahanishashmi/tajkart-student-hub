@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Copyright and licensing
+description: "Read Tajkart's copyright and licensing terms for original material and third-party links."
 permalink: /copyright/
 ---
 

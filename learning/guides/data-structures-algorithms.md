@@ -1,5 +1,6 @@
 ---
 title: "Data structures and algorithms: choose, explain, measure"
+description: "Learn how representations and procedures affect the work a program performs."
 summary: Learn how representations and procedures affect the work a program performs.
 permalink: /learning/guides/data-structures-algorithms/
 id: guide-data-structures-algorithms

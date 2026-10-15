@@ -1,5 +1,6 @@
 ---
 title: "Containers and deployment quick reference"
+description: "Quick reminders for container images, configuration, secret handling, repeatable builds, and safe deployment."
 summary: Distinguish images, containers, configuration, and a reproducible release.
 permalink: /learning/cheatsheets/containers-deployment/
 id: cheatsheet-containers-deployment

@@ -9,6 +9,7 @@ category: math-foundations
 language: en
 difficulty: beginner
 tags: [mathematics, ratios, unit-rates, proportions, problem-solving]
+skills: [math-unit-rates]
 prerequisites: [math-fractions-operations-001, math-decimals-conversions-001]
 related_resources: [course-academic-math-foundations, math-percentages-001]
 learning_objectives:
