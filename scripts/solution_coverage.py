@@ -10,9 +10,6 @@ import sys
 from pathlib import Path
 from typing import Any
 
-import yaml
-
-
 ROOT = Path(__file__).resolve().parents[1]
 REPORT = ROOT / "docs" / "MASTER_AUDIT_REPORT.md"
 BEGIN = "<!-- solution-coverage:begin -->"
@@ -20,6 +17,8 @@ END = "<!-- solution-coverage:end -->"
 FRONT_MATTER = re.compile(r"\A---\s*\r?\n(.*?)\r?\n---\s*\r?\n", re.S)
 QUESTION_LINE = re.compile(r"(?m)^\s*(\d+)\.\s+(.+?)\s*$")
 INLINE_ATTR = re.compile(r'([a-zA-Z_:][a-zA-Z0-9_:.-]*)="([^"]*)"')
+sys.path.insert(0, str(ROOT / "scripts"))
+from validate_site import fields as parse_front_matter_fields, list_value as parse_front_matter_list
 
 
 def load_page(path: Path) -> tuple[dict[str, Any], str]:
@@ -27,7 +26,9 @@ def load_page(path: Path) -> tuple[dict[str, Any], str]:
     match = FRONT_MATTER.match(source)
     if not match:
         return {}, source
-    metadata = yaml.safe_load(match.group(1)) or {}
+    metadata = parse_front_matter_fields(match.group(1))
+    for key in ("skills", "tags", "prerequisites"):
+        metadata[key] = parse_front_matter_list(match.group(1), key)
     return metadata, source[match.end():]
 
 
