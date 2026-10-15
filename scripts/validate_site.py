@@ -32,19 +32,20 @@ def validate_assessment_data(assessment: object, resources: dict[str, dict[str, 
     """Validate structured question contracts without treating validity as subject approval."""
     errors: list[str] = []
     if not isinstance(assessment, dict) or assessment.get("schema_version") != 1:
-        return ["algebra assessment needs schema_version 1"]
+        return ["assessment needs schema_version 1"]
+    assessment_id = assessment.get("id", "assessment")
     if not isinstance(assessment.get("id"), str) or not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", assessment["id"]):
-        errors.append("algebra assessment needs a stable id")
+        errors.append("assessment needs a stable id")
     if not isinstance(assessment.get("title"), str) or not assessment["title"].strip():
-        errors.append("algebra assessment needs a title")
+        errors.append("assessment needs a title")
     if assessment.get("review_status") not in VALID_ASSESSMENT_REVIEW:
-        errors.append("algebra assessment needs a valid review_status")
+        errors.append("assessment needs a valid review_status")
     questions = assessment.get("questions")
     if not isinstance(questions, list) or not questions:
-        return ["algebra assessment needs a non-empty questions list"]
+        return ["assessment needs a non-empty questions list"]
     question_ids: set[str] = set()
     for index, question in enumerate(questions, start=1):
-        label = f"algebra assessment question {index}"
+        label = f"{assessment_id} question {index}"
         if not isinstance(question, dict):
             errors.append(f"{label} must be an object")
             continue
@@ -61,6 +62,22 @@ def validate_assessment_data(assessment: object, resources: dict[str, dict[str, 
         for field in ("question", "hint", "solution", "explanation"):
             if isinstance(question.get(field), str) and len(question[field]) > 4000:
                 errors.append(f"{label} {field} exceeds the supported length")
+        if not isinstance(question.get("subject"), str) or not question["subject"].strip():
+            errors.append(f"{label} needs a subject")
+        constraints = question.get("constraints")
+        if not isinstance(constraints, list) or any(not isinstance(item, str) or not item.strip() for item in constraints):
+            errors.append(f"{label} constraints must be a list of non-empty strings")
+        mistakes = question.get("common_mistakes")
+        if not isinstance(mistakes, list) or not mistakes or any(not isinstance(item, str) or not item.strip() for item in mistakes):
+            errors.append(f"{label} needs non-empty common_mistakes guidance")
+        provenance = question.get("provenance")
+        if not isinstance(provenance, dict) or provenance.get("kind") not in {"original", "external-reference"} or not isinstance(provenance.get("source_id"), str) or not provenance["source_id"].strip():
+            errors.append(f"{label} needs source provenance")
+        else:
+            if provenance["source_id"] not in resources:
+                errors.append(f"{label} has an unknown provenance source {provenance['source_id']!r}")
+            if provenance.get("kind") == "external-reference" and not isinstance(provenance.get("source_url"), str):
+                errors.append(f"{label} external provenance needs a source URL")
         question_skills = question.get("skill_ids")
         if not isinstance(question_skills, list) or not question_skills:
             errors.append(f"{label} needs at least one skill mapping")
@@ -73,8 +90,17 @@ def validate_assessment_data(assessment: object, resources: dict[str, dict[str, 
                     errors.append(f"{label} references unknown skill {skill!r}")
         lesson_id = question.get("lesson_id")
         lesson = resources.get(lesson_id) if isinstance(lesson_id, str) else None
-        if lesson is None or lesson.get("content_type") != "lesson":
-            errors.append(f"{label} has a broken lesson link {lesson_id!r}")
+        if lesson is None or lesson.get("content_type") not in {"lesson", "guide"}:
+            errors.append(f"{label} has a broken learning-resource link {lesson_id!r}")
+        prerequisite_ids = question.get("prerequisite_ids")
+        if not isinstance(prerequisite_ids, list) or any(not isinstance(item, str) for item in prerequisite_ids):
+            errors.append(f"{label} prerequisite_ids must be a list of resource IDs")
+        else:
+            if len(prerequisite_ids) != len(set(prerequisite_ids)):
+                errors.append(f"{label} has duplicate prerequisites")
+            for prerequisite_id in prerequisite_ids:
+                if prerequisite_id not in resources:
+                    errors.append(f"{label} has a broken prerequisite link {prerequisite_id!r}")
         answer_format = question.get("answer_format")
         if answer_format not in VALID_ANSWER_FORMATS:
             errors.append(f"{label} has an invalid answer_format {answer_format!r}")
@@ -95,9 +121,17 @@ def validate_assessment_data(assessment: object, resources: dict[str, dict[str, 
             pattern = patterns.get(answer_format)
             if pattern and any(not pattern.fullmatch(answer.strip()) for answer in accepted):
                 errors.append(f"{label} has an answer that does not match {answer_format} format")
+        choices = question.get("choices")
+        if choices is not None:
+            if not isinstance(choices, list) or len(choices) < 2 or any(not isinstance(choice, str) or not choice.strip() for choice in choices):
+                errors.append(f"{label} choices must contain at least two non-empty strings")
+            elif len(choices) != len(set(choices)):
+                errors.append(f"{label} has duplicate choices")
+            elif isinstance(accepted, list) and not set(accepted).issubset(choices):
+                errors.append(f"{label} has an accepted answer outside its choices")
         verification_method = question.get("verification_method")
         verification = question.get("verification")
-        if verification_method not in {"substitution", "direct-evaluation", "special-case"} or not isinstance(verification, dict):
+        if verification_method not in {"substitution", "direct-evaluation", "special-case", "example-execution"} or not isinstance(verification, dict):
             errors.append(f"{label} needs a valid verification method and derivation")
         else:
             kind = verification.get("kind")
@@ -107,8 +141,33 @@ def validate_assessment_data(assessment: object, resources: dict[str, dict[str, 
                 "solve-linear": ("coefficient", "constant", "rhs"),
                 "classify-zero-coefficient": ("coefficient", "constant", "rhs")
             }.get(kind)
+            if verification_method == "example-execution":
+                kind = verification.get("kind")
+                if kind != "python-output":
+                    errors.append(f"{label} example execution must use a python-output record")
+                else:
+                    code = verification.get("code")
+                    expected_output = verification.get("expected_output")
+                    answer_from_output = verification.get("answer_from_output")
+                    if not isinstance(code, str) or not code.strip():
+                        errors.append(f"{label} verification needs Python example code")
+                    else:
+                        try:
+                            compile(code, f"{question_id or assessment_id}-verification", "exec")
+                        except SyntaxError as error:
+                            errors.append(f"{label} verification code has invalid Python syntax: {error.msg}")
+                    if not isinstance(expected_output, str):
+                        errors.append(f"{label} verification needs expected_output text")
+                    if answer_from_output not in {"stdout", "line-count"}:
+                        errors.append(f"{label} verification has an invalid answer_from_output rule")
+                    elif isinstance(expected_output, str):
+                        derived = expected_output.strip() if answer_from_output == "stdout" else str(len(expected_output.splitlines()))
+                        if not isinstance(accepted, list) or derived.casefold() not in {str(item).strip().casefold() for item in accepted}:
+                            errors.append(f"{label} accepted_answers do not include the configured example result")
+                required = None
             if required is None:
-                errors.append(f"{label} has an invalid verification derivation")
+                if verification_method != "example-execution":
+                    errors.append(f"{label} has an invalid verification derivation")
             else:
                 for field in required:
                     if field not in verification:
@@ -125,7 +184,8 @@ def validate_assessment_data(assessment: object, resources: dict[str, dict[str, 
             compatible = {
                 "substitution": {"solve-linear", "classify-zero-coefficient"},
                 "direct-evaluation": {"combine-coefficients", "evaluate-linear"},
-                "special-case": {"classify-zero-coefficient"}
+                "special-case": {"classify-zero-coefficient"},
+                "example-execution": {"python-output"}
             }
             if kind not in compatible.get(verification_method, set()):
                 errors.append(f"{label} verification method does not match its derivation")
@@ -424,15 +484,23 @@ def main() -> int:
             if source_origin != "original":
                 errors.append(f"translation source must be an original resource: {source_id}: {path.relative_to(ROOT)}")
 
-    assessment_path = ROOT / "_data" / "algebra_assessment.json"
-    if assessment_path.is_file():
+    structured_question_ids: set[str] = set()
+    for assessment_path in sorted((ROOT / "_data").glob("*_assessment.json")):
         try:
             assessment = json.loads(assessment_path.read_text(encoding="utf-8"))
             errors.extend(validate_assessment_data(assessment, resource_metadata, skill_ids))
+            if isinstance(assessment, dict) and isinstance(assessment.get("questions"), list):
+                for question in assessment["questions"]:
+                    if not isinstance(question, dict) or not isinstance(question.get("id"), str):
+                        continue
+                    question_id = question["id"]
+                    if question_id in structured_question_ids:
+                        errors.append(f"duplicate structured assessment question id {question_id}")
+                    structured_question_ids.add(question_id)
         except json.JSONDecodeError as error:
-            errors.append(f"invalid algebra assessment JSON at line {error.lineno}: {error.msg}")
+            errors.append(f"invalid assessment JSON {assessment_path.name} at line {error.lineno}: {error.msg}")
 
-    inline_question_ids: set[str] = set()
+    inline_question_ids: set[str] = set(structured_question_ids)
     for path in files:
         source = path.read_text(encoding="utf-8")
         for tag in re.findall(r"<fieldset\b[^>]*\bdata-question\b[^>]*>", source):

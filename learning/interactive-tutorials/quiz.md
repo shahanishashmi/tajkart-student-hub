@@ -21,59 +21,30 @@ searchable: true
 
 Read each snippet and choose the output before selecting **Check answers**. A wrong answer is a prompt to trace the values one step at a time. The page compares a choice in your browser; it does not run learner-submitted code.
 
-<form data-quiz>
-  <fieldset class="quiz-question" data-question data-question-id="python-assignment-tracing-001" data-skill-ids="python-values" data-resource-id="python-variables-001" data-resource-url="{{ '/learning/lessons/python-variables/' | relative_url }}" data-answer-format="integer" data-accepted-answers="6" data-answer="6">
-    <legend><strong>1. Assignment</strong>: what does `print(score)` display?</legend>
-    <pre><code>score = 4
-score = score + 2
-print(score)</code></pre>
-    <label><input type="radio" name="quiz-1" value="4"> 4</label>
-    <label><input type="radio" name="quiz-1" value="6"> 6</label>
-    <label><input type="radio" name="quiz-1" value="42"> 42</label>
-    <details><summary>Hint</summary><p>The old value is read before the new value is assigned.</p></details>
-    <details data-solution hidden><summary>Worked answer</summary><p><code>score</code> starts at 4, then 2 is added, so <code>print(score)</code> displays 6.</p></details>
+<form data-quiz data-assessment-id="{{ site.data.code_reading_assessment.id | escape }}">
+  {% for question in site.data.code_reading_assessment.questions %}
+  {% assign mapped_lesson = site.pages | where: "id", question.lesson_id | first %}
+  <fieldset class="quiz-question" data-question data-question-id="{{ question.id | escape }}" data-skill-ids="{{ question.skill_ids | join: ',' | escape }}" data-resource-id="{{ question.lesson_id | escape }}" data-resource-url="{{ mapped_lesson.url | relative_url }}" data-answer-format="{{ question.answer_format | escape }}" data-accepted-answers="{{ question.accepted_answers | join: '|' | escape }}" data-answer="{{ question.accepted_answers | first | escape }}">
+    <legend><strong>{{ forloop.index }}.</strong> {{ question.question | escape }} <span class="difficulty-label">{{ question.difficulty | escape }}</span></legend>
+    <pre><code>{{ question.verification.code | escape }}</code></pre>
+    {% for answer in question.choices %}
+    <label><input type="radio" name="{{ question.id | escape }}" value="{{ answer | escape }}"> {{ answer | escape }}</label>
+    {% endfor %}
+    <details><summary>Hint</summary><p>{{ question.hint | escape }}</p></details>
+    {% for mistake in question.common_mistakes %}
+    <details><summary>Common mistake to avoid</summary><p>{{ mistake | escape }}</p></details>
+    {% endfor %}
+    {% if mapped_lesson %}<p><a href="{{ mapped_lesson.url | relative_url }}">Review the related lesson: {{ mapped_lesson.title | escape }}</a></p>{% endif %}
+    {% for prerequisite_id in question.prerequisite_ids %}
+      {% assign prerequisite_page = site.pages | where: "id", prerequisite_id | first %}
+      {% if prerequisite_page %}<p>Prerequisite: <a href="{{ prerequisite_page.url | relative_url }}">{{ prerequisite_page.title | escape }}</a></p>{% endif %}
+    {% endfor %}
+    <details data-solution hidden><summary>Worked answer and method</summary><p>{{ question.solution | escape }}</p><p>{{ question.explanation | escape }}</p></details>
     <p data-feedback aria-live="polite"></p>
   </fieldset>
+  {% endfor %}
 
-  <fieldset class="quiz-question" data-question data-question-id="python-loop-count-001" data-skill-ids="python-loop-tracing" data-resource-id="python-loops-001" data-resource-url="{{ '/learning/lessons/problem-solving-loops/' | relative_url }}" data-answer-format="integer" data-accepted-answers="3" data-answer="3">
-    <legend><strong>2. Loop passes</strong>: how many times does the body run?</legend>
-    <pre><code>for day in ["Mon", "Tue", "Wed"]:
-    print(day)</code></pre>
-    <label><input type="radio" name="quiz-2" value="2"> 2</label>
-    <label><input type="radio" name="quiz-2" value="3"> 3</label>
-    <label><input type="radio" name="quiz-2" value="4"> 4</label>
-    <details><summary>Hint</summary><p>Count the items in the sequence.</p></details>
-    <details data-solution hidden><summary>Worked answer</summary><p>The list has three items, and the loop body runs once for each, so the answer is 3.</p></details>
-    <p data-feedback aria-live="polite"></p>
-  </fieldset>
-
-  <fieldset class="quiz-question" data-question data-question-id="python-condition-branch-001" data-skill-ids="python-condition-tracing" data-resource-id="guide-programming-foundations" data-resource-url="{{ '/learning/guides/programming-foundations/' | relative_url }}" data-answer-format="text" data-accepted-answers="true" data-answer="true">
-    <legend><strong>3. Condition</strong>: which branch runs?</legend>
-    <pre><code>if 5 &gt; 3:
-    result = "true"
-else:
-    result = "false"
-print(result)</code></pre>
-    <label><input type="radio" name="quiz-3" value="true"> true</label>
-    <label><input type="radio" name="quiz-3" value="false"> false</label>
-    <details><summary>Hint</summary><p>Compare the two numbers before reading the branch.</p></details>
-    <details data-solution hidden><summary>Worked answer</summary><p>Since 5 is greater than 3, the condition is true and the first branch prints <code>true</code>.</p></details>
-    <p data-feedback aria-live="polite"></p>
-  </fieldset>
-
-  <fieldset class="quiz-question" data-question data-question-id="python-list-index-001" data-skill-ids="python-list-indexing" data-resource-id="python-collections-001" data-resource-url="{{ '/learning/lessons/python-lists-dictionaries/' | relative_url }}" data-answer-format="integer" data-accepted-answers="7" data-answer="7">
-    <legend><strong>4. List index</strong>: what does `print(values[0])` display?</legend>
-    <pre><code>values = [7, 9]
-print(values[0])</code></pre>
-    <label><input type="radio" name="quiz-4" value="0"> 0</label>
-    <label><input type="radio" name="quiz-4" value="7"> 7</label>
-    <label><input type="radio" name="quiz-4" value="9"> 9</label>
-    <details><summary>Hint</summary><p>Python list indexes begin at zero.</p></details>
-    <details data-solution hidden><summary>Worked answer</summary><p>Index 0 selects the first list item, which is 7.</p></details>
-    <p data-feedback aria-live="polite"></p>
-  </fieldset>
-
-  <p data-quiz-progress role="status" aria-live="polite">0 of 4 questions answered.</p>
+  <p data-quiz-progress role="status" aria-live="polite">0 of {{ site.data.code_reading_assessment.questions.size }} questions answered.</p>
   <button class="button" type="submit">Check answers</button>
   <p data-quiz-status role="status" aria-live="polite">Choose one answer in each question.</p>
   <section class="mastery-summary" data-mastery-summary aria-live="polite" aria-atomic="true" aria-label="Practice evidence"></section>

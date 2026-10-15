@@ -35,6 +35,9 @@ jobs:
       - name: Validate attributed reference candidate inventory
         run: python scripts/import_reference_resources.py --check
 
+      - name: Check generated question and solution coverage audit
+        run: python scripts/solution_coverage.py --check
+
       - name: Check JavaScript syntax
         run: node --check assets/js/learning-tools.js && node --check assets/js/site.js
 

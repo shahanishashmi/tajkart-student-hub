@@ -6,6 +6,7 @@ import copy
 import json
 import unittest
 from pathlib import Path
+import yaml
 
 from scripts.validate_site import validate_assessment_data, validate_inline_question_attributes
 
@@ -13,11 +14,28 @@ from scripts.validate_site import validate_assessment_data, validate_inline_ques
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def site_metadata() -> tuple[dict[str, dict], set[str]]:
+    resources: dict[str, dict] = {}
+    skills: set[str] = set()
+    for path in ROOT.rglob("*.md"):
+        parts = path.read_text(encoding="utf-8").split("---", 2)
+        if len(parts) != 3:
+            continue
+        metadata = yaml.safe_load(parts[1]) or {}
+        resource_id = metadata.get("id")
+        if resource_id:
+            resources[resource_id] = metadata
+            skills.update(metadata.get("skills", []) or [])
+    return resources, skills
+
+
 def question() -> dict:
     return {
         "id": "sample-solve-001",
         "question": "Solve x + 2 = 5.",
+        "subject": "mathematics",
         "skill_ids": ["algebra-equations-one-step"],
+        "prerequisite_ids": [],
         "difficulty": "beginner",
         "lesson_id": "lesson-example",
         "answer_format": "integer",
@@ -25,6 +43,9 @@ def question() -> dict:
         "hint": "Subtract 2.",
         "solution": "x = 3.",
         "explanation": "Subtracting 2 from both sides preserves equality.",
+        "constraints": ["Work over the real numbers."],
+        "common_mistakes": ["Subtracting 2 from only one side."],
+        "provenance": {"kind": "original", "source_id": "lesson-example"},
         "verification_method": "substitution",
         "verification": {"kind": "solve-linear", "coefficient": 1, "constant": 2, "rhs": 5},
         "review_status": "pending",
@@ -42,13 +63,45 @@ class AssessmentContractTests(unittest.TestCase):
 
     def test_current_algebra_assessment_satisfies_the_contract(self) -> None:
         data = json.loads((ROOT / "_data" / "algebra_assessment.json").read_text(encoding="utf-8"))
-        resources = {
-            "math-algebra-expressions-001": {"content_type": "lesson", "review_status": "pending"},
-            "math-algebra-one-step-001": {"content_type": "lesson", "review_status": "pending"},
-            "math-algebra-two-step-001": {"content_type": "lesson", "review_status": "pending"},
-        }
-        skills = {"algebra-expressions", "algebra-substitution", "algebra-equations-one-step", "algebra-equations-two-step"}
+        resources, skills = site_metadata()
         self.assertEqual(validate_assessment_data(data, resources, skills), [])
+
+    def test_current_code_reading_assessment_uses_the_same_contract(self) -> None:
+        data = json.loads((ROOT / "_data" / "code_reading_assessment.json").read_text(encoding="utf-8"))
+        resources, skills = site_metadata()
+        self.assertEqual(validate_assessment_data(data, resources, skills), [])
+        for item in data["questions"]:
+            self.assertGreaterEqual(len(item["choices"]), 2)
+            self.assertTrue(set(item["accepted_answers"]).issubset(item["choices"]))
+
+    def test_choices_must_be_unique_and_contain_the_accepted_answer(self) -> None:
+        data = copy.deepcopy(self.data)
+        data["questions"][0]["choices"] = ["1", "2"]
+        self.assertTrue(any("accepted answer outside its choices" in item for item in self.errors(data)))
+        data["questions"][0]["choices"] = ["3", "3"]
+        self.assertTrue(any("duplicate choices" in item for item in self.errors(data)))
+
+    def test_missing_common_mistake_and_broken_prerequisite_are_rejected(self) -> None:
+        data = copy.deepcopy(self.data)
+        data["questions"][0]["common_mistakes"] = []
+        data["questions"][0]["prerequisite_ids"] = ["missing-prerequisite"]
+        errors = self.errors(data)
+        self.assertTrue(any("common_mistakes" in item for item in errors))
+        self.assertTrue(any("broken prerequisite" in item for item in errors))
+
+    def test_example_execution_answer_must_match_configured_output(self) -> None:
+        data = copy.deepcopy(self.data)
+        item = data["questions"][0]
+        item["verification_method"] = "example-execution"
+        item["verification"] = {
+            "kind": "python-output",
+            "code": "print(1 + 2)",
+            "expected_output": "3\n",
+            "answer_from_output": "stdout",
+        }
+        self.assertEqual(self.errors(data), [])
+        item["verification"]["expected_output"] = "4\n"
+        self.assertTrue(any("configured example result" in error for error in self.errors(data)))
 
     def test_missing_explanation_is_rejected(self) -> None:
         data = copy.deepcopy(self.data)
@@ -76,7 +129,7 @@ class AssessmentContractTests(unittest.TestCase):
         data["questions"][0]["lesson_id"] = "missing-lesson"
         errors = self.errors(data)
         self.assertTrue(any("unknown skill" in item for item in errors))
-        self.assertTrue(any("broken lesson link" in item for item in errors))
+        self.assertTrue(any("broken learning-resource link" in item for item in errors))
 
     def test_approved_question_cannot_outpace_pending_lesson_review(self) -> None:
         data = copy.deepcopy(self.data)

@@ -2,32 +2,63 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:tajkart:schemas:assessment-question:v1",
   "title": "Tajkart assessment question",
-  "description": "A structured, answer-bearing question with a stable skill mapping and review state.",
+  "description": "A structured original assessment question with a stable skill and lesson mapping, prerequisite context, feedback, solution, verification evidence, and review state.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["id", "question", "skill_ids", "difficulty", "lesson_id", "answer_format", "accepted_answers", "hint", "solution", "explanation", "verification_method", "verification", "review_status"],
+  "required": [
+    "id", "question", "subject", "skill_ids", "prerequisite_ids", "difficulty", "lesson_id",
+    "answer_format", "accepted_answers", "hint", "solution", "explanation", "constraints",
+    "common_mistakes", "provenance", "verification_method", "verification", "review_status"
+  ],
   "properties": {
     "id": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
     "question": {"type": "string", "minLength": 1},
+    "subject": {"type": "string", "minLength": 1},
     "skill_ids": {"type": "array", "items": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"}, "minItems": 1, "uniqueItems": true},
+    "prerequisite_ids": {"type": "array", "items": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"}, "uniqueItems": true},
     "difficulty": {"enum": ["beginner", "intermediate", "advanced"]},
-    "lesson_id": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+    "lesson_id": {"description": "ID of the related lesson or guide resource.", "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
     "answer_format": {"enum": ["integer", "decimal", "fraction", "text"]},
     "accepted_answers": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1, "uniqueItems": true},
+    "choices": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 2, "uniqueItems": true},
     "hint": {"type": "string", "minLength": 1},
     "solution": {"type": "string", "minLength": 1},
     "explanation": {"type": "string", "minLength": 1},
-    "verification_method": {"enum": ["substitution", "direct-evaluation", "special-case"]},
+    "constraints": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "common_mistakes": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1},
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {"enum": ["original", "external-reference"]},
+        "source_id": {"type": "string", "minLength": 1},
+        "source_url": {"type": "string", "format": "uri"}
+      },
+      "required": ["kind", "source_id"]
+    },
+    "examples": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {"input": {"type": "string"}, "output": {"type": "string"}},
+        "required": ["input", "output"]
+      }
+    },
+    "verification_method": {"enum": ["substitution", "direct-evaluation", "special-case", "example-execution"]},
     "verification": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "kind": {"enum": ["combine-coefficients", "evaluate-linear", "solve-linear", "classify-zero-coefficient"]},
+        "kind": {"enum": ["combine-coefficients", "evaluate-linear", "solve-linear", "classify-zero-coefficient", "python-output"]},
         "coefficients": {"type": "array", "items": {"type": "integer"}, "minItems": 1},
         "coefficient": {"type": "integer"},
         "constant": {"type": "integer"},
         "variable_value": {"type": "integer"},
-        "rhs": {"type": "integer"}
+        "rhs": {"type": "integer"},
+        "code": {"type": "string", "minLength": 1},
+        "expected_output": {"type": "string"},
+        "answer_from_output": {"enum": ["stdout", "line-count"]}
       },
       "required": ["kind"]
     },
@@ -35,6 +66,7 @@
   },
   "allOf": [
     {"if": {"properties": {"verification_method": {"const": "substitution"}}, "required": ["verification_method"]}, "then": {"properties": {"verification": {"properties": {"kind": {"enum": ["solve-linear", "classify-zero-coefficient"]}}}}}},
-    {"if": {"properties": {"verification_method": {"const": "direct-evaluation"}}, "required": ["verification_method"]}, "then": {"properties": {"verification": {"properties": {"kind": {"enum": ["combine-coefficients", "evaluate-linear"]}}}}}}
+    {"if": {"properties": {"verification_method": {"const": "direct-evaluation"}}, "required": ["verification_method"]}, "then": {"properties": {"verification": {"properties": {"kind": {"enum": ["combine-coefficients", "evaluate-linear"]}}}}}},
+    {"if": {"properties": {"verification_method": {"const": "example-execution"}}, "required": ["verification_method"]}, "then": {"properties": {"verification": {"properties": {"kind": {"const": "python-output"}}, "required": ["kind", "code", "expected_output", "answer_from_output"]}}}}
   ]
 }

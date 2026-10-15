@@ -15,6 +15,37 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class MathematicsFoundationsTests(unittest.TestCase):
+    def test_each_mixed_check_answer_matches_an_independent_calculation(self) -> None:
+        source = (ROOT / "learning" / "problem-sets" / "math-foundations-check.md").read_text(encoding="utf-8")
+        solution_section = source.split("## Reference solutions", 1)[1].split("## Self-review rubric", 1)[0]
+        solutions = {int(number): line for number, line in re.findall(r"(?m)^(\d+)\.\s*(.+)$", solution_section)}
+        self.assertEqual(set(solutions), set(range(1, 8)))
+
+        fraction_total = Fraction(18, 30) + Fraction(1, 5)
+        decimal = Decimal(7) / Decimal(16)
+        rice_share = Decimal("0.6") / Decimal("2.4") * 100
+        unit_rate = Decimal(120) / Decimal(4)
+        discounted_price = Decimal(250) - Decimal(250) * Decimal("0.12")
+        percent_change = (Decimal(60) - Decimal(80)) / Decimal(80) * 100
+        recorded = [12, 15, 0, 9]
+        recorded_sorted = sorted(recorded)
+        derived = {
+            1: [str(fraction_total)],
+            2: [str(decimal), f"{(decimal * 100).normalize()}%"],
+            3: [f"{rice_share.normalize()}%"],
+            4: [format(unit_rate.normalize(), "f")],
+            5: [format(discounted_price.normalize(), "f")],
+            6: [f"{percent_change.normalize()}%"],
+            7: [str(sum(recorded)), str((Decimal(sum(recorded)) / Decimal(len(recorded))).normalize()), str(Decimal(recorded_sorted[1] + recorded_sorted[2]) / Decimal(2))],
+        }
+        for number, values in derived.items():
+            with self.subTest(question=number):
+                solution = solutions[number].replace("−", "-")
+                for value in values:
+                    self.assertIn(value, solution)
+        self.assertEqual(fraction_total, Fraction(4, 5))
+        self.assertEqual(percent_change, Decimal("-25"))
+
     def test_lesson_code_examples_match_documented_output(self) -> None:
         expected = {
             "math-fractions-operations.md": "11/12\n3/4\n",

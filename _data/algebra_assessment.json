@@ -7,152 +7,391 @@
     {
       "id": "algebra-combine-like-terms-001",
       "question": "Combine like terms in 3t + 2t. What is the coefficient of t?",
-      "skill_ids": ["algebra-expressions"],
+      "skill_ids": [
+        "algebra-expressions"
+      ],
       "difficulty": "beginner",
       "lesson_id": "math-algebra-expressions-001",
       "answer_format": "integer",
-      "accepted_answers": ["5"],
+      "accepted_answers": [
+        "5"
+      ],
       "hint": "Add the coefficients of the two t terms. Keep the variable attached to the result.",
       "solution": "3t + 2t = (3 + 2)t = 5t, so the coefficient is 5.",
       "explanation": "Like terms have the same variable part. Their coefficients add, while the variable is retained.",
       "verification_method": "direct-evaluation",
-      "verification": {"kind": "combine-coefficients", "coefficients": [3, 2]},
-      "review_status": "pending"
+      "verification": {
+        "kind": "combine-coefficients",
+        "coefficients": [
+          3,
+          2
+        ]
+      },
+      "review_status": "pending",
+      "subject": "mathematics",
+      "prerequisite_ids": [
+        "math-percentages-001"
+      ],
+      "constraints": [
+        "Treat t as a real variable; combine coefficients only for like terms."
+      ],
+      "common_mistakes": [
+        "Adding unlike terms or dropping the variable label instead of combining the coefficients of t."
+      ],
+      "provenance": {
+        "kind": "original",
+        "source_id": "problem-algebra-foundations-check-011"
+      }
     },
     {
       "id": "algebra-evaluate-study-hours-001",
       "question": "A study plan gives 4 points per completed hour plus 3 starting points. Evaluate 4h + 3 when h = 4.",
-      "skill_ids": ["algebra-substitution"],
+      "skill_ids": [
+        "algebra-substitution"
+      ],
       "difficulty": "beginner",
       "lesson_id": "math-algebra-expressions-001",
       "answer_format": "integer",
-      "accepted_answers": ["19"],
+      "accepted_answers": [
+        "19"
+      ],
       "hint": "Replace h with 4, then multiply before adding.",
       "solution": "4(4) + 3 = 16 + 3 = 19 points.",
       "explanation": "Substitution means replacing a variable with its stated value and following the order of operations.",
       "verification_method": "direct-evaluation",
-      "verification": {"kind": "evaluate-linear", "coefficient": 4, "constant": 3, "variable_value": 4},
-      "review_status": "pending"
+      "verification": {
+        "kind": "evaluate-linear",
+        "coefficient": 4,
+        "constant": 3,
+        "variable_value": 4
+      },
+      "review_status": "pending",
+      "subject": "mathematics",
+      "prerequisite_ids": [
+        "math-percentages-001"
+      ],
+      "constraints": [
+        "Use h = 4 and retain the stated three starting points."
+      ],
+      "common_mistakes": [
+        "Multiplying 4 by h but forgetting the three starting points."
+      ],
+      "provenance": {
+        "kind": "original",
+        "source_id": "problem-algebra-foundations-check-011"
+      }
     },
     {
       "id": "algebra-one-step-addition-001",
       "question": "Solve x + 8 = 13. Enter the value of x.",
-      "skill_ids": ["algebra-equations-one-step", "algebra-substitution"],
+      "skill_ids": [
+        "algebra-equations-one-step",
+        "algebra-substitution"
+      ],
       "difficulty": "beginner",
       "lesson_id": "math-algebra-one-step-001",
       "answer_format": "integer",
-      "accepted_answers": ["5"],
+      "accepted_answers": [
+        "5"
+      ],
       "hint": "Subtract 8 from both sides to keep the equality balanced.",
       "solution": "x + 8 - 8 = 13 - 8, so x = 5. Check: 5 + 8 = 13.",
       "explanation": "Applying the same inverse operation to both sides preserves equality.",
       "verification_method": "substitution",
-      "verification": {"kind": "solve-linear", "coefficient": 1, "constant": 8, "rhs": 13},
-      "review_status": "pending"
+      "verification": {
+        "kind": "solve-linear",
+        "coefficient": 1,
+        "constant": 8,
+        "rhs": 13
+      },
+      "review_status": "pending",
+      "subject": "mathematics",
+      "prerequisite_ids": [
+        "math-algebra-expressions-001"
+      ],
+      "constraints": [
+        "Work over the real numbers and preserve equality on both sides."
+      ],
+      "common_mistakes": [
+        "Subtracting 8 from only one side of the equation."
+      ],
+      "provenance": {
+        "kind": "original",
+        "source_id": "problem-algebra-foundations-check-011"
+      }
     },
     {
       "id": "algebra-one-step-subtraction-001",
       "question": "Solve m - 9 = 4. Enter the value of m.",
-      "skill_ids": ["algebra-equations-one-step", "algebra-substitution"],
+      "skill_ids": [
+        "algebra-equations-one-step",
+        "algebra-substitution"
+      ],
       "difficulty": "beginner",
       "lesson_id": "math-algebra-one-step-001",
       "answer_format": "integer",
-      "accepted_answers": ["13"],
+      "accepted_answers": [
+        "13"
+      ],
       "hint": "Add 9 to both sides; then substitute your result into the original equation.",
       "solution": "m - 9 + 9 = 4 + 9, so m = 13. Check: 13 - 9 = 4.",
       "explanation": "Addition reverses subtraction. The check uses the original equation, not a transformed one.",
       "verification_method": "substitution",
-      "verification": {"kind": "solve-linear", "coefficient": 1, "constant": -9, "rhs": 4},
-      "review_status": "pending"
+      "verification": {
+        "kind": "solve-linear",
+        "coefficient": 1,
+        "constant": -9,
+        "rhs": 4
+      },
+      "review_status": "pending",
+      "subject": "mathematics",
+      "prerequisite_ids": [
+        "math-algebra-expressions-001"
+      ],
+      "constraints": [
+        "Work over the real numbers and preserve equality on both sides."
+      ],
+      "common_mistakes": [
+        "Subtracting 9 again instead of adding 9 to both sides."
+      ],
+      "provenance": {
+        "kind": "original",
+        "source_id": "problem-algebra-foundations-check-011"
+      }
     },
     {
       "id": "algebra-one-step-zero-001",
       "question": "Solve 7n = 0. Enter the value of n.",
-      "skill_ids": ["algebra-equations-one-step"],
+      "skill_ids": [
+        "algebra-equations-one-step"
+      ],
       "difficulty": "beginner",
       "lesson_id": "math-algebra-one-step-001",
       "answer_format": "integer",
-      "accepted_answers": ["0"],
+      "accepted_answers": [
+        "0"
+      ],
       "hint": "Divide both sides by 7, which is non-zero.",
       "solution": "7n / 7 = 0 / 7, so n = 0. Check: 7(0) = 0.",
       "explanation": "Zero is a valid solution here because the coefficient is non-zero; division by the coefficient is defined.",
       "verification_method": "substitution",
-      "verification": {"kind": "solve-linear", "coefficient": 7, "constant": 0, "rhs": 0},
-      "review_status": "pending"
+      "verification": {
+        "kind": "solve-linear",
+        "coefficient": 7,
+        "constant": 0,
+        "rhs": 0
+      },
+      "review_status": "pending",
+      "subject": "mathematics",
+      "prerequisite_ids": [
+        "math-algebra-expressions-001"
+      ],
+      "constraints": [
+        "Work over the real numbers; the coefficient of n is nonzero."
+      ],
+      "common_mistakes": [
+        "Calling the equation impossible because the right side is zero; n = 0 satisfies it."
+      ],
+      "provenance": {
+        "kind": "original",
+        "source_id": "problem-algebra-foundations-check-011"
+      }
     },
     {
       "id": "algebra-one-step-negative-001",
       "question": "Solve 4p = -48. Enter the value of p.",
-      "skill_ids": ["algebra-equations-one-step", "algebra-substitution"],
+      "skill_ids": [
+        "algebra-equations-one-step",
+        "algebra-substitution"
+      ],
       "difficulty": "beginner",
       "lesson_id": "math-algebra-one-step-001",
       "answer_format": "integer",
-      "accepted_answers": ["-12"],
+      "accepted_answers": [
+        "-12"
+      ],
       "hint": "Divide both sides by 4, then check the product.",
       "solution": "4p / 4 = -48 / 4, so p = -12. Check: 4(-12) = -48.",
       "explanation": "Division reverses multiplication; a positive coefficient times a negative value is negative.",
       "verification_method": "substitution",
-      "verification": {"kind": "solve-linear", "coefficient": 4, "constant": 0, "rhs": -48},
-      "review_status": "pending"
+      "verification": {
+        "kind": "solve-linear",
+        "coefficient": 4,
+        "constant": 0,
+        "rhs": -48
+      },
+      "review_status": "pending",
+      "subject": "mathematics",
+      "prerequisite_ids": [
+        "math-algebra-expressions-001"
+      ],
+      "constraints": [
+        "Work over the real numbers; preserve the sign when dividing."
+      ],
+      "common_mistakes": [
+        "Dropping the negative sign when dividing -48 by 4."
+      ],
+      "provenance": {
+        "kind": "original",
+        "source_id": "problem-algebra-foundations-check-011"
+      }
     },
     {
       "id": "algebra-two-step-integer-001",
       "question": "Solve 3x + 5 = 17. Enter the value of x.",
-      "skill_ids": ["algebra-equations-two-step", "algebra-substitution"],
+      "skill_ids": [
+        "algebra-equations-two-step",
+        "algebra-substitution"
+      ],
       "difficulty": "beginner",
       "lesson_id": "math-algebra-two-step-001",
       "answer_format": "integer",
-      "accepted_answers": ["4"],
+      "accepted_answers": [
+        "4"
+      ],
       "hint": "Undo the addition first, then divide both sides by 3.",
       "solution": "3x + 5 - 5 = 17 - 5 gives 3x = 12. Divide by 3: x = 4. Check: 3(4) + 5 = 17.",
       "explanation": "Reverse the operations in the opposite order while applying each operation to both sides.",
       "verification_method": "substitution",
-      "verification": {"kind": "solve-linear", "coefficient": 3, "constant": 5, "rhs": 17},
-      "review_status": "pending"
+      "verification": {
+        "kind": "solve-linear",
+        "coefficient": 3,
+        "constant": 5,
+        "rhs": 17
+      },
+      "review_status": "pending",
+      "subject": "mathematics",
+      "prerequisite_ids": [
+        "math-algebra-one-step-001"
+      ],
+      "constraints": [
+        "Work over the real numbers; undo addition before division."
+      ],
+      "common_mistakes": [
+        "Dividing by 3 before removing the added 5, or dividing only one side."
+      ],
+      "provenance": {
+        "kind": "original",
+        "source_id": "problem-algebra-foundations-check-011"
+      }
     },
     {
       "id": "algebra-two-step-fraction-001",
       "question": "Solve 2y + 1 = 4. Enter an accepted exact fraction or decimal form.",
-      "skill_ids": ["algebra-equations-two-step", "algebra-substitution"],
+      "skill_ids": [
+        "algebra-equations-two-step",
+        "algebra-substitution"
+      ],
       "difficulty": "beginner",
       "lesson_id": "math-algebra-two-step-001",
       "answer_format": "fraction",
-      "accepted_answers": ["3/2", "1.5"],
+      "accepted_answers": [
+        "3/2",
+        "1.5"
+      ],
       "hint": "Subtract 1 from both sides, then divide 3 by 2.",
       "solution": "2y = 3, so y = 3/2. The accepted decimal form is 1.5. Check: 2(3/2) + 1 = 4.",
       "explanation": "A fraction answer stays exact. This question explicitly accepts both 3/2 and its terminating decimal 1.5.",
       "verification_method": "substitution",
-      "verification": {"kind": "solve-linear", "coefficient": 2, "constant": 1, "rhs": 4},
-      "review_status": "pending"
+      "verification": {
+        "kind": "solve-linear",
+        "coefficient": 2,
+        "constant": 1,
+        "rhs": 4
+      },
+      "review_status": "pending",
+      "subject": "mathematics",
+      "prerequisite_ids": [
+        "math-algebra-one-step-001"
+      ],
+      "constraints": [
+        "Work over the real numbers; keep exact values unless an accepted decimal is exact."
+      ],
+      "common_mistakes": [
+        "Rounding 3/2 even though an exact fraction is available."
+      ],
+      "provenance": {
+        "kind": "original",
+        "source_id": "problem-algebra-foundations-check-011"
+      }
     },
     {
       "id": "algebra-two-step-negative-001",
       "question": "Solve -2z + 3 = 8. Enter the value of z.",
-      "skill_ids": ["algebra-equations-two-step", "algebra-substitution"],
+      "skill_ids": [
+        "algebra-equations-two-step",
+        "algebra-substitution"
+      ],
       "difficulty": "intermediate",
       "lesson_id": "math-algebra-two-step-001",
       "answer_format": "fraction",
-      "accepted_answers": ["-5/2", "-2.5"],
+      "accepted_answers": [
+        "-5/2",
+        "-2.5"
+      ],
       "hint": "Subtract 3 from both sides, then divide by -2.",
       "solution": "-2z = 5, so z = -5/2. Check: -2(-5/2) + 3 = 5 + 3 = 8.",
       "explanation": "Dividing a positive 5 by a negative coefficient produces a negative result; substitute it to verify.",
       "verification_method": "substitution",
-      "verification": {"kind": "solve-linear", "coefficient": -2, "constant": 3, "rhs": 8},
-      "review_status": "pending"
+      "verification": {
+        "kind": "solve-linear",
+        "coefficient": -2,
+        "constant": 3,
+        "rhs": 8
+      },
+      "review_status": "pending",
+      "subject": "mathematics",
+      "prerequisite_ids": [
+        "math-algebra-one-step-001"
+      ],
+      "constraints": [
+        "Work over the real numbers; divide by the negative coefficient with its sign."
+      ],
+      "common_mistakes": [
+        "Treating division by -2 as division by positive 2."
+      ],
+      "provenance": {
+        "kind": "original",
+        "source_id": "problem-algebra-foundations-check-011"
+      }
     },
     {
       "id": "algebra-zero-coefficient-001",
       "question": "How many solutions does 0w = 5 have? Enter ‘none’ or ‘infinitely many’. ",
-      "skill_ids": ["algebra-equations-one-step"],
+      "skill_ids": [
+        "algebra-equations-one-step"
+      ],
       "difficulty": "intermediate",
       "lesson_id": "math-algebra-one-step-001",
       "answer_format": "text",
-      "accepted_answers": ["none"],
+      "accepted_answers": [
+        "none"
+      ],
       "hint": "For any value of w, the left side is 0. Can it equal 5?",
       "solution": "There is no solution: 0 multiplied by any value is 0, never 5.",
       "explanation": "A zero coefficient is a special case. Compare the resulting statement rather than dividing by zero.",
       "verification_method": "special-case",
-      "verification": {"kind": "classify-zero-coefficient", "coefficient": 0, "constant": 0, "rhs": 5},
-      "review_status": "pending"
+      "verification": {
+        "kind": "classify-zero-coefficient",
+        "coefficient": 0,
+        "constant": 0,
+        "rhs": 5
+      },
+      "review_status": "pending",
+      "subject": "mathematics",
+      "prerequisite_ids": [
+        "math-algebra-expressions-001"
+      ],
+      "constraints": [
+        "Work over the real numbers; classify whether the equation is true for all values or for none."
+      ],
+      "common_mistakes": [
+        "Claiming a value for w; zero multiplied by any real number remains zero and cannot equal five."
+      ],
+      "provenance": {
+        "kind": "original",
+        "source_id": "problem-algebra-foundations-check-011"
+      }
     }
   ]
 }

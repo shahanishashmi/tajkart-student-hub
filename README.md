@@ -44,6 +44,7 @@ Run the content and code checks:
 ```sh
 python scripts/validate_site.py
 python scripts/import_reference_resources.py --check
+python scripts/solution_coverage.py --check
 python -m unittest discover -s tests -v
 node --check assets/js/site.js
 node tests/search_test.js
@@ -51,6 +52,8 @@ node tests/navigation_test.js
 bundle exec jekyll build
 python scripts/validate_html.py _site
 ```
+
+After changing problem sets or structured assessments, regenerate the question-level section in the master audit with `python scripts/solution_coverage.py --write`.
 
 The search index and quiz work on static hosting. Tajkart does not execute submitted code on a server.
 

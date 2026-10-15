@@ -1,0 +1,176 @@
+{
+  "schema_version": 1,
+  "id": "python-code-reading-assessment",
+  "title": "Predict the output: a beginner code-reading quiz",
+  "review_status": "pending",
+  "questions": [
+    {
+      "id": "python-assignment-tracing-001",
+      "question": "What does print(score) display?",
+      "subject": "computer-science",
+      "skill_ids": [
+        "python-values"
+      ],
+      "lesson_id": "python-variables-001",
+      "answer_format": "integer",
+      "accepted_answers": [
+        "6"
+      ],
+      "choices": [
+        "4",
+        "6",
+        "42"
+      ],
+      "hint": "The old value is read before the new value is assigned.",
+      "solution": "score starts at 4, then 2 is added, so print(score) displays 6.",
+      "explanation": "An assignment replaces the variable value after the right-hand expression is calculated.",
+      "constraints": [
+        "Trace the shown Python 3 code; it reads no input and has no external dependencies."
+      ],
+      "common_mistakes": [
+        "Returning the initial value 4 or concatenating the digits as 42."
+      ],
+      "verification": {
+        "kind": "python-output",
+        "code": "score = 4\nscore = score + 2\nprint(score)",
+        "expected_output": "6\n",
+        "answer_from_output": "stdout"
+      },
+      "difficulty": "beginner",
+      "prerequisite_ids": [],
+      "provenance": {
+        "kind": "original",
+        "source_id": "interactive-output-quiz-001"
+      },
+      "verification_method": "example-execution",
+      "review_status": "pending"
+    },
+    {
+      "id": "python-loop-count-001",
+      "question": "How many times does the loop body run?",
+      "subject": "computer-science",
+      "skill_ids": [
+        "python-loop-tracing"
+      ],
+      "lesson_id": "python-loops-001",
+      "answer_format": "integer",
+      "accepted_answers": [
+        "3"
+      ],
+      "choices": [
+        "2",
+        "3",
+        "4"
+      ],
+      "hint": "Count the items in the sequence.",
+      "solution": "The list has three items and the loop body runs once for each item, so it runs three times.",
+      "explanation": "A for loop visits each list element once unless the body changes control flow; this body does not.",
+      "constraints": [
+        "Trace the shown Python 3 code; it reads no input and has no external dependencies."
+      ],
+      "common_mistakes": [
+        "Counting the starting index as an extra pass or stopping before the final list item."
+      ],
+      "verification": {
+        "kind": "python-output",
+        "code": "for day in [\"Mon\", \"Tue\", \"Wed\"]:\n    print(day)",
+        "expected_output": "Mon\nTue\nWed\n",
+        "answer_from_output": "line-count"
+      },
+      "difficulty": "beginner",
+      "prerequisite_ids": [
+        "python-variables-001"
+      ],
+      "provenance": {
+        "kind": "original",
+        "source_id": "interactive-output-quiz-001"
+      },
+      "verification_method": "example-execution",
+      "review_status": "pending"
+    },
+    {
+      "id": "python-condition-branch-001",
+      "question": "Which branch runs, represented by the printed word?",
+      "subject": "computer-science",
+      "skill_ids": [
+        "python-condition-tracing"
+      ],
+      "lesson_id": "guide-programming-foundations",
+      "answer_format": "text",
+      "accepted_answers": [
+        "true"
+      ],
+      "choices": [
+        "true",
+        "false"
+      ],
+      "hint": "Compare the two numbers before reading the branch.",
+      "solution": "Since 5 is greater than 3, the condition is true and the first branch prints true.",
+      "explanation": "The if body executes exactly when its comparison evaluates to True.",
+      "constraints": [
+        "Trace the shown Python 3 code; compare the printed text case-insensitively."
+      ],
+      "common_mistakes": [
+        "Reading else as the default branch without evaluating the comparison."
+      ],
+      "verification": {
+        "kind": "python-output",
+        "code": "if 5 > 3:\n    result = \"true\"\nelse:\n    result = \"false\"\nprint(result)",
+        "expected_output": "true\n",
+        "answer_from_output": "stdout"
+      },
+      "difficulty": "beginner",
+      "prerequisite_ids": [],
+      "provenance": {
+        "kind": "original",
+        "source_id": "interactive-output-quiz-001"
+      },
+      "verification_method": "example-execution",
+      "review_status": "pending"
+    },
+    {
+      "id": "python-list-index-001",
+      "question": "What does print(values[0]) display?",
+      "subject": "computer-science",
+      "skill_ids": [
+        "python-list-indexing"
+      ],
+      "lesson_id": "python-collections-001",
+      "answer_format": "integer",
+      "accepted_answers": [
+        "7"
+      ],
+      "choices": [
+        "0",
+        "7",
+        "9"
+      ],
+      "hint": "Python list indexes begin at zero.",
+      "solution": "Index 0 selects the first list item, which is 7.",
+      "explanation": "List positions start at zero, so values[0] refers to the first element.",
+      "constraints": [
+        "Trace the shown Python 3 code; the list contains two integers."
+      ],
+      "common_mistakes": [
+        "Treating index 0 as the second position or returning the index itself."
+      ],
+      "verification": {
+        "kind": "python-output",
+        "code": "values = [7, 9]\nprint(values[0])",
+        "expected_output": "7\n",
+        "answer_from_output": "stdout"
+      },
+      "difficulty": "beginner",
+      "prerequisite_ids": [
+        "python-variables-001",
+        "python-loops-001"
+      ],
+      "provenance": {
+        "kind": "original",
+        "source_id": "interactive-output-quiz-001"
+      },
+      "verification_method": "example-execution",
+      "review_status": "pending"
+    }
+  ]
+}

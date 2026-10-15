@@ -32,6 +32,8 @@ class Document(HTMLParser):
         self.labels_aria: set[str] = set()
         self.label_depth = 0
         self.heading_levels: list[int] = []
+        self.questions: list[dict[str, int | str | bool]] = []
+        self.current_question: dict[str, int | str | bool] | None = None
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         values = {key: value or "" for key, value in attrs}
@@ -42,11 +44,24 @@ class Document(HTMLParser):
             self.ids.add(element_id)
         if tag == "html":
             self.html_lang = values.get("lang", "")
+        elif tag == "fieldset" and "data-question" in values:
+            self.current_question = {
+                "id": values.get("data-question-id", ""),
+                "radio_options": 0,
+                "has_solution": False,
+                "solution_hidden": False,
+            }
+            self.questions.append(self.current_question)
+        elif tag == "details" and self.current_question is not None and "data-solution" in values:
+            self.current_question["has_solution"] = True
+            self.current_question["solution_hidden"] = "hidden" in values
         elif tag == "main":
             self.mains += 1
         elif tag == "img" and "alt" not in values:
             self.images_missing_alt += 1
         elif tag in {"input", "select", "textarea"}:
+            if tag == "input" and values.get("type", "text").lower() == "radio" and self.current_question is not None:
+                self.current_question["radio_options"] = int(self.current_question["radio_options"]) + 1
             if tag == "input" and values.get("type", "text").lower() in {"hidden", "submit", "button", "reset"}:
                 return
             self.controls.append({"id": element_id, "aria": values.get("aria-label", "") or values.get("aria-labelledby", ""), "wrapped": self.label_depth > 0})
@@ -62,6 +77,8 @@ class Document(HTMLParser):
     def handle_endtag(self, tag: str) -> None:
         if tag == "label" and self.label_depth:
             self.label_depth -= 1
+        elif tag == "fieldset" and self.current_question is not None:
+            self.current_question = None
 
 
 def route_file(site: Path, href: str) -> Path | None:
@@ -125,6 +142,15 @@ def main() -> int:
             errors.append(f"duplicate HTML id(s) {', '.join(parser.duplicates)}: {relative}")
         if parser.images_missing_alt:
             errors.append(f"{parser.images_missing_alt} image(s) missing alt attribute: {relative}")
+        if relative == Path("learning/interactive-tutorials/quiz/index.html"):
+            if len(parser.questions) != 4:
+                errors.append(f"expected four generated code-reading questions, found {len(parser.questions)}: {relative}")
+            for question in parser.questions:
+                question_id = question["id"] or "(unknown)"
+                if int(question["radio_options"]) < 2:
+                    errors.append(f"code-reading question {question_id} needs at least two answer choices: {relative}")
+                if not question["has_solution"] or not question["solution_hidden"]:
+                    errors.append(f"code-reading question {question_id} needs a hidden worked-solution disclosure: {relative}")
         for control in parser.controls:
             if control["wrapped"] or control["aria"] or (control["id"] and control["id"] in parser.labels_for):
                 continue
