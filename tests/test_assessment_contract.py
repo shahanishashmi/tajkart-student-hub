@@ -6,9 +6,8 @@ import copy
 import json
 import unittest
 from pathlib import Path
-import yaml
 
-from scripts.validate_site import validate_assessment_data, validate_inline_question_attributes
+from scripts.validate_site import FRONT_MATTER, fields, list_value, validate_assessment_data, validate_inline_question_attributes
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -18,10 +17,12 @@ def site_metadata() -> tuple[dict[str, dict], set[str]]:
     resources: dict[str, dict] = {}
     skills: set[str] = set()
     for path in ROOT.rglob("*.md"):
-        parts = path.read_text(encoding="utf-8").split("---", 2)
-        if len(parts) != 3:
+        source = path.read_text(encoding="utf-8")
+        match = FRONT_MATTER.match(source)
+        if not match:
             continue
-        metadata = yaml.safe_load(parts[1]) or {}
+        metadata = fields(match.group(1))
+        metadata["skills"] = list_value(match.group(1), "skills")
         resource_id = metadata.get("id")
         if resource_id:
             resources[resource_id] = metadata
