@@ -35,6 +35,9 @@ jobs:
       - name: Validate attributed reference candidate inventory
         run: python scripts/import_reference_resources.py --check
 
+      - name: Validate complete reference snapshot manifest and browse facets
+        run: python scripts/reference_catalog_audit.py --check
+
       - name: Check generated question and solution coverage audit
         run: python scripts/solution_coverage.py --check
 
@@ -71,6 +74,9 @@ jobs:
 
       - name: Validate generated routes, search index, and accessibility basics
         run: python scripts/validate_html.py _site
+
+      - name: Validate generated SEO metadata, sitemap, robots, and Search Console file
+        run: python scripts/validate_seo.py _site
 
       - name: Package GitHub Pages artifact
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'

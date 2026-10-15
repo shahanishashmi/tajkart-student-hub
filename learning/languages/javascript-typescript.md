@@ -1,5 +1,6 @@
 ---
 title: "JavaScript and TypeScript learning path"
+description: "Learn browser behavior in JavaScript, then add TypeScript's static checks where useful."
 summary: Learn browser behavior in JavaScript, then add TypeScript's static checks where useful.
 permalink: /learning/languages/javascript-typescript/
 id: language-path-javascript-typescript

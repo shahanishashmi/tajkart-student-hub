@@ -1,5 +1,6 @@
 ---
 title: "Data structures and algorithms: a six-week course"
+description: "A self-study course in choosing representations, searching, sorting, and explaining complexity."
 summary: A self-study course in choosing representations, searching, sorting, and explaining complexity.
 permalink: /learning/courses/data-structures/
 id: course-data-structures-six-weeks

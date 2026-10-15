@@ -1,5 +1,6 @@
 ---
 title: "Python learning path"
+description: "A staged route from first values to tested small Python programs."
 summary: A staged route from first values to tested small Python programs.
 permalink: /learning/languages/python/
 id: language-path-python

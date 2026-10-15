@@ -1,6 +1,7 @@
 ---
 layout: lesson
 title: "Problem PS-004: binary search a sorted list"
+description: "Find a target index while maintaining a shrinking search interval."
 summary: Find a target index while maintaining a shrinking search interval.
 permalink: /learning/problem-sets/binary-search/
 id: problem-binary-search-004

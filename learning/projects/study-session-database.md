@@ -1,6 +1,7 @@
 ---
 layout: page
 title: "Project: study-session database"
+description: "Model sample study sessions and query totals while preserving relationships."
 summary: Model sample study sessions and query totals while preserving relationships.
 permalink: /learning/projects/study-session-database/
 id: project-study-session-database

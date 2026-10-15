@@ -1,6 +1,7 @@
 ---
 layout: page
 title: "Project: student portfolio site"
+description: "Present a learner's projects clearly without fabricating experience or sharing private data."
 summary: Present a learner's projects clearly without fabricating experience or sharing private data.
 permalink: /learning/projects/student-portfolio/
 id: project-student-portfolio

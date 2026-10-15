@@ -1,6 +1,7 @@
 ---
 layout: page
 title: "Project: mock learning-resource API client"
+description: "Practise requests and error states against a local fixture instead of an invented live service."
 summary: Practise requests and error states against a local fixture instead of an invented live service.
 permalink: /learning/projects/mock-resource-api/
 id: project-mock-resource-api-client

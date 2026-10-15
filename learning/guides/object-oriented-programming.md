@@ -1,5 +1,6 @@
 ---
 title: "Object-oriented programming: model behavior with small objects"
+description: "Use classes, methods, and composition when they clarify a program's responsibilities."
 summary: Use classes, methods, and composition when they clarify a program's responsibilities.
 permalink: /learning/guides/object-oriented-programming/
 id: guide-object-oriented-programming

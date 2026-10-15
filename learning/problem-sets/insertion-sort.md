@@ -1,6 +1,7 @@
 ---
 layout: lesson
 title: "Problem PS-005: sort a list with insertion sort"
+description: "Build a sorted prefix by inserting each next value in its correct position."
 summary: Build a sorted prefix by inserting each next value in its correct position.
 permalink: /learning/problem-sets/insertion-sort/
 id: problem-insertion-sort-005

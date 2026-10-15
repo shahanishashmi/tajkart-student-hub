@@ -1,5 +1,6 @@
 ---
 title: "Programming foundations: from a task to a tested program"
+description: "Turn a small goal into inputs, steps, code, and checks."
 summary: Turn a small goal into inputs, steps, code, and checks.
 permalink: /learning/guides/programming-foundations/
 id: guide-programming-foundations

@@ -1,6 +1,7 @@
 ---
 layout: page
 title: "Project: read-only folder audit"
+description: "Write a report that counts and classifies files without modifying them."
 summary: Write a report that counts and classifies files without modifying them.
 permalink: /learning/projects/folder-audit/
 id: project-read-only-folder-audit

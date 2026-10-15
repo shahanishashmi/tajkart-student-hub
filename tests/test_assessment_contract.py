@@ -75,6 +75,42 @@ class AssessmentContractTests(unittest.TestCase):
             self.assertGreaterEqual(len(item["choices"]), 2)
             self.assertTrue(set(item["accepted_answers"]).issubset(item["choices"]))
 
+    def test_all_current_assessments_use_the_shared_question_contract(self) -> None:
+        resources, skills = site_metadata()
+        for path in sorted((ROOT / "_data").glob("*_assessment.json")):
+            with self.subTest(assessment=path.name):
+                data = json.loads(path.read_text(encoding="utf-8"))
+                self.assertEqual(validate_assessment_data(data, resources, skills), [])
+
+    def test_manual_comparison_has_no_machine_accepted_answers(self) -> None:
+        data = copy.deepcopy(self.data)
+        data["questions"][0]["answer_format"] = "manual"
+        data["questions"][0]["accepted_answers"] = []
+        self.assertEqual(self.errors(data), [])
+        data["questions"][0]["accepted_answers"] = ["3"]
+        self.assertTrue(any("manual-comparison questions cannot advertise" in item for item in self.errors(data)))
+        data["questions"][0]["answer_format"] = "integer"
+        data["questions"][0]["accepted_answers"] = []
+        self.assertTrue(any("non-empty accepted_answers" in item for item in self.errors(data)))
+
+    def test_numeric_derivation_must_match_the_recorded_answer(self) -> None:
+        data = json.loads((ROOT / "_data" / "math_foundations_assessment.json").read_text(encoding="utf-8"))
+        resources, skills = site_metadata()
+        data["questions"][0]["accepted_answers"] = ["5/6"]
+        self.assertTrue(any("do not match the fraction-sum derivation" in item for item in validate_assessment_data(data, resources, skills)))
+        data = json.loads((ROOT / "_data" / "math_foundations_assessment.json").read_text(encoding="utf-8"))
+        data["questions"][2]["accepted_answers"] = ["26"]
+        self.assertTrue(any("derivation" in item for item in validate_assessment_data(data, resources, skills)))
+
+    def test_manual_statistics_summary_derivation_is_checked_without_a_score_key(self) -> None:
+        data = json.loads((ROOT / "_data" / "math_foundations_assessment.json").read_text(encoding="utf-8"))
+        resources, skills = site_metadata()
+        question = data["questions"][6]
+        self.assertEqual(question["answer_format"], "manual")
+        self.assertEqual(question["accepted_answers"], [])
+        question["verification"]["expected_mean"] = 10
+        self.assertTrue(any("statistics-summary expected values" in item for item in validate_assessment_data(data, resources, skills)))
+
     def test_choices_must_be_unique_and_contain_the_accepted_answer(self) -> None:
         data = copy.deepcopy(self.data)
         data["questions"][0]["choices"] = ["1", "2"]

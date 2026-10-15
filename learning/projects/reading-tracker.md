@@ -1,6 +1,7 @@
 ---
 layout: page
 title: "Project: command-line reading tracker"
+description: "Build a small local tool that validates a page count and reports reading progress."
 summary: Build a small local tool that validates a page count and reports reading progress.
 permalink: /learning/projects/reading-tracker/
 id: project-reading-tracker

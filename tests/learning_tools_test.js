@@ -80,6 +80,8 @@ assert.equal(tools.answerIsAccepted("6/4", ["3/2", "1.5"], "fraction"), false, "
 assert.equal(tools.answerIsAccepted("1.50", ["1.5"], "decimal"), true, "decimal formatting ignores insignificant trailing zeros");
 assert.equal(tools.answerIsAccepted("1/0", ["1/0"], "fraction"), false, "division by zero is rejected as an input format");
 assert.equal(tools.answerIsAccepted("", ["no solution"], "text"), false, "empty answers are not accepted");
+assert.equal(tools.normalizeAnswer("Reasoned response", "manual"), null, "manual-comparison responses have no machine normalization");
+assert.equal(tools.answerIsAccepted("Reasoned response", [], "manual"), false, "manual-comparison responses are never scored as correct");
 
 const portfolio = tools.validatePortfolioRecord({
   title: "Study tracker",

@@ -1,6 +1,7 @@
 ---
 layout: lesson
 title: Aggregate records with Python comprehensions and dictionaries
+description: "Filter records and build stable summaries from structured data."
 summary: Filter records and build stable summaries from structured data.
 permalink: /learning/lessons/python-intermediate-collections/
 id: python-intermediate-collections-001

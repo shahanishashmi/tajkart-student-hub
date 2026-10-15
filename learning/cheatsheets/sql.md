@@ -1,5 +1,6 @@
 ---
 title: "SQL quick reference"
+description: "Remember common read queries, joins, grouping, and safe parameter use."
 summary: Remember common read queries, joins, grouping, and safe parameter use.
 permalink: /learning/cheatsheets/sql/
 id: cheatsheet-sql

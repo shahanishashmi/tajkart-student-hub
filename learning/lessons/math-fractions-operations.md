@@ -9,6 +9,7 @@ category: math-foundations
 language: en
 difficulty: beginner
 tags: [mathematics, fractions, arithmetic, number-sense]
+skills: [math-fraction-operations]
 prerequisites: []
 related_resources: [course-academic-math-foundations, math-decimals-conversions-001]
 learning_objectives:

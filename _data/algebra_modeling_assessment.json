@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "id": "algebra-word-problems-check-001",
+  "title": "Linear-equation modeling formative check",
+  "review_status": "pending",
+  "questions": [
+    {
+      "id": "algebra-model-notebook-price-001",
+      "question": "Five identical notebooks cost 150 currency units. What is the cost of one notebook? Enter the numeric value; show the variable, equation, and unit in your written work.",
+      "subject": "mathematics",
+      "skill_ids": [
+        "algebra-word-problem-modeling",
+        "algebra-equations-one-step"
+      ],
+      "prerequisite_ids": [
+        "math-algebra-expressions-001",
+        "math-algebra-two-step-001"
+      ],
+      "difficulty": "beginner",
+      "lesson_id": "math-algebra-word-problems-001",
+      "answer_format": "integer",
+      "accepted_answers": [
+        "30"
+      ],
+      "hint": "Let p be the cost of one notebook. Write 5p = 150, then undo multiplication by 5.",
+      "solution": "Define p as the cost in currency units per notebook. Five equal prices total 150, so 5p = 150. Divide both sides by 5: p = 30 currency units per notebook. Check: 5 * 30 = 150.",
+      "explanation": "The numeric result is automatically checked; the interface cannot judge whether the learner defined the variable, wrote the equation, or labeled units correctly. Compare those steps with the worked method.",
+      "constraints": [
+        "There are five notebooks at the same per-item price; total cost is 150 currency units."
+      ],
+      "common_mistakes": [
+        "Using 150 ? 5 instead of dividing by the five equal items.",
+        "Reporting 30 without units."
+      ],
+      "provenance": {
+        "kind": "original",
+        "source_id": "math-algebra-word-problems-001"
+      },
+      "verification_method": "substitution",
+      "verification": {
+        "kind": "solve-linear",
+        "coefficient": 5,
+        "constant": 0,
+        "rhs": 150
+      },
+      "review_status": "pending"
+    },
+    {
+      "id": "algebra-model-club-visits-001",
+      "question": "A club charges a 24-unit joining fee plus 6 units for each visit. The total is 60 units. How many visits were made? Enter the count; show your model and check in the original context.",
+      "subject": "mathematics",
+      "skill_ids": [
+        "algebra-word-problem-modeling",
+        "algebra-equations-two-step"
+      ],
+      "prerequisite_ids": [
+        "math-algebra-expressions-001",
+        "math-algebra-two-step-001"
+      ],
+      "difficulty": "intermediate",
+      "lesson_id": "math-algebra-word-problems-001",
+      "answer_format": "integer",
+      "accepted_answers": [
+        "6"
+      ],
+      "hint": "Let v be the number of visits. The fixed fee is added to 6 times the visits.",
+      "solution": "Define v as visits. Model the total with 24 + 6v = 60. Subtract the 24-unit fee: 6v = 36. Divide by 6: v = 6 visits. Check: 24 + 6 * 6 = 60 units.",
+      "explanation": "The input checks only the numeric visit count. It does not evaluate the equation setup or whether the response explains the fixed and per-visit charges.",
+      "constraints": [
+        "The joining fee is paid once; each visit adds 6 units. Visit counts must be whole and non-negative."
+      ],
+      "common_mistakes": [
+        "Multiplying the fixed fee by the visit count.",
+        "Subtracting the joining fee after dividing.",
+        "Reporting currency units instead of visits."
+      ],
+      "provenance": {
+        "kind": "original",
+        "source_id": "math-algebra-word-problems-001"
+      },
+      "verification_method": "substitution",
+      "verification": {
+        "kind": "solve-linear",
+        "coefficient": 6,
+        "constant": 24,
+        "rhs": 60
+      },
+      "review_status": "pending"
+    },
+    {
+      "id": "algebra-model-savings-weeks-001",
+      "question": "A student has saved 140 units and adds 30 units each week. How many weeks are needed to reach 350 units? Enter the number of weeks and show how you check the result.",
+      "subject": "mathematics",
+      "skill_ids": [
+        "algebra-word-problem-modeling",
+        "algebra-equations-two-step"
+      ],
+      "prerequisite_ids": [
+        "math-algebra-expressions-001",
+        "math-algebra-two-step-001"
+      ],
+      "difficulty": "intermediate",
+      "lesson_id": "math-algebra-word-problems-001",
+      "answer_format": "integer",
+      "accepted_answers": [
+        "7"
+      ],
+      "hint": "Let w be the number of weeks. Subtract the amount already saved before dividing by the weekly saving.",
+      "solution": "Let w represent weeks. The target equation is 140 + 30w = 350. Subtract 140: 30w = 210. Divide by 30: w = 7 weeks. Check: 140 + 30 * 7 = 350 units.",
+      "explanation": "The checker confirms the requested number only. A correct number does not by itself prove that the model or units were interpreted correctly.",
+      "constraints": [
+        "Savings increase by exactly 30 units per complete week; the starting amount is 140 and the target is 350."
+      ],
+      "common_mistakes": [
+        "Dividing the target by 30 without accounting for the starting balance.",
+        "Subtracting the weekly rate from 350.",
+        "Giving a savings amount instead of a number of weeks."
+      ],
+      "provenance": {
+        "kind": "original",
+        "source_id": "math-algebra-word-problems-001"
+      },
+      "verification_method": "substitution",
+      "verification": {
+        "kind": "solve-linear",
+        "coefficient": 30,
+        "constant": 140,
+        "rhs": 350
+      },
+      "review_status": "pending"
+    }
+  ]
+}

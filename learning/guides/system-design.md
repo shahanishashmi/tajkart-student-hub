@@ -1,5 +1,6 @@
 ---
 title: "System design: define boundaries before choosing tools"
+description: "Turn a product need into components, data flow, and explicit trade-offs."
 summary: Turn a product need into components, data flow, and explicit trade-offs.
 permalink: /learning/guides/system-design/
 id: guide-system-design

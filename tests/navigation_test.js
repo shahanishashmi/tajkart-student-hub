@@ -31,6 +31,7 @@ assert.ok(nav, "primary navigation should exist");
 const links = [...nav.matchAll(/<a href="\{\{\s*'([^']+)'\s*\|\s*relative_url\s*\}\}">([^<]+)<\/a>/g)]
   .map(([, route, label]) => [route, label.replaceAll("&amp;", "&")]);
 const expected = [
+  ["/explore/", "Explore"],
   ["/learning/subjects/", "Subjects"],
   ["/learning/courses/", "Courses & paths"],
   ["/learning/problem-sets/", "Practice"],
@@ -42,6 +43,20 @@ const expected = [
 ];
 assert.deepEqual(links, expected, "student navigation should expose the audited sections in order");
 for (const [route] of links) assert.ok(pages.has(route), `navigation route ${route} should have a source page`);
+const directory = JSON.parse(read("_data/resource_categories.json"));
+assert.equal(directory.categories.length, 18, "the resource directory should cover all 18 target categories");
+assert.equal(new Set(directory.categories.map((category) => category.id)).size, 18, "directory category IDs should be unique");
+for (const category of directory.categories) {
+  assert.ok(category.title && category.summary && category.status_label, `category ${category.id} should explain its scope and current state`);
+  assert.ok(["available", "partial", "awaiting-content"].includes(category.status), `category ${category.id} should use a documented state`);
+  for (const link of [...category.links, ...category.candidate_links]) {
+    const route = link.route.split("?")[0];
+    assert.ok(pages.has(route), `directory route ${link.route} should resolve to an authored route`);
+    if (link.route.includes("reference=1")) assert.match(link.route, /reference=1/, "candidate links should require the explicit opt-in route");
+  }
+}
+assert.match(read("explore.md"), /directory-navigation[\s\S]*directory-grid[\s\S]*External link candidates/, "Explore should render category navigation and distinguish candidate links");
+assert.match(read("explore.md"), /awaiting a complete original learning unit/, "empty categories should explain their current state");
 assert.match(layout, /class="brand" href="\{\{ '\/' \| relative_url \}\}"/, "brand should provide the home route");
 
 const homeLayout = read("_layouts/home.html");
@@ -81,6 +96,8 @@ assert.match(read("assets/js/learning-tools.js"), /requiredAttempts.*: 5[\s\S]*r
 assert.match(layout, /learning-tools\.js[\s\S]*site\.js/, "shared local learning tools should load before page behavior");
 
 const css = read("assets/css/site.css");
+assert.match(css, /@media\s*\(max-width:\s*42rem\)[\s\S]*?\.directory-grid[\s\S]*?grid-template-columns:\s*1fr/, "directory cards should collapse at the existing narrow-screen breakpoint");
+assert.match(css, /:focus-visible/, "directory and navigation links should retain a visible keyboard focus style");
 assert.match(css, /@media\s*\(max-width:\s*68rem\)/, "navigation should collapse before the student-first labels crowd the header");
 assert.match(css, /\.js \.primary-nav\s*\{[^}]*display:\s*none/s, "mobile navigation should be hidden while closed");
 assert.match(css, /\.js \.primary-nav\.is-open\s*\{[^}]*display:\s*flex/s, "mobile navigation should display when opened");
@@ -136,4 +153,4 @@ toggle.dispatch("click");
 navElement.dispatch("click", { target: { closest: (selector) => selector === "a" ? {} : null } });
 assert.equal(toggle.getAttribute("aria-expanded"), "false", "following a navigation link should close the menu");
 
-console.log("Navigation checks passed: section and math-path routes, home journey, practice links, responsive breakpoints, menu state, Escape, and focus return.");
+console.log("Navigation checks passed: Explore categories, section and math-path routes, home journey, practice links, responsive breakpoints, menu state, Escape, and focus return.");

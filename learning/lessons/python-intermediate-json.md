@@ -1,6 +1,7 @@
 ---
 layout: lesson
 title: Read and write local JSON data in Python
+description: "Persist structured records while handling missing files and malformed content explicitly."
 summary: Persist structured records while handling missing files and malformed content explicitly.
 permalink: /learning/lessons/python-intermediate-json/
 id: python-intermediate-json-001

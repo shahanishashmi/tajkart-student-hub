@@ -1,5 +1,6 @@
 ---
 title: "Cybersecurity fundamentals: reduce risk at the boundaries"
+description: "Learn defensive security habits for accounts, code, and small web projects."
 summary: Learn defensive security habits for accounts, code, and small web projects.
 permalink: /learning/guides/cybersecurity-basics/
 id: guide-cybersecurity-basics

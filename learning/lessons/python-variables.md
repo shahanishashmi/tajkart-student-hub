@@ -1,6 +1,7 @@
 ---
 layout: lesson
 title: Variables and values in Python
+description: "Name data clearly, inspect its type, and update a value."
 summary: Name data clearly, inspect its type, and update a value.
 permalink: /learning/lessons/python-variables/
 id: python-variables-001

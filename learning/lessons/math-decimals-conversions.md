@@ -9,6 +9,7 @@ category: math-foundations
 language: en
 difficulty: beginner
 tags: [mathematics, decimals, fractions, place-value, rounding]
+skills: [math-decimal-conversion]
 prerequisites: [math-fractions-operations-001]
 related_resources: [course-academic-math-foundations, math-percentages-001]
 learning_objectives:

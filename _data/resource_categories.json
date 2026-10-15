@@ -1,0 +1,173 @@
+{
+  "categories": [
+    {
+      "id": "books-reading",
+      "title": "Books and reading resources",
+      "status": "partial",
+      "status_label": "Original reading guidance is available; Tajkart does not host the linked books.",
+      "summary": "Learn how to choose, read, cite, and practise from material you lawfully access.",
+      "links": [{ "label": "Books and reading guides", "route": "/learning/books/", "kind": "original" }],
+      "candidate_links": [{ "label": "Search unverified book candidates", "route": "/learning/?reference=1&type=book" }]
+    },
+    {
+      "id": "courses-paths",
+      "title": "Courses and structured learning paths",
+      "status": "partial",
+      "status_label": "Six original self-study plans are available; they remain drafts pending expert review.",
+      "summary": "Choose a sequenced study plan with objectives, practice, projects, and completion checks.",
+      "links": [{ "label": "Tajkart courses and study plans", "route": "/learning/courses/", "kind": "original" }, { "label": "Study planner", "route": "/learning/planner/", "kind": "original" }],
+      "candidate_links": [{ "label": "Search unverified course candidates", "route": "/learning/?reference=1&type=course" }]
+    },
+    {
+      "id": "academic-subjects",
+      "title": "Academic subjects",
+      "status": "partial",
+      "status_label": "A mapped subject index and short English mathematics paths are available; most mapped topics are not full courses.",
+      "summary": "Explore the current subject map and see which topics have original lessons today.",
+      "links": [{ "label": "Subject map and coverage notes", "route": "/learning/subjects/", "kind": "original" }, { "label": "Mathematics foundations path", "route": "/learning/courses/academic-foundations/", "kind": "original" }],
+      "candidate_links": [{ "label": "Search unverified mathematics candidates", "route": "/learning/?reference=1&q=mathematics" }]
+    },
+    {
+      "id": "programming-languages",
+      "title": "Programming languages",
+      "status": "partial",
+      "status_label": "Eleven introductory language paths are available; none is a complete language curriculum.",
+      "summary": "Compare language starting points and follow the linked beginner study sequence.",
+      "links": [{ "label": "Programming language paths", "route": "/learning/languages/", "kind": "original" }],
+      "candidate_links": []
+    },
+    {
+      "id": "computer-science-it",
+      "title": "Computer science and IT",
+      "status": "partial",
+      "status_label": "Twelve original computing subject guides and related lessons are available; coverage is incomplete.",
+      "summary": "Start with programming, algorithms, databases, networks, operating systems, security, and software practice.",
+      "links": [{ "label": "Computer science subject map", "route": "/learning/subjects/", "kind": "original" }, { "label": "Computing subject guides", "route": "/learning/guides/programming-foundations/", "kind": "original" }],
+      "candidate_links": [{ "label": "Search unverified computer-topic candidates", "route": "/learning/?reference=1&q=computer" }]
+    },
+    {
+      "id": "mathematics-statistics",
+      "title": "Mathematics and statistics",
+      "status": "partial",
+      "status_label": "Short arithmetic, proportional reasoning, data interpretation, and algebra drafts are available; educator review is pending.",
+      "summary": "Follow the current foundations sequence and check the content progress report for its limits.",
+      "links": [{ "label": "Mathematics foundations", "route": "/learning/courses/academic-foundations/", "kind": "original" }, { "label": "Algebra foundations", "route": "/learning/courses/algebra-foundations/", "kind": "original" }],
+      "candidate_links": [{ "label": "Search unverified mathematics candidates", "route": "/learning/?reference=1&q=mathematics" }]
+    },
+    {
+      "id": "science-engineering",
+      "title": "Science and engineering",
+      "status": "awaiting-content",
+      "status_label": "No original science or engineering course is currently authored.",
+      "summary": "This area is reserved for complete, reviewed learning units rather than placeholder course claims.",
+      "links": [],
+      "candidate_links": [{ "label": "Search unverified science candidates", "route": "/learning/?reference=1&q=science" }]
+    },
+    {
+      "id": "business-economics-humanities",
+      "title": "Business, economics, and humanities",
+      "status": "awaiting-content",
+      "status_label": "No original course in these subject areas is currently authored.",
+      "summary": "New material will be added when a coherent, student-reviewed unit is ready.",
+      "links": [],
+      "candidate_links": [
+        { "label": "Search unverified business candidates", "route": "/learning/?reference=1&q=business" },
+        { "label": "Search unverified economics candidates", "route": "/learning/?reference=1&q=economics" },
+        { "label": "Search unverified humanities candidates", "route": "/learning/?reference=1&q=humanities" }
+      ]
+    },
+    {
+      "id": "tutorials-interactive",
+      "title": "Tutorials and interactive learning",
+      "status": "partial",
+      "status_label": "Two original browser activities are available; they use fixed questions and do not execute learner code.",
+      "summary": "Use prediction and code-reading activities for formative practice.",
+      "links": [{ "label": "Interactive tutorials", "route": "/learning/interactive-tutorials/", "kind": "original" }, { "label": "Code-reading quiz", "route": "/learning/interactive-tutorials/quiz/", "kind": "original" }],
+      "candidate_links": [{ "label": "Search unverified interactive tutorial candidates", "route": "/learning/?reference=1&type=interactive-tutorial" }]
+    },
+    {
+      "id": "practice-solutions",
+      "title": "Practice questions and worked solutions",
+      "status": "partial",
+      "status_label": "Eleven original problem sets contain 30 questions with written solutions and question-specific test evidence; human review is pending.",
+      "summary": "Attempt a task, use a hint, compare with the explanation, and revisit prerequisites when needed.",
+      "links": [{ "label": "Practice and problem sets", "route": "/learning/problem-sets/", "kind": "original" }],
+      "candidate_links": [{ "label": "Search unverified problem-set candidates", "route": "/learning/?reference=1&type=problem-set" }]
+    },
+    {
+      "id": "cheatsheets-revision",
+      "title": "Cheatsheets and revision notes",
+      "status": "partial",
+      "status_label": "Ten original computing cheatsheets are available as drafts pending technical review.",
+      "summary": "Use short references to revisit concepts after studying the full explanation.",
+      "links": [{ "label": "Tajkart cheatsheets", "route": "/learning/cheatsheets/", "kind": "original" }],
+      "candidate_links": [{ "label": "Search unverified cheatsheet candidates", "route": "/learning/?reference=1&type=cheatsheet" }]
+    },
+    {
+      "id": "projects-portfolio",
+      "title": "Projects and portfolio building",
+      "status": "partial",
+      "status_label": "Seven original project briefs are available; they are specifications, not finished applications.",
+      "summary": "Choose a small deliverable, work through milestones, test it, and record evidence of your work.",
+      "links": [{ "label": "Projects and portfolio briefs", "route": "/learning/projects/", "kind": "original" }, { "label": "Student portfolio draft tool", "route": "/learning/projects/student-portfolio/", "kind": "original" }],
+      "candidate_links": []
+    },
+    {
+      "id": "podcasts-screencasts",
+      "title": "Educational podcasts and screencasts",
+      "status": "partial",
+      "status_label": "Original guidance is available; no external channel or episode has been reviewed as a recommendation.",
+      "summary": "Learn how to take notes from media and verify a source before relying on it.",
+      "links": [{ "label": "Podcast and screencast study guide", "route": "/learning/podcasts-screencasts/", "kind": "original" }],
+      "candidate_links": [
+        { "label": "Search unverified podcast candidates", "route": "/learning/?reference=1&type=podcast" },
+        { "label": "Search unverified screencast candidates", "route": "/learning/?reference=1&type=screencast" }
+      ]
+    },
+    {
+      "id": "playgrounds-tools",
+      "title": "Coding playgrounds and practical tools",
+      "status": "awaiting-content",
+      "status_label": "Tajkart does not host a code runner; external playground candidates are unverified.",
+      "summary": "Use the candidate search only to discover source-listed destinations; inspect each provider and its terms independently.",
+      "links": [{ "label": "Playground guidance", "route": "/learning/playgrounds/", "kind": "original" }],
+      "candidate_links": [{ "label": "Search unverified playground candidates", "route": "/learning/?reference=1&type=playground" }]
+    },
+    {
+      "id": "career-preparation",
+      "title": "Career preparation",
+      "status": "partial",
+      "status_label": "Five original career guides are available; role-specific advice needs human review.",
+      "summary": "Prepare a resume, interview, internship application, professional email, and entry-level learning plan.",
+      "links": [{ "label": "Career preparation guides", "route": "/careers/", "kind": "original" }],
+      "candidate_links": []
+    },
+    {
+      "id": "opportunities",
+      "title": "Scholarships, internships, and opportunities",
+      "status": "awaiting-content",
+      "status_label": "No live opportunity listings are currently published.",
+      "summary": "Listings require current source, eligibility, date, attribution, and terms checks before publication.",
+      "links": [{ "label": "Offer and opportunity verification guidance", "route": "/offers/", "kind": "original" }],
+      "candidate_links": []
+    },
+    {
+      "id": "study-skills",
+      "title": "Study skills and student productivity",
+      "status": "partial",
+      "status_label": "One original study-skills guide is available as a draft pending review.",
+      "summary": "Use practical study sessions, retrieval, practice, and assignment planning techniques.",
+      "links": [{ "label": "Study skills and assessment preparation", "route": "/learning/study-skills/", "kind": "original" }],
+      "candidate_links": []
+    },
+    {
+      "id": "languages-translations",
+      "title": "Languages and translated learning resources",
+      "status": "partial",
+      "status_label": "Eleven introductory programming paths and two pending Hindi/Urdu translation drafts are available.",
+      "summary": "The source-list locale of an external candidate does not prove the linked work's language.",
+      "links": [{ "label": "Programming language paths", "route": "/learning/languages/", "kind": "original" }, { "label": "Hindi and Urdu translation drafts", "route": "/learning/translations/hi/python-variables/", "kind": "original" }],
+      "candidate_links": []
+    }
+  ]
+}

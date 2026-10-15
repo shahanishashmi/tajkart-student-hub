@@ -1,5 +1,6 @@
 ---
 title: "HTML, CSS, and HTTP quick reference"
+description: "Short reminders for semantic pages, responsive styles, and request/response basics."
 summary: Short reminders for semantic pages, responsive styles, and request/response basics.
 permalink: /learning/cheatsheets/web/
 id: cheatsheet-html-css-http

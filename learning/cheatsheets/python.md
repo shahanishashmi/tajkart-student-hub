@@ -1,5 +1,6 @@
 ---
 title: "Python quick reference"
+description: "Compact reminders for Python values, decisions, loops, and functions."
 summary: Compact reminders for Python values, decisions, loops, and functions.
 permalink: /learning/cheatsheets/python/
 id: cheatsheet-python-basics

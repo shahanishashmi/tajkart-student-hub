@@ -1,6 +1,7 @@
 ---
 layout: page
 title: "Capstone: local Python study log"
+description: "Build a small command-line program that validates, stores, and summarizes fictional study sessions."
 summary: Build a small command-line program that validates, stores, and summarizes fictional study sessions.
 permalink: /learning/projects/python-study-log/
 id: project-python-study-log

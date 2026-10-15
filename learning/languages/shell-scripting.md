@@ -1,5 +1,6 @@
 ---
 title: "Shell scripting learning path"
+description: "Automate repeatable file and command-line tasks with careful quoting and checks."
 summary: Automate repeatable file and command-line tasks with careful quoting and checks.
 permalink: /learning/languages/shell-scripting/
 id: language-path-shell

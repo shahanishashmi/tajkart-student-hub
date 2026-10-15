@@ -1,6 +1,7 @@
 ---
 layout: lesson
 title: Choose a Python list or dictionary
+description: "Represent ordered items and keyed facts with the structure that matches the task."
 summary: Represent ordered items and keyed facts with the structure that matches the task.
 permalink: /learning/lessons/python-lists-dictionaries/
 id: python-collections-001

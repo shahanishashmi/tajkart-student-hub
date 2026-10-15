@@ -1,5 +1,6 @@
 ---
 title: "Networking and security quick reference"
+description: "Remember request layers and practical defensive defaults."
 summary: Remember request layers and practical defensive defaults.
 permalink: /learning/cheatsheets/networking-security/
 id: cheatsheet-networking-security

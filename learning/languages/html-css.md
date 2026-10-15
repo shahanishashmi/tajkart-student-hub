@@ -1,5 +1,6 @@
 ---
 title: "HTML and CSS learning path"
+description: "Create semantic pages and responsive styles that remain usable with a keyboard and zoom."
 summary: Create semantic pages and responsive styles that remain usable with a keyboard and zoom.
 permalink: /learning/languages/html-css/
 id: language-path-html-css

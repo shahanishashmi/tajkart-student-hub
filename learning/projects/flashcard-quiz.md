@@ -1,6 +1,7 @@
 ---
 layout: page
 title: "Project: browser flashcard quiz"
+description: "Make a keyboard-friendly flashcard activity with predictable feedback."
 summary: Make a keyboard-friendly flashcard activity with predictable feedback.
 permalink: /learning/projects/flashcard-quiz/
 id: project-browser-flashcard-quiz

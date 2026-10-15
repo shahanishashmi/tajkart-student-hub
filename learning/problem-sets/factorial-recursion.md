@@ -1,6 +1,7 @@
 ---
 layout: lesson
 title: "Problem PS-006: compute a factorial recursively"
+description: "Use a base case and a smaller subproblem to calculate a factorial."
 summary: Use a base case and a smaller subproblem to calculate a factorial.
 permalink: /learning/problem-sets/factorial-recursion/
 id: problem-factorial-recursion-006

@@ -1,6 +1,7 @@
 ---
 layout: lesson
 title: Test and organize a small Python application
+description: "Keep reusable logic importable, test behavior with temporary data, and guard the command-line entry point."
 summary: Keep reusable logic importable, test behavior with temporary data, and guard the command-line entry point.
 permalink: /learning/lessons/python-intermediate-testing/
 id: python-intermediate-testing-001

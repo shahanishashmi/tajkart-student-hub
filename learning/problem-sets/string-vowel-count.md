@@ -1,6 +1,7 @@
 ---
 layout: lesson
 title: "Problem PS-003: count vowels in a string"
+description: "Count the five English vowels without changing the original text."
 summary: Count the five English vowels without changing the original text.
 permalink: /learning/problem-sets/string-vowel-count/
 id: problem-string-vowel-count-003

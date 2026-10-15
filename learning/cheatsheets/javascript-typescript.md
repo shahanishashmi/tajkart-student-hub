@@ -1,5 +1,6 @@
 ---
 title: "JavaScript and TypeScript quick reference"
+description: "Common syntax for values, arrays, functions, and safe DOM updates."
 summary: Common syntax for values, arrays, functions, and safe DOM updates.
 permalink: /learning/cheatsheets/javascript-typescript/
 id: cheatsheet-javascript-typescript

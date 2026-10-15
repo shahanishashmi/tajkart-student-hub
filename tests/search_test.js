@@ -43,7 +43,7 @@ const includeReference = new Element("input");
 includeReference.checked = false;
 const sort = new Element("select");
 sort.value = "relevance";
-const controls = ["type", "category", "tag", "language", "sourceLocale", "difficulty", "origin"].map((name) => {
+const controls = ["type", "category", "sourceCategory", "sourceTopic", "tag", "language", "sourceLocale", "difficulty", "origin"].map((name) => {
   const control = new Element("select");
   search.controls ||= {};
   search.controls[name] = control;
@@ -53,6 +53,7 @@ const searchElements = new Map([
   ["#resource-query", query], ["#search-results", results], ["#search-status", status], ["#sort-results", sort],
   ["#include-reference-candidates", includeReference],
   ["#filter-type", search.controls.type], ["#filter-category", search.controls.category],
+  ["#filter-source-category", search.controls.sourceCategory], ["#filter-source-topic", search.controls.sourceTopic],
   ["#filter-tag", search.controls.tag],
   ["#filter-language", search.controls.language], ["#filter-source-locale", search.controls.sourceLocale],
   ["#filter-difficulty", search.controls.difficulty],
@@ -95,7 +96,13 @@ const referencePayload = {
     access_status: "not-checked",
     source_occurrences: [{
       source_path: "courses/free-courses-hi.md", source_line: 42,
-      topic_path: ["JavaScript"], source_annotation: " - Example provider"
+      source_list_category: "courses",
+      source_list_locale: "hi", topic_path: ["JavaScript"], source_annotation: " - Example provider",
+      additional_links: [{ label: "EPUB", url: "https://example.test/javascript.epub", source_line: 42 }]
+    }, {
+      source_path: "books/free-programming-books-langs.md", source_line: 77,
+      source_list_category: "books", source_list_locale: null,
+      topic_path: ["JavaScript"], source_annotation: ""
     }]
   }]
 };
@@ -109,6 +116,7 @@ const document = {
 };
 const context = {
   document,
+  URLSearchParams,
   fetch: async (url) => {
     if (url === "/data/reference_resources.json") {
       referenceFetches += 1;
@@ -170,12 +178,86 @@ setImmediate(async () => {
   assert.match(results.children[0].children[2].textContent, /unverified/);
   assert.match(results.children[0].children[2].textContent, /rights not assessed/);
   assert.equal(results.children[0].children[3].href.endsWith("courses/free-courses-hi.md#L42"), true);
+  const sourceDetails = results.children[0].children.find((child) => child.tagName === "details");
+  assert.ok(sourceDetails, "candidate results expose duplicate source appearances and alternate links");
+  assert.match(sourceDetails.children[0].textContent, /Source appearances and alternate links \(2\)/);
+  assert.equal(sourceDetails.children[1].children.length, 2, "each duplicate source occurrence keeps its own detail row");
+  assert.match(sourceDetails.children[1].children[0].children[2].textContent, /Source annotation:\s*-?\s*Example provider/);
+  assert.equal(sourceDetails.children[1].children[0].children[3].children[0].href, "https://example.test/javascript.epub");
+
+  query.value = "Example provider";
+  query.dispatch("input");
+  assert.equal(results.children.length, 1, "source annotations should be searchable when the source row includes them");
 
   search.controls.sourceLocale.value = "hi";
   search.controls.sourceLocale.dispatch("change");
   assert.equal(results.children.length, 1, "reference list locale filter matches imported source metadata");
+  search.controls.sourceCategory.value = "courses";
+  search.controls.sourceCategory.dispatch("change");
+  assert.equal(results.children.length, 1, "source-list category filter matches imported occurrence provenance");
+  search.controls.sourceTopic.value = "JavaScript";
+  search.controls.sourceTopic.dispatch("change");
+  assert.equal(results.children.length, 1, "full source topic path filter matches imported section hierarchy");
+  search.controls.sourceLocale.value = "__unlabeled__";
+  search.controls.sourceLocale.dispatch("change");
+  assert.equal(results.children.length, 1, "unlabeled source-list locale filter retains provenance without guessing destination language");
   includeReference.checked = false;
   await includeReference.dispatch("change");
   assert.equal(results.children.length, 0, "unverified candidates disappear when opt-in is disabled");
-  console.log("Search checks passed: local matching, ranking and filters, plus opt-in unverified candidates, source attribution, and locale filtering.");
+
+  const deepSearch = new Element("section");
+  deepSearch.dataset.indexUrl = "/search-index.json";
+  deepSearch.dataset.referenceIndexUrl = "/data/reference_resources.json";
+  const deepQuery = new Element("input");
+  const deepResults = new Element("ul");
+  const deepStatus = new Element("p");
+  const deepIncludeReference = new Element("input");
+  const deepSort = new Element("select");
+  deepSort.value = "relevance";
+  const deepControls = {};
+  for (const name of ["type", "category", "sourceCategory", "sourceTopic", "tag", "language", "sourceLocale", "difficulty", "origin"]) {
+    deepControls[name] = new Element("select");
+  }
+  const deepSelectors = new Map([
+    ["#resource-query", deepQuery], ["#search-results", deepResults], ["#search-status", deepStatus],
+    ["#sort-results", deepSort], ["#include-reference-candidates", deepIncludeReference],
+    ["#filter-type", deepControls.type], ["#filter-category", deepControls.category],
+    ["#filter-source-category", deepControls.sourceCategory], ["#filter-source-topic", deepControls.sourceTopic],
+    ["#filter-tag", deepControls.tag], ["#filter-language", deepControls.language],
+    ["#filter-source-locale", deepControls.sourceLocale], ["#filter-difficulty", deepControls.difficulty],
+    ["#filter-origin", deepControls.origin]
+  ]);
+  deepSearch.querySelector = (selector) => deepSelectors.get(selector) || null;
+  const deepDocument = {
+    location: { search: "?reference=1&type=course&source_category=courses&locale=hi&topic_path=JavaScript&q=javascript" },
+    documentElement: { classList: { add() {} } },
+    querySelector: (selector) => selector === ".resource-search" ? deepSearch : null,
+    querySelectorAll: () => [],
+    createElement: (tagName) => new Element(tagName)
+  };
+  let deepReferenceFetches = 0;
+  vm.runInNewContext(fs.readFileSync("assets/js/site.js", "utf8"), {
+    document: deepDocument,
+    URLSearchParams,
+    fetch: async (url) => {
+      if (url === "/data/reference_resources.json") {
+        deepReferenceFetches += 1;
+        return { ok: true, json: async () => referencePayload };
+      }
+      return { ok: true, json: async () => items };
+    },
+    console,
+    setTimeout,
+    clearTimeout
+  });
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(deepIncludeReference.checked, true, "a deliberate directory link should enable candidate search");
+  assert.equal(deepReferenceFetches, 1, "a category deep link should fetch the candidate index once");
+  assert.equal(deepQuery.value, "javascript", "directory search terms should populate the search input");
+  assert.equal(deepControls.type.value, "course", "directory resource-type filters should be applied after candidate metadata loads");
+  assert.equal(deepControls.sourceCategory.value, "courses", "source category facet deep links should populate after opt-in loads");
+  assert.equal(deepControls.sourceLocale.value, "hi", "source-list locale facet deep links should populate after opt-in loads");
+  assert.equal(deepControls.sourceTopic.value, "JavaScript", "hierarchical topic-path facet deep links should populate after opt-in loads");
+  assert.equal(deepResults.children.length, 1, "a directory deep link should show matching candidate results");
+  console.log("Search checks passed: local matching, ranking and filters, opt-in candidates, provenance, locale filtering, and category deep links.");
 });

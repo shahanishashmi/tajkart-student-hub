@@ -1,5 +1,6 @@
 ---
 title: "DevOps and cloud fundamentals: build, release, observe, recover"
+description: "Understand the path from source code to a maintained service."
 summary: Understand the path from source code to a maintained service.
 permalink: /learning/guides/devops-cloud/
 id: guide-devops-cloud

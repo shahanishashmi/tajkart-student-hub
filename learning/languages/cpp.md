@@ -1,5 +1,6 @@
 ---
 title: "C++ learning path"
+description: "Build safe C++ programs with values, standard containers, functions, and tests."
 summary: Build safe C++ programs with values, standard containers, functions, and tests.
 permalink: /learning/languages/cpp/
 id: language-path-cpp

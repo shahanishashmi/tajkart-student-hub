@@ -1,6 +1,7 @@
 ---
 layout: lesson
 title: "Problem PS-009: summarize study sessions with SQL"
+description: "Filter rows and aggregate session minutes by learner."
 summary: Filter rows and aggregate session minutes by learner.
 permalink: /learning/problem-sets/sql-session-summary/
 id: problem-sql-session-summary-009

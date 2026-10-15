@@ -184,9 +184,13 @@ def question_record(question: dict[str, Any], source: str, metadata: dict[str, A
         evidence = "`tests/test_interactive_quiz_answers.py` executes the stored example and derives its answer"
     elif question.get("assessment_path", "").endswith("algebra_assessment.json"):
         evidence = "`tests/test_algebra_foundations.py` independently derives the answer from its equation contract"
+    elif question.get("assessment_path", "").endswith("math_foundations_assessment.json"):
+        evidence = "`tests/test_math_foundations.py` independently derives the numeric operation or summary"
+    elif question.get("assessment_path", "").endswith("algebra_modeling_assessment.json"):
+        evidence = "`tests/test_algebra_word_problems.py` solves each equation and checks it in the original model"
     else:
         evidence = "No question-specific automated test was detected"
-    has_answer = bool(question.get("accepted_answers")) and bool(question.get("solution"))
+    has_answer = bool(question.get("solution", "").strip())
     has_explanation = bool(question.get("solution", "").strip() and question.get("explanation", "").strip())
     review = question.get("review_status", question.get("assessment_review_status", metadata.get("review_status", "pending")))
     return {
@@ -216,7 +220,7 @@ def render(records: list[dict[str, Any]], errors: list[str]) -> str:
     explanation_count = sum(item["has_explanation"] for item in records)
     verified_count = sum(item["automated_evidence"] != "No question-specific automated test was detected" for item in records)
     human_review = sum(item["review_status"] not in {"approved", "technical-reviewed"} for item in records)
-    missing_formats = sum(not item["answer_format"] for item in records)
+    missing_formats = sum(not item["answer_format"] or item["answer_format"] == "manual" for item in records)
     broken_mappings = sum(item["mapping_broken"] for item in records) + len(errors)
     blocked = [item for item in records if not item["has_answer"]]
     lines = [
@@ -224,7 +228,7 @@ def render(records: list[dict[str, Any]], errors: list[str]) -> str:
         "",
         "<!-- Generated from problem-set front matter, structured assessment JSON, and test references by `scripts/solution_coverage.py`. -->",
         "",
-        "Counts are repository-derived. ‘Automated verification evidence’ means a matching test is present; its pass/fail result is established by the validation table below. Static programming prompts are not scored by string-matching learner code.",
+        "Counts are repository-derived. ‘Automated verification evidence’ means a matching test is present; its pass/fail result is established by the validation table below. Manual-comparison questions are not machine scored. Static programming prompts are not scored by string-matching learner code.",
         "",
         "| Measure | Count |",
         "|---|---:|",
@@ -238,7 +242,7 @@ def render(records: list[dict[str, Any]], errors: list[str]) -> str:
         f"| Broken structured skill, lesson, prerequisite, or source mappings | {broken_mappings} |",
         f"| Questions missing a worked-answer record | {len(blocked)} |",
         "",
-        "The unstructured tasks inherit subject tags, objectives, and prerequisites from their problem-set page; they do not have per-question machine-scored answer contracts. Their written answers remain available for manual comparison. The interactive quiz and algebra check use the shared JSON question schema, accepted formats, prerequisite and lesson mappings, common-mistake guidance, provenance, and review status. Automated checks do not establish teaching quality.",
+        "The remaining unstructured programming and SQL tasks inherit subject tags, objectives, and prerequisites from their problem-set page; they do not have per-question machine-scored answer contracts. The seven arithmetic/data items and the new word-problem check use the shared JSON question model. Two compound arithmetic/data responses explicitly use manual comparison, with no correctness score or skill attempt recorded. Automated checks do not establish teaching quality.",
         "",
         "No third-party answer keys or solution files were imported. The reference index contains outbound link candidates only; linked works were not copied. Open-ended solution code is reviewed by running the repository's canonical tests, not by executing learner submissions.",
         "",
@@ -248,7 +252,7 @@ def render(records: list[dict[str, Any]], errors: list[str]) -> str:
         "|---|---|---|---|---|",
     ]
     for item in records:
-        answer_format = item["answer_format"] or "manual comparison"
+        answer_format = "manual comparison" if not item["answer_format"] or item["answer_format"] == "manual" else item["answer_format"]
         source = item["source_resource"].replace("|", "\\|")
         evidence = item["automated_evidence"].replace("|", "\\|")
         lines.append(f"| `{item['id']}` | `{source}` | {answer_format} | {evidence} | {item['review_status']} |")
@@ -312,7 +316,7 @@ def main() -> int:
             "worked_explanations": sum(item["has_explanation"] for item in records),
             "automated_evidence": sum(item["automated_evidence"] != "No question-specific automated test was detected" for item in records),
             "pending_human_review": sum(item["review_status"] not in {"approved", "technical-reviewed"} for item in records),
-            "missing_accepted_formats": sum(not item["answer_format"] for item in records),
+            "missing_accepted_formats": sum(not item["answer_format"] or item["answer_format"] == "manual" for item in records),
             "broken_mappings": sum(item["mapping_broken"] for item in records),
         }
         print(json.dumps(summary, sort_keys=True))

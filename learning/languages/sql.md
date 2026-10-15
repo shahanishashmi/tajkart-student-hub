@@ -1,5 +1,6 @@
 ---
 title: "SQL learning path"
+description: "Query and update relational data with explicit conditions and constraints."
 summary: Query and update relational data with explicit conditions and constraints.
 permalink: /learning/languages/sql/
 id: language-path-sql

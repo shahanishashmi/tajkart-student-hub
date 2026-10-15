@@ -21,7 +21,6 @@ from urllib.parse import urlsplit, urlunsplit
 
 
 ROOT = Path(__file__).resolve().parents[1]
-ARCHIVE_ROOT = "free-programming-books-main/"
 REFERENCE_REPOSITORY = "https://github.com/EbookFoundation/free-programming-books"
 REFERENCE_REVISION = "2574d859ecf34dd8d1643cc5c7c9f11ae99f845c"
 REFERENCE_LICENSE = "CC BY 4.0"
@@ -172,14 +171,29 @@ def classify_file(path: str) -> tuple[str, str | None]:
 
 
 def source_file_paths(archive: zipfile.ZipFile) -> list[str]:
+    root = detect_archive_root(archive)
     return sorted(
         name
         for name in archive.namelist()
-        if name.startswith(ARCHIVE_ROOT)
+        if name.startswith(root + "/")
         and name.lower().endswith(".md")
         and len(PurePosixPath(name).parts) >= 3
         and PurePosixPath(name).parts[1] in RESOURCE_DIRS
     )
+
+
+def detect_archive_root(archive: zipfile.ZipFile) -> str:
+    """Find the single repository root containing the curated list directories."""
+    roots = {
+        PurePosixPath(name).parts[0]
+        for name in archive.namelist()
+        if len(PurePosixPath(name).parts) >= 3
+        and PurePosixPath(name).parts[1] in RESOURCE_DIRS
+        and name.lower().endswith(".md")
+    }
+    if len(roots) != 1:
+        raise ValueError(f"expected one source repository root, found {len(roots)}")
+    return roots.pop()
 
 
 def build_inventory(
@@ -201,17 +215,18 @@ def build_inventory(
     by_file_counts: Counter[str] = Counter()
 
     with zipfile.ZipFile(archive_path) as archive:
+        archive_root = detect_archive_root(archive)
         paths = source_file_paths(archive)
         for archive_path_name in paths:
             raw = archive.read(archive_path_name)
             content = raw.decode("utf-8-sig", errors="replace")
             file_manifest.append({
-                "path": archive_path_name.removeprefix(ARCHIVE_ROOT),
+                "path": archive_path_name.removeprefix(archive_root + "/"),
                 "sha256": hashlib.sha256(raw).hexdigest(),
                 "bytes": len(raw),
             })
             section_stack: list[tuple[int, str]] = []
-            category, source_locale = classify_file(archive_path_name.removeprefix(ARCHIVE_ROOT))
+            category, source_locale = classify_file(archive_path_name.removeprefix(archive_root + "/"))
             last_occurrence: dict[str, Any] | None = None
             for line_number, line in enumerate(content.splitlines(), start=1):
                 heading = HEADING.match(line)
@@ -240,7 +255,7 @@ def build_inventory(
                     continue
                 if not LIST_ITEM.match(line) or not external_links:
                     exceptions.append({
-                        "source_path": archive_path_name.removeprefix(ARCHIVE_ROOT),
+                        "source_path": archive_path_name.removeprefix(archive_root + "/"),
                         "line": line_number,
                         "reason": "external URL line is not a parsed resource list item",
                         "content_sha256": hashlib.sha256(line.encode("utf-8")).hexdigest(),
@@ -248,11 +263,11 @@ def build_inventory(
                     })
                     continue
                 line_entries += 1
-                by_file_counts[archive_path_name.removeprefix(ARCHIVE_ROOT)] += 1
+                by_file_counts[archive_path_name.removeprefix(archive_root + "/")] += 1
                 primary = external_links[0]
                 key = normalized_url(primary["url"])
                 occurrence = {
-                    "source_path": archive_path_name.removeprefix(ARCHIVE_ROOT),
+                    "source_path": archive_path_name.removeprefix(archive_root + "/"),
                     "source_line": line_number,
                     "source_list_category": PurePosixPath(archive_path_name).parts[1],
                         "resource_type": (
@@ -311,7 +326,7 @@ def build_inventory(
             "repository": REFERENCE_REPOSITORY,
             "revision": source_revision,
             "input_archive_sha256": archive_digest,
-            "archive_root": ARCHIVE_ROOT.rstrip("/"),
+            "archive_root": archive_root,
             "scope": "books, courses, casts, and more Markdown resource lists",
         },
         "inventory": {

@@ -1,6 +1,7 @@
 ---
 layout: lesson
 title: Give Python functions clear input contracts
+description: "Validate boundary values, use helpful exceptions, and keep transformations testable."
 summary: Validate boundary values, use helpful exceptions, and keep transformations testable.
 permalink: /learning/lessons/python-intermediate-validation/
 id: python-intermediate-validation-001
