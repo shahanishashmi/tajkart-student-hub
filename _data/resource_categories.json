@@ -6,7 +6,7 @@
       "status": "partial",
       "status_label": "Original reading guidance is available; Tajkart does not host the linked books.",
       "summary": "Learn how to choose, read, cite, and practise from material you lawfully access.",
-      "links": [{ "label": "Books and reading guides", "route": "/learning/books/", "kind": "original" }],
+      "links": [{ "label": "Books guide and 48 copied index files", "route": "/learning/books/", "kind": "original" }],
       "candidate_links": [{ "label": "Search unverified book candidates", "route": "/learning/?reference=1&type=book" }]
     },
     {

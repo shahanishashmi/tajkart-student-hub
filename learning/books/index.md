@@ -21,6 +21,19 @@ searchable: true
 
 Tajkart does not host third-party books or reproduce a catalogue of external titles. The guides below help you study a subject with material you lawfully obtain from an author, publisher, library, or course provider.
 
+## Browse the copied book indexes
+
+The links below open the 48 Markdown index files copied from the pinned Free Programming Books snapshot into the Tajkart repository. They are reference lists of external links, not reviewed or approved book recommendations. A source-list locale describes the index file and does not verify the language of every linked work. Use [Tajkart's unverified book-candidate search]({{ '/learning/?reference=1&source_category=books' | relative_url }}) to search the extracted destinations.
+
+{% assign book_source_category = site.data.reference_resource_facets.source_categories | where: "id", "books" | first %}
+{% if book_source_category %}
+<ul class="book-index-list">
+  {% for source_list in book_source_category.lists %}
+  <li><a href="{{ site.data.books_mirror.repository }}/blob/{{ site.data.books_mirror.revision }}/{{ source_list.path }}">{{ source_list.source_list_locale | default: "No locale label" }} — {{ source_list.path }}</a> ({{ source_list.source_entry_appearances }} listed links)</li>
+  {% endfor %}
+</ul>
+{% endif %}
+
 ## Reading method
 
 Set one question before a chapter. Skim headings and examples, then write a short explanation from memory after reading. Run code examples where appropriate, change one input, and solve a related task without looking. Record a book's title, edition, and page if you need to cite a fact.
