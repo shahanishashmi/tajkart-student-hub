@@ -13,6 +13,8 @@ The repository's `LICENSE` applies only as stated in that notice and does not si
 
 ## Third-party material
 
-The reference archive is not included in this repository. Its resource entries and prose have not been republished. The upstream README states that its repository files are CC BY 4.0; this notice applies to that project's covered files, not the individual books or sites to which its lists link. Verify provenance and permission before adding third-party text, images, code, or data, and record the author or rights holder, source, license, and required attribution. Keep it clearly identified as third-party work.
+The 48 Markdown files under `books/` are reproduced verbatim from the `books/` directory of [EbookFoundation/free-programming-books](https://github.com/EbookFoundation/free-programming-books/tree/4c301cce10db10026d632606b5167a9d1b8cd4ec/books), pinned at commit `4c301cce10db10026d632606b5167a9d1b8cd4ec`. The upstream repository's covered files use [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); see [`books/ATTRIBUTION.txt`](https://github.com/shahanishashmi/tajkart-student-hub/blob/main/books/ATTRIBUTION.txt) for attribution and change status. That license does not extend to the books, courses, videos, or websites linked from those lists. No linked works were copied. The repository's root `LICENSE` remains unchanged and does not replace the separate notice for these files.
+
+For any additional third-party text, images, code, or data, verify provenance and permission, record the author or rights holder, source, license, and required attribution, and keep the material clearly identified as third-party work.
 
 See the [reference coverage audit]({{ '/docs/REFERENCE_COVERAGE/' | relative_url }}) for the scope and limitation of the comparison. Mention of a name or resource does not imply affiliation or endorsement.

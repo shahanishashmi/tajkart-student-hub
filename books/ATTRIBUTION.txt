@@ -1,0 +1,10 @@
+Source: Free Programming Books, maintained by EbookFoundation contributors
+Source directory: https://github.com/EbookFoundation/free-programming-books/tree/4c301cce10db10026d632606b5167a9d1b8cd4ec/books
+Source revision: 4c301cce10db10026d632606b5167a9d1b8cd4ec
+License: Creative Commons Attribution 4.0 International (CC BY 4.0)
+License text: https://creativecommons.org/licenses/by/4.0/legalcode
+
+The 48 Markdown resource-list files in this directory are copied verbatim from
+the pinned source revision above. No changes were made to those files. The
+source repository's license applies to its covered files; it does not grant
+rights to the separately linked books, courses, videos, or websites.
