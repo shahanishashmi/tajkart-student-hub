@@ -18,6 +18,7 @@ plugins:
   - jekyll-seo-tag
   - jekyll-sitemap
 exclude:
+  - books
   - scripts
   - Gemfile
   - Gemfile.lock
